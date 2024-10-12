@@ -1,0 +1,5 @@
+
+include: package:lints/recommended.yaml
+analyzer:
+  errors:
+    no_leading_underscores_for_local_identifiers: ignore

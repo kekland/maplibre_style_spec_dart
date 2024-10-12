@@ -1,0 +1,3015 @@
+{
+  "classes": [
+    {
+      "name": "Style",
+      "fields": [
+        {
+          "rawName": "name",
+          "name": "name",
+          "type": "String",
+          "isRequired": false,
+          "doc": "A human-readable name for the style."
+        },
+        {
+          "rawName": "metadata",
+          "name": "metadata",
+          "type": "Object",
+          "isRequired": false,
+          "doc": "Arbitrary properties useful to track with the stylesheet, but do not influence rendering. Properties should be prefixed to avoid collisions, like 'maplibre:'."
+        },
+        {
+          "rawName": "center",
+          "name": "center",
+          "type": "List<num>",
+          "isRequired": false,
+          "doc": "Default map center in longitude and latitude.  The style center will be used only if the map has not been positioned by other means (e.g. map options or user interaction)."
+        },
+        {
+          "rawName": "zoom",
+          "name": "zoom",
+          "type": "num",
+          "isRequired": false,
+          "doc": "Default zoom level.  The style zoom will be used only if the map has not been positioned by other means (e.g. map options or user interaction)."
+        },
+        {
+          "rawName": "bearing",
+          "name": "bearing",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Default bearing, in degrees. The bearing is the compass direction that is \"up\"; for example, a bearing of 90° orients the map so that east is up. This value will be used only if the map has not been positioned by other means (e.g. map options or user interaction)."
+        },
+        {
+          "rawName": "pitch",
+          "name": "pitch",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Default pitch, in degrees. Zero is perpendicular to the surface, for a look straight down at the map, while a greater value like 60 looks ahead towards the horizon. The style pitch will be used only if the map has not been positioned by other means (e.g. map options or user interaction)."
+        },
+        {
+          "rawName": "light",
+          "name": "light",
+          "type": "Light",
+          "isRequired": false,
+          "doc": "The global light source."
+        },
+        {
+          "rawName": "sky",
+          "name": "sky",
+          "type": "Sky",
+          "isRequired": false,
+          "doc": "The map's sky configuration. **Note:** this definition is still experimental and is under development in maplibre-gl-js."
+        },
+        {
+          "rawName": "projection",
+          "name": "projection",
+          "type": "Projection",
+          "isRequired": false,
+          "doc": "The projection configuration. **Note:** this definition is still experimental and is under development in maplibre-gl-js."
+        },
+        {
+          "rawName": "terrain",
+          "name": "terrain",
+          "type": "Terrain",
+          "isRequired": false,
+          "doc": "The terrain configuration."
+        },
+        {
+          "rawName": "sources",
+          "name": "sources",
+          "type": "Map<Object, Source>",
+          "isRequired": true,
+          "doc": "Sources state which data the map should display. Specify the type of source with the `type` property. Adding a source isn't enough to make data appear on the map because sources don't contain styling details like color or width. Layers refer to a source and give it a visual representation. This makes it possible to style the same source in different ways, like differentiating between types of roads in a highways layer.\n\nTiled sources (vector and raster) must specify their details according to the [TileJSON specification](https://github.com/mapbox/tilejson-spec)."
+        },
+        {
+          "rawName": "sprite",
+          "name": "sprite",
+          "type": "Sprite",
+          "isRequired": false,
+          "doc": "An array of `{id: 'my-sprite', url: 'https://example.com/sprite'}` objects. Each object should represent a unique URL to load a sprite from and and a unique ID to use as a prefix when referencing images from that sprite (i.e. 'my-sprite:image'). All the URLs are internally extended to load both .json and .png files. If the `id` field is equal to 'default', the prefix is omitted (just 'image' instead of 'default:image'). All the IDs and URLs must be unique. For backwards compatibility, instead of an array, one can also provide a single string that represent a URL to load the sprite from. The images in this case won't be prefixed."
+        },
+        {
+          "rawName": "glyphs",
+          "name": "glyphs",
+          "type": "String",
+          "isRequired": false,
+          "doc": "A URL template for loading signed-distance-field glyph sets in PBF format. \n\nThe URL must include:\n\n - `{fontstack}` - When requesting glyphs, this token is replaced with a comma separated list of fonts from a font stack specified in the text-font property of a symbol layer. \n\n - `{range}` - When requesting glyphs, this token is replaced with a range of 256 Unicode code points. For example, to load glyphs for the Unicode Basic Latin and Basic Latin-1 Supplement blocks, the range would be 0-255. The actual ranges that are loaded are determined at runtime based on what text needs to be displayed.\n\nThis property is required if any layer uses the `text-field` layout property. The URL must be absolute, containing the [scheme, authority and path components](https://en.wikipedia.org/wiki/URL#Syntax)."
+        },
+        {
+          "rawName": "transition",
+          "name": "transition",
+          "type": "Transition",
+          "isRequired": false,
+          "doc": "A global transition definition to use as a default across properties, to be used for timing transitions between one value and the next when no property-specific transition is set. Collision-based symbol fading is controlled independently of the style's `transition` property."
+        },
+        {
+          "rawName": "layers",
+          "name": "layers",
+          "type": "List<Layer>",
+          "isRequired": true,
+          "doc": "A style's `layers` property lists all the layers available in that style. The type of layer is specified by the `type` property, and must be one of `background`, `fill`, `line`, `symbol`, `raster`, `circle`, `fill-extrusion`, `heatmap`, `hillshade`.\n\nExcept for layers of the `background` type, each layer needs to refer to a source. Layers take the data that they get from a source, optionally filter features, and then define how those features are styled."
+        }
+      ]
+    },
+    {
+      "name": "SourceVector",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceVector$Type",
+          "isRequired": true,
+          "doc": "The type of the source."
+        },
+        {
+          "rawName": "url",
+          "name": "url",
+          "type": "String",
+          "isRequired": false,
+          "doc": "A URL to a TileJSON resource. Supported protocols are `http:` and `https:`."
+        },
+        {
+          "rawName": "tiles",
+          "name": "tiles",
+          "type": "List<String>",
+          "isRequired": false,
+          "doc": "An array of one or more tile source URLs, as in the TileJSON spec."
+        },
+        {
+          "rawName": "bounds",
+          "name": "bounds",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            -180,
+            -85.051129,
+            180,
+            85.051129
+          ],
+          "doc": "An array containing the longitude and latitude of the southwest and northeast corners of the source's bounding box in the following order: `[sw.lng, sw.lat, ne.lng, ne.lat]`. When this property is included in a source, no tiles outside of the given bounds are requested by MapLibre."
+        },
+        {
+          "rawName": "scheme",
+          "name": "scheme",
+          "type": "SourceVector$Scheme",
+          "isRequired": false,
+          "defaultValue": "xyz",
+          "doc": "Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed."
+        },
+        {
+          "rawName": "minzoom",
+          "name": "minzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Minimum zoom level for which tiles are available, as in the TileJSON spec."
+        },
+        {
+          "rawName": "maxzoom",
+          "name": "maxzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 22,
+          "doc": "Maximum zoom level for which tiles are available, as in the TileJSON spec. Data from tiles at the maxzoom are used when displaying the map at higher zoom levels."
+        },
+        {
+          "rawName": "attribution",
+          "name": "attribution",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Contains an attribution to be displayed when the map is shown to a user."
+        },
+        {
+          "rawName": "promoteId",
+          "name": "promoteId",
+          "type": "Map<Object, String>",
+          "isRequired": false,
+          "doc": "A property to use as a feature id (for feature state). Either a property name, or an object of the form `{<sourceLayer>: <propertyName>}`. If specified as a string for a vector tile source, the same property is used across all its source layers."
+        },
+        {
+          "rawName": "volatile",
+          "name": "volatile",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "A setting to determine whether a source's tiles are cached locally."
+        }
+      ]
+    },
+    {
+      "name": "SourceRaster",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceRaster$Type",
+          "isRequired": true,
+          "doc": "The type of the source."
+        },
+        {
+          "rawName": "url",
+          "name": "url",
+          "type": "String",
+          "isRequired": false,
+          "doc": "A URL to a TileJSON resource. Supported protocols are `http:` and `https:`."
+        },
+        {
+          "rawName": "tiles",
+          "name": "tiles",
+          "type": "List<String>",
+          "isRequired": false,
+          "doc": "An array of one or more tile source URLs, as in the TileJSON spec."
+        },
+        {
+          "rawName": "bounds",
+          "name": "bounds",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            -180,
+            -85.051129,
+            180,
+            85.051129
+          ],
+          "doc": "An array containing the longitude and latitude of the southwest and northeast corners of the source's bounding box in the following order: `[sw.lng, sw.lat, ne.lng, ne.lat]`. When this property is included in a source, no tiles outside of the given bounds are requested by MapLibre."
+        },
+        {
+          "rawName": "minzoom",
+          "name": "minzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Minimum zoom level for which tiles are available, as in the TileJSON spec."
+        },
+        {
+          "rawName": "maxzoom",
+          "name": "maxzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 22,
+          "doc": "Maximum zoom level for which tiles are available, as in the TileJSON spec. Data from tiles at the maxzoom are used when displaying the map at higher zoom levels."
+        },
+        {
+          "rawName": "tileSize",
+          "name": "tileSize",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 512,
+          "doc": "The minimum visual size to display tiles for this layer. Only configurable for raster layers."
+        },
+        {
+          "rawName": "scheme",
+          "name": "scheme",
+          "type": "SourceRaster$Scheme",
+          "isRequired": false,
+          "defaultValue": "xyz",
+          "doc": "Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed."
+        },
+        {
+          "rawName": "attribution",
+          "name": "attribution",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Contains an attribution to be displayed when the map is shown to a user."
+        },
+        {
+          "rawName": "volatile",
+          "name": "volatile",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "A setting to determine whether a source's tiles are cached locally."
+        }
+      ]
+    },
+    {
+      "name": "SourceRasterDem",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceRasterDem$Type",
+          "isRequired": true,
+          "doc": "The type of the source."
+        },
+        {
+          "rawName": "url",
+          "name": "url",
+          "type": "String",
+          "isRequired": false,
+          "doc": "A URL to a TileJSON resource. Supported protocols are `http:` and `https:`."
+        },
+        {
+          "rawName": "tiles",
+          "name": "tiles",
+          "type": "List<String>",
+          "isRequired": false,
+          "doc": "An array of one or more tile source URLs, as in the TileJSON spec."
+        },
+        {
+          "rawName": "bounds",
+          "name": "bounds",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            -180,
+            -85.051129,
+            180,
+            85.051129
+          ],
+          "doc": "An array containing the longitude and latitude of the southwest and northeast corners of the source's bounding box in the following order: `[sw.lng, sw.lat, ne.lng, ne.lat]`. When this property is included in a source, no tiles outside of the given bounds are requested by MapLibre."
+        },
+        {
+          "rawName": "minzoom",
+          "name": "minzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Minimum zoom level for which tiles are available, as in the TileJSON spec."
+        },
+        {
+          "rawName": "maxzoom",
+          "name": "maxzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 22,
+          "doc": "Maximum zoom level for which tiles are available, as in the TileJSON spec. Data from tiles at the maxzoom are used when displaying the map at higher zoom levels."
+        },
+        {
+          "rawName": "tileSize",
+          "name": "tileSize",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 512,
+          "doc": "The minimum visual size to display tiles for this layer. Only configurable for raster layers."
+        },
+        {
+          "rawName": "attribution",
+          "name": "attribution",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Contains an attribution to be displayed when the map is shown to a user."
+        },
+        {
+          "rawName": "encoding",
+          "name": "encoding",
+          "type": "SourceRasterDem$Encoding",
+          "isRequired": false,
+          "defaultValue": "mapbox",
+          "doc": "The encoding used by this source. Mapbox Terrain RGB is used by default."
+        },
+        {
+          "rawName": "redFactor",
+          "name": "redFactor",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "doc": "Value that will be multiplied by the red channel value when decoding. Only used on custom encodings."
+        },
+        {
+          "rawName": "blueFactor",
+          "name": "blueFactor",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "doc": "Value that will be multiplied by the blue channel value when decoding. Only used on custom encodings."
+        },
+        {
+          "rawName": "greenFactor",
+          "name": "greenFactor",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "doc": "Value that will be multiplied by the green channel value when decoding. Only used on custom encodings."
+        },
+        {
+          "rawName": "baseShift",
+          "name": "baseShift",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Value that will be added to the encoding mix when decoding. Only used on custom encodings."
+        },
+        {
+          "rawName": "volatile",
+          "name": "volatile",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "A setting to determine whether a source's tiles are cached locally."
+        }
+      ]
+    },
+    {
+      "name": "SourceGeojson",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceGeojson$Type",
+          "isRequired": true,
+          "doc": "The data type of the GeoJSON source."
+        },
+        {
+          "rawName": "data",
+          "name": "data",
+          "type": "Object",
+          "isRequired": true,
+          "doc": "A URL to a GeoJSON file, or inline GeoJSON."
+        },
+        {
+          "rawName": "maxzoom",
+          "name": "maxzoom",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 18,
+          "doc": "Maximum zoom level at which to create vector tiles (higher means greater detail at high zoom levels)."
+        },
+        {
+          "rawName": "attribution",
+          "name": "attribution",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Contains an attribution to be displayed when the map is shown to a user."
+        },
+        {
+          "rawName": "buffer",
+          "name": "buffer",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 128,
+          "doc": "Size of the tile buffer on each side. A value of 0 produces no buffer. A value of 512 produces a buffer as wide as the tile itself. Larger values produce fewer rendering artifacts near tile edges and slower performance."
+        },
+        {
+          "rawName": "filter",
+          "name": "filter",
+          "type": "Object",
+          "isRequired": false,
+          "doc": "An expression for filtering features prior to processing them for rendering."
+        },
+        {
+          "rawName": "tolerance",
+          "name": "tolerance",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.375,
+          "doc": "Douglas-Peucker simplification tolerance (higher means simpler geometries and faster performance)."
+        },
+        {
+          "rawName": "cluster",
+          "name": "cluster",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "If the data is a collection of point features, setting this to true clusters the points by radius into groups. Cluster groups become new `Point` features in the source with additional properties:\n\n * `cluster` Is `true` if the point is a cluster \n\n * `cluster_id` A unique id for the cluster to be used in conjunction with the [cluster inspection methods](https://maplibre.org/maplibre-gl-js/docs/API/classes/GeoJSONSource/#getclusterexpansionzoom)\n\n * `point_count` Number of original points grouped into this cluster\n\n * `point_count_abbreviated` An abbreviated point count"
+        },
+        {
+          "rawName": "clusterRadius",
+          "name": "clusterRadius",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 50,
+          "doc": "Radius of each cluster if clustering is enabled. A value of 512 indicates a radius equal to the width of a tile."
+        },
+        {
+          "rawName": "clusterMaxZoom",
+          "name": "clusterMaxZoom",
+          "type": "num",
+          "isRequired": false,
+          "doc": "Max zoom on which to cluster points if clustering is enabled. Defaults to one zoom less than maxzoom (so that last zoom features are not clustered). Clusters are re-evaluated at integer zoom levels so setting clusterMaxZoom to 14 means the clusters will be displayed until z15."
+        },
+        {
+          "rawName": "clusterMinPoints",
+          "name": "clusterMinPoints",
+          "type": "num",
+          "isRequired": false,
+          "doc": "Minimum number of points necessary to form a cluster if clustering is enabled. Defaults to `2`."
+        },
+        {
+          "rawName": "clusterProperties",
+          "name": "clusterProperties",
+          "type": "Object",
+          "isRequired": false,
+          "doc": "An object defining custom properties on the generated clusters if clustering is enabled, aggregating values from clustered points. Has the form `{\"property_name\": [operator, map_expression]}`. `operator` is any expression function that accepts at least 2 operands (e.g. `\"+\"` or `\"max\"`) — it accumulates the property value from clusters/points the cluster contains; `map_expression` produces the value of a single point.\n\nExample: `{\"sum\": [\"+\", [\"get\", \"scalerank\"]]}`.\n\nFor more advanced use cases, in place of `operator`, you can use a custom reduce expression that references a special `[\"accumulated\"]` value, e.g.:\n\n`{\"sum\": [[\"+\", [\"accumulated\"], [\"get\", \"sum\"]], [\"get\", \"scalerank\"]]}`"
+        },
+        {
+          "rawName": "lineMetrics",
+          "name": "lineMetrics",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "Whether to calculate line distance metrics. This is required for line layers that specify `line-gradient` values."
+        },
+        {
+          "rawName": "generateId",
+          "name": "generateId",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "doc": "Whether to generate ids for the geojson features. When enabled, the `feature.id` property will be auto assigned based on its index in the `features` array, over-writing any previous values."
+        },
+        {
+          "rawName": "promoteId",
+          "name": "promoteId",
+          "type": "Map<Object, String>",
+          "isRequired": false,
+          "doc": "A property to use as a feature id (for feature state). Either a property name, or an object of the form `{<sourceLayer>: <propertyName>}`."
+        }
+      ]
+    },
+    {
+      "name": "SourceVideo",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceVideo$Type",
+          "isRequired": true,
+          "doc": "The data type of the video source."
+        },
+        {
+          "rawName": "urls",
+          "name": "urls",
+          "type": "List<String>",
+          "isRequired": true,
+          "doc": "URLs to video content in order of preferred format."
+        },
+        {
+          "rawName": "coordinates",
+          "name": "coordinates",
+          "type": "List<List<num>>",
+          "isRequired": true,
+          "doc": "Corners of video specified in longitude, latitude pairs."
+        }
+      ]
+    },
+    {
+      "name": "SourceImage",
+      "extends": "Source",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "SourceImage$Type",
+          "isRequired": true,
+          "doc": "The data type of the image source."
+        },
+        {
+          "rawName": "url",
+          "name": "url",
+          "type": "String",
+          "isRequired": true,
+          "doc": "URL that points to an image."
+        },
+        {
+          "rawName": "coordinates",
+          "name": "coordinates",
+          "type": "List<List<num>>",
+          "isRequired": true,
+          "doc": "Corners of image specified in longitude, latitude pairs."
+        }
+      ]
+    },
+    {
+      "name": "Layer",
+      "fields": [
+        {
+          "rawName": "id",
+          "name": "id",
+          "type": "String",
+          "isRequired": true,
+          "doc": "Unique layer name."
+        },
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "Layer$Type",
+          "isRequired": true,
+          "doc": "Rendering type of this layer."
+        },
+        {
+          "rawName": "metadata",
+          "name": "metadata",
+          "type": "Object",
+          "isRequired": false,
+          "doc": "Arbitrary properties useful to track with the layer, but do not influence rendering. Properties should be prefixed to avoid collisions, like 'maplibre:'."
+        },
+        {
+          "rawName": "source",
+          "name": "source",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Name of a source description to be used for this layer. Required for all layer types except `background`."
+        },
+        {
+          "rawName": "source-layer",
+          "name": "sourceLayer",
+          "type": "String",
+          "isRequired": false,
+          "doc": "Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources."
+        },
+        {
+          "rawName": "minzoom",
+          "name": "minzoom",
+          "type": "num",
+          "isRequired": false,
+          "doc": "The minimum zoom level for the layer. At zoom levels less than the minzoom, the layer will be hidden."
+        },
+        {
+          "rawName": "maxzoom",
+          "name": "maxzoom",
+          "type": "num",
+          "isRequired": false,
+          "doc": "The maximum zoom level for the layer. At zoom levels equal to or greater than the maxzoom, the layer will be hidden."
+        },
+        {
+          "rawName": "filter",
+          "name": "filter",
+          "type": "List<Object>",
+          "isRequired": false,
+          "doc": "A expression specifying conditions on source features. Only features that match the filter are displayed. Zoom expressions in filters are only evaluated at integer zoom levels. The `feature-state` expression is not supported in filter expressions."
+        },
+        {
+          "rawName": "layout",
+          "name": "layout",
+          "type": "Layout",
+          "isRequired": false,
+          "doc": "Layout properties for the layer."
+        },
+        {
+          "rawName": "paint",
+          "name": "paint",
+          "type": "Paint",
+          "isRequired": false,
+          "doc": "Default paint properties for this layer."
+        }
+      ]
+    },
+    {
+      "name": "LayoutBackground",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutFill",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "fill-sort-key",
+          "name": "fillSortKey",
+          "type": "num",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key."
+        },
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutCircle",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "circle-sort-key",
+          "name": "circleSortKey",
+          "type": "num",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key."
+        },
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutHeatmap",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutFillExtrusion",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutLine",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "line-cap",
+          "name": "lineCap",
+          "type": "LayoutLine$LineCap",
+          "isRequired": false,
+          "defaultValue": "butt",
+          "propertyType": "data-constant",
+          "doc": "The display of line endings."
+        },
+        {
+          "rawName": "line-join",
+          "name": "lineJoin",
+          "type": "LayoutLine$LineJoin",
+          "isRequired": false,
+          "defaultValue": "miter",
+          "propertyType": "data-driven",
+          "doc": "The display of lines when joining."
+        },
+        {
+          "rawName": "line-miter-limit",
+          "name": "lineMiterLimit",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 2,
+          "propertyType": "data-constant",
+          "doc": "Used to automatically convert miter joins to bevel joins for sharp angles."
+        },
+        {
+          "rawName": "line-round-limit",
+          "name": "lineRoundLimit",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1.05,
+          "propertyType": "data-constant",
+          "doc": "Used to automatically convert round joins to miter joins for shallow angles."
+        },
+        {
+          "rawName": "line-sort-key",
+          "name": "lineSortKey",
+          "type": "num",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key."
+        },
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutSymbol",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "symbol-placement",
+          "name": "symbolPlacement",
+          "type": "LayoutSymbol$SymbolPlacement",
+          "isRequired": false,
+          "defaultValue": "point",
+          "propertyType": "data-constant",
+          "doc": "Label placement relative to its geometry."
+        },
+        {
+          "rawName": "symbol-spacing",
+          "name": "symbolSpacing",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 250,
+          "propertyType": "data-constant",
+          "doc": "Distance between two symbol anchors."
+        },
+        {
+          "rawName": "symbol-avoid-edges",
+          "name": "symbolAvoidEdges",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, the symbols will not cross tile edges to avoid mutual collisions. Recommended in layers that don't have enough padding in the vector tile to prevent collisions, or if it is a point symbol layer placed after a line symbol layer. When using a client that supports global collision detection, like MapLibre GL JS version 0.42.0 or greater, enabling this property is not needed to prevent clipped labels at tile boundaries."
+        },
+        {
+          "rawName": "symbol-sort-key",
+          "name": "symbolSortKey",
+          "type": "num",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "Sorts features in ascending order based on this value. Features with lower sort keys are drawn and placed first.  When `icon-allow-overlap` or `text-allow-overlap` is `false`, features with a lower sort key will have priority during placement. When `icon-allow-overlap` or `text-allow-overlap` is set to `true`, features with a higher sort key will overlap over features with a lower sort key."
+        },
+        {
+          "rawName": "symbol-z-order",
+          "name": "symbolZOrder",
+          "type": "LayoutSymbol$SymbolZOrder",
+          "isRequired": false,
+          "defaultValue": "auto",
+          "propertyType": "data-constant",
+          "doc": "Determines whether overlapping symbols in the same layer are rendered in the order that they appear in the data source or by their y-position relative to the viewport. To control the order and prioritization of symbols otherwise, use `symbol-sort-key`."
+        },
+        {
+          "rawName": "icon-allow-overlap",
+          "name": "iconAllowOverlap",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, the icon will be visible even if it collides with other previously drawn symbols."
+        },
+        {
+          "rawName": "icon-overlap",
+          "name": "iconOverlap",
+          "type": "LayoutSymbol$IconOverlap",
+          "isRequired": false,
+          "propertyType": "data-constant",
+          "doc": "Allows for control over whether to show an icon when it overlaps other symbols on the map. If `icon-overlap` is not set, `icon-allow-overlap` is used instead."
+        },
+        {
+          "rawName": "icon-ignore-placement",
+          "name": "iconIgnorePlacement",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, other symbols can be visible even if they collide with the icon."
+        },
+        {
+          "rawName": "icon-optional",
+          "name": "iconOptional",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, text will display without their corresponding icons when the icon collides with other symbols and the text does not."
+        },
+        {
+          "rawName": "icon-rotation-alignment",
+          "name": "iconRotationAlignment",
+          "type": "LayoutSymbol$IconRotationAlignment",
+          "isRequired": false,
+          "defaultValue": "auto",
+          "propertyType": "data-constant",
+          "doc": "In combination with `symbol-placement`, determines the rotation behavior of icons."
+        },
+        {
+          "rawName": "icon-size",
+          "name": "iconSize",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "Scales the original size of the icon by the provided factor. The new pixel size of the image will be the original pixel size multiplied by `icon-size`. 1 is the original size; 3 triples the size of the image."
+        },
+        {
+          "rawName": "icon-text-fit",
+          "name": "iconTextFit",
+          "type": "LayoutSymbol$IconTextFit",
+          "isRequired": false,
+          "defaultValue": "none",
+          "propertyType": "data-constant",
+          "doc": "Scales the icon to fit around the associated text."
+        },
+        {
+          "rawName": "icon-text-fit-padding",
+          "name": "iconTextFitPadding",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "Size of the additional area added to dimensions determined by `icon-text-fit`, in clockwise order: top, right, bottom, left."
+        },
+        {
+          "rawName": "icon-image",
+          "name": "iconImage",
+          "type": "ResolvedImage",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "Name of image in sprite to use for drawing an image background."
+        },
+        {
+          "rawName": "icon-rotate",
+          "name": "iconRotate",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Rotates the icon clockwise."
+        },
+        {
+          "rawName": "icon-padding",
+          "name": "iconPadding",
+          "type": "Padding",
+          "isRequired": false,
+          "defaultValue": [
+            2
+          ],
+          "propertyType": "data-driven",
+          "doc": "Size of additional area round the icon bounding box used for detecting symbol collisions."
+        },
+        {
+          "rawName": "icon-keep-upright",
+          "name": "iconKeepUpright",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, the icon may be flipped to prevent it from being rendered upside-down."
+        },
+        {
+          "rawName": "icon-offset",
+          "name": "iconOffset",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-driven",
+          "doc": "Offset distance of icon from its anchor. Positive values indicate right and down, while negative values indicate left and up. Each component is multiplied by the value of `icon-size` to obtain the final offset in pixels. When combined with `icon-rotate` the offset will be as if the rotated direction was up."
+        },
+        {
+          "rawName": "icon-anchor",
+          "name": "iconAnchor",
+          "type": "LayoutSymbol$IconAnchor",
+          "isRequired": false,
+          "defaultValue": "center",
+          "propertyType": "data-driven",
+          "doc": "Part of the icon placed closest to the anchor."
+        },
+        {
+          "rawName": "icon-pitch-alignment",
+          "name": "iconPitchAlignment",
+          "type": "LayoutSymbol$IconPitchAlignment",
+          "isRequired": false,
+          "defaultValue": "auto",
+          "propertyType": "data-constant",
+          "doc": "Orientation of icon when map is pitched."
+        },
+        {
+          "rawName": "text-pitch-alignment",
+          "name": "textPitchAlignment",
+          "type": "LayoutSymbol$TextPitchAlignment",
+          "isRequired": false,
+          "defaultValue": "auto",
+          "propertyType": "data-constant",
+          "doc": "Orientation of text when map is pitched."
+        },
+        {
+          "rawName": "text-rotation-alignment",
+          "name": "textRotationAlignment",
+          "type": "LayoutSymbol$TextRotationAlignment",
+          "isRequired": false,
+          "defaultValue": "auto",
+          "propertyType": "data-constant",
+          "doc": "In combination with `symbol-placement`, determines the rotation behavior of the individual glyphs forming the text."
+        },
+        {
+          "rawName": "text-field",
+          "name": "textField",
+          "type": "Formatted",
+          "isRequired": false,
+          "defaultValue": "",
+          "propertyType": "data-driven",
+          "doc": "Value to use for a text label. If a plain `string` is provided, it will be treated as a `formatted` with default/inherited formatting options."
+        },
+        {
+          "rawName": "text-font",
+          "name": "textFont",
+          "type": "List<String>",
+          "isRequired": false,
+          "defaultValue": [
+            "Open Sans Regular",
+            "Arial Unicode MS Regular"
+          ],
+          "propertyType": "data-driven",
+          "doc": "Font stack to use for displaying text."
+        },
+        {
+          "rawName": "text-size",
+          "name": "textSize",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 16,
+          "propertyType": "data-driven",
+          "doc": "Font size."
+        },
+        {
+          "rawName": "text-max-width",
+          "name": "textMaxWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 10,
+          "propertyType": "data-driven",
+          "doc": "The maximum line width for text wrapping."
+        },
+        {
+          "rawName": "text-line-height",
+          "name": "textLineHeight",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1.2,
+          "propertyType": "data-constant",
+          "doc": "Text leading value for multi-line text."
+        },
+        {
+          "rawName": "text-letter-spacing",
+          "name": "textLetterSpacing",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Text tracking amount."
+        },
+        {
+          "rawName": "text-justify",
+          "name": "textJustify",
+          "type": "LayoutSymbol$TextJustify",
+          "isRequired": false,
+          "defaultValue": "center",
+          "propertyType": "data-driven",
+          "doc": "Text justification options."
+        },
+        {
+          "rawName": "text-radial-offset",
+          "name": "textRadialOffset",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Radial offset of text, in the direction of the symbol's anchor. Useful in combination with `text-variable-anchor`, which defaults to using the two-dimensional `text-offset` if present."
+        },
+        {
+          "rawName": "text-variable-anchor",
+          "name": "textVariableAnchor",
+          "type": "List<LayoutSymbol$TextVariableAnchor>",
+          "isRequired": false,
+          "propertyType": "data-constant",
+          "doc": "To increase the chance of placing high-priority labels on the map, you can provide an array of `text-anchor` locations: the renderer will attempt to place the label at each location, in order, before moving onto the next label. Use `text-justify: auto` to choose justification based on anchor position. To apply an offset, use the `text-radial-offset` or the two-dimensional `text-offset`."
+        },
+        {
+          "rawName": "text-variable-anchor-offset",
+          "name": "textVariableAnchorOffset",
+          "type": "VariableAnchorOffsetCollection",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "To increase the chance of placing high-priority labels on the map, you can provide an array of `text-anchor` locations, each paired with an offset value. The renderer will attempt to place the label at each location, in order, before moving on to the next location+offset. Use `text-justify: auto` to choose justification based on anchor position. \n\n The length of the array must be even, and must alternate between enum and point entries. i.e., each anchor location must be accompanied by a point, and that point defines the offset when the corresponding anchor location is used. Positive offset values indicate right and down, while negative values indicate left and up. Anchor locations may repeat, allowing the renderer to try multiple offsets to try and place a label using the same anchor. \n\n When present, this property takes precedence over `text-anchor`, `text-variable-anchor`, `text-offset`, and `text-radial-offset`. \n\n ```json \n\n { \"text-variable-anchor-offset\": [\"top\", [0, 4], \"left\", [3,0], \"bottom\", [1, 1]] } \n\n ``` \n\n When the renderer chooses the `top` anchor, `[0, 4]` will be used for `text-offset`; the text will be shifted down by 4 ems. \n\n When the renderer chooses the `left` anchor, `[3, 0]` will be used for `text-offset`; the text will be shifted right by 3 ems."
+        },
+        {
+          "rawName": "text-anchor",
+          "name": "textAnchor",
+          "type": "LayoutSymbol$TextAnchor",
+          "isRequired": false,
+          "defaultValue": "center",
+          "propertyType": "data-driven",
+          "doc": "Part of the text placed closest to the anchor."
+        },
+        {
+          "rawName": "text-max-angle",
+          "name": "textMaxAngle",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 45,
+          "propertyType": "data-constant",
+          "doc": "Maximum angle change between adjacent characters."
+        },
+        {
+          "rawName": "text-writing-mode",
+          "name": "textWritingMode",
+          "type": "List<LayoutSymbol$TextWritingMode>",
+          "isRequired": false,
+          "propertyType": "data-constant",
+          "doc": "The property allows control over a symbol's orientation. Note that the property values act as a hint, so that a symbol whose language doesn’t support the provided orientation will be laid out in its natural orientation. Example: English point symbol will be rendered horizontally even if array value contains single 'vertical' enum value. The order of elements in an array define priority order for the placement of an orientation variant."
+        },
+        {
+          "rawName": "text-rotate",
+          "name": "textRotate",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Rotates the text clockwise."
+        },
+        {
+          "rawName": "text-padding",
+          "name": "textPadding",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 2,
+          "propertyType": "data-constant",
+          "doc": "Size of the additional area around the text bounding box used for detecting symbol collisions."
+        },
+        {
+          "rawName": "text-keep-upright",
+          "name": "textKeepUpright",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": true,
+          "propertyType": "data-constant",
+          "doc": "If true, the text may be flipped vertically to prevent it from being rendered upside-down."
+        },
+        {
+          "rawName": "text-transform",
+          "name": "textTransform",
+          "type": "LayoutSymbol$TextTransform",
+          "isRequired": false,
+          "defaultValue": "none",
+          "propertyType": "data-driven",
+          "doc": "Specifies how to capitalize text, similar to the CSS `text-transform` property."
+        },
+        {
+          "rawName": "text-offset",
+          "name": "textOffset",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-driven",
+          "doc": "Offset distance of text from its anchor. Positive values indicate right and down, while negative values indicate left and up. If used with text-variable-anchor, input values will be taken as absolute values. Offsets along the x- and y-axis will be applied automatically based on the anchor position."
+        },
+        {
+          "rawName": "text-allow-overlap",
+          "name": "textAllowOverlap",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, the text will be visible even if it collides with other previously drawn symbols."
+        },
+        {
+          "rawName": "text-overlap",
+          "name": "textOverlap",
+          "type": "LayoutSymbol$TextOverlap",
+          "isRequired": false,
+          "propertyType": "data-constant",
+          "doc": "Allows for control over whether to show symbol text when it overlaps other symbols on the map. If `text-overlap` is not set, `text-allow-overlap` is used instead"
+        },
+        {
+          "rawName": "text-ignore-placement",
+          "name": "textIgnorePlacement",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, other symbols can be visible even if they collide with the text."
+        },
+        {
+          "rawName": "text-optional",
+          "name": "textOptional",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": false,
+          "propertyType": "data-constant",
+          "doc": "If true, icons will display without their corresponding text when the text collides with other symbols and the icon does not."
+        },
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutRaster",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "LayoutHillshade",
+      "extends": "Layout",
+      "fields": [
+        {
+          "rawName": "visibility",
+          "name": "visibility",
+          "type": "Visibility",
+          "isRequired": false,
+          "defaultValue": "visible",
+          "propertyType": "constant",
+          "doc": "Whether this layer is displayed."
+        }
+      ]
+    },
+    {
+      "name": "Light",
+      "fields": [
+        {
+          "rawName": "anchor",
+          "name": "anchor",
+          "type": "Light$Anchor",
+          "isRequired": false,
+          "defaultValue": "viewport",
+          "propertyType": "data-constant",
+          "doc": "Whether extruded geometries are lit relative to the map or viewport."
+        },
+        {
+          "rawName": "position",
+          "name": "position",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            1.15,
+            210,
+            30
+          ],
+          "propertyType": "data-constant",
+          "doc": "Position of the light source relative to lit (extruded) geometries, in [r radial coordinate, a azimuthal angle, p polar angle] where r indicates the distance from the center of the base of an object to its light, a indicates the position of the light relative to 0° (0° when `light.anchor` is set to `viewport` corresponds to the top of the viewport, or 0° when `light.anchor` is set to `map` corresponds to due north, and degrees proceed clockwise), and p indicates the height of the light (from 0°, directly above, to 180°, directly below)."
+        },
+        {
+          "rawName": "color",
+          "name": "color",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#ffffff",
+          "propertyType": "data-constant",
+          "doc": "Color tint for lighting extruded geometries."
+        },
+        {
+          "rawName": "intensity",
+          "name": "intensity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.5,
+          "propertyType": "data-constant",
+          "doc": "Intensity of lighting (on a scale from 0 to 1). Higher numbers will present as more extreme contrast."
+        }
+      ]
+    },
+    {
+      "name": "Sky",
+      "fields": [
+        {
+          "rawName": "sky-color",
+          "name": "skyColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#88C6FC",
+          "propertyType": "data-constant",
+          "doc": "The base color for the sky."
+        },
+        {
+          "rawName": "horizon-color",
+          "name": "horizonColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#ffffff",
+          "propertyType": "data-constant",
+          "doc": "The base color at the horizon."
+        },
+        {
+          "rawName": "fog-color",
+          "name": "fogColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#ffffff",
+          "propertyType": "data-constant",
+          "doc": "The base color for the fog. Requires 3D terrain."
+        },
+        {
+          "rawName": "fog-ground-blend",
+          "name": "fogGroundBlend",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.5,
+          "propertyType": "data-constant",
+          "doc": "How to blend the fog over the 3D terrain. Where 0 is the map center and 1 is the horizon."
+        },
+        {
+          "rawName": "horizon-fog-blend",
+          "name": "horizonFogBlend",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.8,
+          "propertyType": "data-constant",
+          "doc": "How to blend the fog color and the horizon color. Where 0 is using the horizon color only and 1 is using the fog color only."
+        },
+        {
+          "rawName": "sky-horizon-blend",
+          "name": "skyHorizonBlend",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.8,
+          "propertyType": "data-constant",
+          "doc": "How to blend the the sky color and the horizon color. Where 1 is blending the color at the middle of the sky and 0 is not blending at all and using the sky color only."
+        },
+        {
+          "rawName": "atmosphere-blend",
+          "name": "atmosphereBlend",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.8,
+          "propertyType": "data-constant",
+          "doc": "How to blend the atmosphere. Where 1 is visible atmosphere and 0 is hidden. It is best to interpolate this expression when using globe projection."
+        }
+      ]
+    },
+    {
+      "name": "Terrain",
+      "fields": [
+        {
+          "rawName": "source",
+          "name": "source",
+          "type": "String",
+          "isRequired": true,
+          "doc": "The source for the terrain data."
+        },
+        {
+          "rawName": "exaggeration",
+          "name": "exaggeration",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "doc": "The exaggeration of the terrain - how high it will look."
+        }
+      ]
+    },
+    {
+      "name": "Projection",
+      "fields": [
+        {
+          "rawName": "type",
+          "name": "type",
+          "type": "Projection$Type",
+          "isRequired": false,
+          "defaultValue": "mercator",
+          "doc": "The projection type."
+        }
+      ]
+    },
+    {
+      "name": "PaintFill",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "fill-antialias",
+          "name": "fillAntialias",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": true,
+          "propertyType": "data-constant",
+          "doc": "Whether or not the fill should be antialiased."
+        },
+        {
+          "rawName": "fill-opacity",
+          "name": "fillOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity of the entire fill layer. In contrast to the `fill-color`, this value will also affect the 1px stroke around the fill, if the stroke is used."
+        },
+        {
+          "rawName": "fill-color",
+          "name": "fillColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The color of the filled part of this layer. This color can be specified as `rgba` with an alpha component and the color's opacity will not affect the opacity of the 1px stroke, if it is used."
+        },
+        {
+          "rawName": "fill-outline-color",
+          "name": "fillOutlineColor",
+          "type": "Color",
+          "isRequired": false,
+          "propertyType": "data-driven",
+          "doc": "The outline color of the fill. Matches the value of `fill-color` if unspecified."
+        },
+        {
+          "rawName": "fill-translate",
+          "name": "fillTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively."
+        },
+        {
+          "rawName": "fill-translate-anchor",
+          "name": "fillTranslateAnchor",
+          "type": "PaintFill$FillTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `fill-translate`."
+        },
+        {
+          "rawName": "fill-pattern",
+          "name": "fillPattern",
+          "type": "ResolvedImage",
+          "isRequired": false,
+          "propertyType": "cross-faded-data-driven",
+          "doc": "Name of image in sprite to use for drawing image fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels."
+        }
+      ]
+    },
+    {
+      "name": "PaintFillExtrusion",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "fill-extrusion-opacity",
+          "name": "fillExtrusionOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "The opacity of the entire fill extrusion layer. This is rendered on a per-layer, not per-feature, basis, and data-driven styling is not available."
+        },
+        {
+          "rawName": "fill-extrusion-color",
+          "name": "fillExtrusionColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The base color of the extruded fill. The extrusion's surfaces will be shaded differently based on this color in combination with the root `light` settings. If this color is specified as `rgba` with an alpha component, the alpha component will be ignored; use `fill-extrusion-opacity` to set layer opacity."
+        },
+        {
+          "rawName": "fill-extrusion-translate",
+          "name": "fillExtrusionTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "The geometry's offset. Values are [x, y] where negatives indicate left and up (on the flat plane), respectively."
+        },
+        {
+          "rawName": "fill-extrusion-translate-anchor",
+          "name": "fillExtrusionTranslateAnchor",
+          "type": "PaintFillExtrusion$FillExtrusionTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `fill-extrusion-translate`."
+        },
+        {
+          "rawName": "fill-extrusion-pattern",
+          "name": "fillExtrusionPattern",
+          "type": "ResolvedImage",
+          "isRequired": false,
+          "propertyType": "cross-faded-data-driven",
+          "doc": "Name of image in sprite to use for drawing images on extruded fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels."
+        },
+        {
+          "rawName": "fill-extrusion-height",
+          "name": "fillExtrusionHeight",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "The height with which to extrude this layer."
+        },
+        {
+          "rawName": "fill-extrusion-base",
+          "name": "fillExtrusionBase",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "The height with which to extrude the base of this layer. Must be less than or equal to `fill-extrusion-height`."
+        },
+        {
+          "rawName": "fill-extrusion-vertical-gradient",
+          "name": "fillExtrusionVerticalGradient",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": true,
+          "propertyType": "data-constant",
+          "doc": "Whether to apply a vertical gradient to the sides of a fill-extrusion layer. If true, sides will be shaded slightly darker farther down."
+        }
+      ]
+    },
+    {
+      "name": "PaintLine",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "line-opacity",
+          "name": "lineOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity at which the line will be drawn."
+        },
+        {
+          "rawName": "line-color",
+          "name": "lineColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The color with which the line will be drawn."
+        },
+        {
+          "rawName": "line-translate",
+          "name": "lineTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively."
+        },
+        {
+          "rawName": "line-translate-anchor",
+          "name": "lineTranslateAnchor",
+          "type": "PaintLine$LineTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `line-translate`."
+        },
+        {
+          "rawName": "line-width",
+          "name": "lineWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "Stroke thickness."
+        },
+        {
+          "rawName": "line-gap-width",
+          "name": "lineGapWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Draws a line casing outside of a line's actual path. Value indicates the width of the inner gap."
+        },
+        {
+          "rawName": "line-offset",
+          "name": "lineOffset",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "The line's offset. For linear features, a positive value offsets the line to the right, relative to the direction of the line, and a negative value to the left. For polygon features, a positive value results in an inset, and a negative value results in an outset."
+        },
+        {
+          "rawName": "line-blur",
+          "name": "lineBlur",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Blur applied to the line, in pixels."
+        },
+        {
+          "rawName": "line-dasharray",
+          "name": "lineDasharray",
+          "type": "List<num>",
+          "isRequired": false,
+          "propertyType": "cross-faded",
+          "doc": "Specifies the lengths of the alternating dashes and gaps that form the dash pattern. The lengths are later scaled by the line width. To convert a dash length to pixels, multiply the length by the current line width. Note that GeoJSON sources with `lineMetrics: true` specified won't render dashed lines to the expected scale. Also note that zoom-dependent expressions will be evaluated only at integer zoom levels."
+        },
+        {
+          "rawName": "line-pattern",
+          "name": "linePattern",
+          "type": "ResolvedImage",
+          "isRequired": false,
+          "propertyType": "cross-faded-data-driven",
+          "doc": "Name of image in sprite to use for drawing image lines. For seamless patterns, image width must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels."
+        },
+        {
+          "rawName": "line-gradient",
+          "name": "lineGradient",
+          "type": "Color",
+          "isRequired": false,
+          "propertyType": "color-ramp",
+          "doc": "Defines a gradient with which to color a line feature. Can only be used with GeoJSON sources that specify `\"lineMetrics\": true`."
+        }
+      ]
+    },
+    {
+      "name": "PaintCircle",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "circle-radius",
+          "name": "circleRadius",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 5,
+          "propertyType": "data-driven",
+          "doc": "Circle radius."
+        },
+        {
+          "rawName": "circle-color",
+          "name": "circleColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The fill color of the circle."
+        },
+        {
+          "rawName": "circle-blur",
+          "name": "circleBlur",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Amount to blur the circle. 1 blurs the circle such that only the centerpoint is full opacity."
+        },
+        {
+          "rawName": "circle-opacity",
+          "name": "circleOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity at which the circle will be drawn."
+        },
+        {
+          "rawName": "circle-translate",
+          "name": "circleTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively."
+        },
+        {
+          "rawName": "circle-translate-anchor",
+          "name": "circleTranslateAnchor",
+          "type": "PaintCircle$CircleTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `circle-translate`."
+        },
+        {
+          "rawName": "circle-pitch-scale",
+          "name": "circlePitchScale",
+          "type": "PaintCircle$CirclePitchScale",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the scaling behavior of the circle when the map is pitched."
+        },
+        {
+          "rawName": "circle-pitch-alignment",
+          "name": "circlePitchAlignment",
+          "type": "PaintCircle$CirclePitchAlignment",
+          "isRequired": false,
+          "defaultValue": "viewport",
+          "propertyType": "data-constant",
+          "doc": "Orientation of circle when map is pitched."
+        },
+        {
+          "rawName": "circle-stroke-width",
+          "name": "circleStrokeWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "The width of the circle's stroke. Strokes are placed outside of the `circle-radius`."
+        },
+        {
+          "rawName": "circle-stroke-color",
+          "name": "circleStrokeColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The stroke color of the circle."
+        },
+        {
+          "rawName": "circle-stroke-opacity",
+          "name": "circleStrokeOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity of the circle's stroke."
+        }
+      ]
+    },
+    {
+      "name": "PaintHeatmap",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "heatmap-radius",
+          "name": "heatmapRadius",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 30,
+          "propertyType": "data-driven",
+          "doc": "Radius of influence of one heatmap point in pixels. Increasing the value makes the heatmap smoother, but less detailed."
+        },
+        {
+          "rawName": "heatmap-weight",
+          "name": "heatmapWeight",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "A measure of how much an individual point contributes to the heatmap. A value of 10 would be equivalent to having 10 points of weight 1 in the same spot. Especially useful when combined with clustering."
+        },
+        {
+          "rawName": "heatmap-intensity",
+          "name": "heatmapIntensity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "Similar to `heatmap-weight` but controls the intensity of the heatmap globally. Primarily used for adjusting the heatmap based on zoom level."
+        },
+        {
+          "rawName": "heatmap-color",
+          "name": "heatmapColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": [
+            "interpolate",
+            [
+              "linear"
+            ],
+            [
+              "heatmap-density"
+            ],
+            0,
+            "rgba(0, 0, 255, 0)",
+            0.1,
+            "royalblue",
+            0.3,
+            "cyan",
+            0.5,
+            "lime",
+            0.7,
+            "yellow",
+            1,
+            "red"
+          ],
+          "propertyType": "color-ramp",
+          "doc": "Defines the color of each pixel based on its density value in a heatmap.  Should be an expression that uses `[\"heatmap-density\"]` as input."
+        },
+        {
+          "rawName": "heatmap-opacity",
+          "name": "heatmapOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "The global opacity at which the heatmap layer will be drawn."
+        }
+      ]
+    },
+    {
+      "name": "PaintSymbol",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "icon-opacity",
+          "name": "iconOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity at which the icon will be drawn."
+        },
+        {
+          "rawName": "icon-color",
+          "name": "iconColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The color of the icon. This can only be used with SDF icons."
+        },
+        {
+          "rawName": "icon-halo-color",
+          "name": "iconHaloColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "rgba(0, 0, 0, 0)",
+          "propertyType": "data-driven",
+          "doc": "The color of the icon's halo. Icon halos can only be used with SDF icons."
+        },
+        {
+          "rawName": "icon-halo-width",
+          "name": "iconHaloWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Distance of halo to the icon outline. \n\nThe unit is in pixels only for SDF sprites that were created with a blur radius of 8, multiplied by the display density. I.e., the radius needs to be 16 for `@2x` sprites, etc."
+        },
+        {
+          "rawName": "icon-halo-blur",
+          "name": "iconHaloBlur",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Fade out the halo towards the outside."
+        },
+        {
+          "rawName": "icon-translate",
+          "name": "iconTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "Distance that the icon's anchor is moved from its original placement. Positive values indicate right and down, while negative values indicate left and up."
+        },
+        {
+          "rawName": "icon-translate-anchor",
+          "name": "iconTranslateAnchor",
+          "type": "PaintSymbol$IconTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `icon-translate`."
+        },
+        {
+          "rawName": "text-opacity",
+          "name": "textOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-driven",
+          "doc": "The opacity at which the text will be drawn."
+        },
+        {
+          "rawName": "text-color",
+          "name": "textColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-driven",
+          "doc": "The color with which the text will be drawn."
+        },
+        {
+          "rawName": "text-halo-color",
+          "name": "textHaloColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "rgba(0, 0, 0, 0)",
+          "propertyType": "data-driven",
+          "doc": "The color of the text's halo, which helps it stand out from backgrounds."
+        },
+        {
+          "rawName": "text-halo-width",
+          "name": "textHaloWidth",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "Distance of halo to the font outline. Max text halo width is 1/4 of the font-size."
+        },
+        {
+          "rawName": "text-halo-blur",
+          "name": "textHaloBlur",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-driven",
+          "doc": "The halo's fadeout distance towards the outside."
+        },
+        {
+          "rawName": "text-translate",
+          "name": "textTranslate",
+          "type": "List<num>",
+          "isRequired": false,
+          "defaultValue": [
+            0,
+            0
+          ],
+          "propertyType": "data-constant",
+          "doc": "Distance that the text's anchor is moved from its original placement. Positive values indicate right and down, while negative values indicate left and up."
+        },
+        {
+          "rawName": "text-translate-anchor",
+          "name": "textTranslateAnchor",
+          "type": "PaintSymbol$TextTranslateAnchor",
+          "isRequired": false,
+          "defaultValue": "map",
+          "propertyType": "data-constant",
+          "doc": "Controls the frame of reference for `text-translate`."
+        }
+      ]
+    },
+    {
+      "name": "PaintRaster",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "raster-opacity",
+          "name": "rasterOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "The opacity at which the image will be drawn."
+        },
+        {
+          "rawName": "raster-hue-rotate",
+          "name": "rasterHueRotate",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-constant",
+          "doc": "Rotates hues around the color wheel."
+        },
+        {
+          "rawName": "raster-brightness-min",
+          "name": "rasterBrightnessMin",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-constant",
+          "doc": "Increase or reduce the brightness of the image. The value is the minimum brightness."
+        },
+        {
+          "rawName": "raster-brightness-max",
+          "name": "rasterBrightnessMax",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "Increase or reduce the brightness of the image. The value is the maximum brightness."
+        },
+        {
+          "rawName": "raster-saturation",
+          "name": "rasterSaturation",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-constant",
+          "doc": "Increase or reduce the saturation of the image."
+        },
+        {
+          "rawName": "raster-contrast",
+          "name": "rasterContrast",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "propertyType": "data-constant",
+          "doc": "Increase or reduce the contrast of the image."
+        },
+        {
+          "rawName": "raster-resampling",
+          "name": "rasterResampling",
+          "type": "PaintRaster$RasterResampling",
+          "isRequired": false,
+          "defaultValue": "linear",
+          "propertyType": "data-constant",
+          "doc": "The resampling/interpolation method to use for overscaling, also known as texture magnification filter"
+        },
+        {
+          "rawName": "raster-fade-duration",
+          "name": "rasterFadeDuration",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 300,
+          "propertyType": "data-constant",
+          "doc": "Fade duration when a new tile is added, or when a video is started or its coordinates are updated."
+        }
+      ]
+    },
+    {
+      "name": "PaintHillshade",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "hillshade-illumination-direction",
+          "name": "hillshadeIlluminationDirection",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 335,
+          "propertyType": "data-constant",
+          "doc": "The direction of the light source used to generate the hillshading with 0 as the top of the viewport if `hillshade-illumination-anchor` is set to `viewport` and due north if `hillshade-illumination-anchor` is set to `map`."
+        },
+        {
+          "rawName": "hillshade-illumination-anchor",
+          "name": "hillshadeIlluminationAnchor",
+          "type": "PaintHillshade$HillshadeIlluminationAnchor",
+          "isRequired": false,
+          "defaultValue": "viewport",
+          "propertyType": "data-constant",
+          "doc": "Direction of light source when map is rotated."
+        },
+        {
+          "rawName": "hillshade-exaggeration",
+          "name": "hillshadeExaggeration",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0.5,
+          "propertyType": "data-constant",
+          "doc": "Intensity of the hillshade"
+        },
+        {
+          "rawName": "hillshade-shadow-color",
+          "name": "hillshadeShadowColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-constant",
+          "doc": "The shading color of areas that face away from the light source."
+        },
+        {
+          "rawName": "hillshade-highlight-color",
+          "name": "hillshadeHighlightColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#FFFFFF",
+          "propertyType": "data-constant",
+          "doc": "The shading color of areas that faces towards the light source."
+        },
+        {
+          "rawName": "hillshade-accent-color",
+          "name": "hillshadeAccentColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-constant",
+          "doc": "The shading color used to accentuate rugged terrain like sharp cliffs and gorges."
+        }
+      ]
+    },
+    {
+      "name": "PaintBackground",
+      "extends": "Paint",
+      "fields": [
+        {
+          "rawName": "background-color",
+          "name": "backgroundColor",
+          "type": "Color",
+          "isRequired": false,
+          "defaultValue": "#000000",
+          "propertyType": "data-constant",
+          "doc": "The color with which the background will be drawn."
+        },
+        {
+          "rawName": "background-pattern",
+          "name": "backgroundPattern",
+          "type": "ResolvedImage",
+          "isRequired": false,
+          "propertyType": "cross-faded",
+          "doc": "Name of image in sprite to use for drawing an image background. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels."
+        },
+        {
+          "rawName": "background-opacity",
+          "name": "backgroundOpacity",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 1,
+          "propertyType": "data-constant",
+          "doc": "The opacity at which the background will be drawn."
+        }
+      ]
+    },
+    {
+      "name": "Transition",
+      "fields": [
+        {
+          "rawName": "duration",
+          "name": "duration",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 300,
+          "doc": "Time allotted for transitions to complete."
+        },
+        {
+          "rawName": "delay",
+          "name": "delay",
+          "type": "num",
+          "isRequired": false,
+          "defaultValue": 0,
+          "doc": "Length of time before a transition begins."
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "rawName": "type",
+      "name": "SourceVector$Type",
+      "values": [
+        {
+          "rawName": "vector",
+          "name": "vector",
+          "doc": "A vector tile source."
+        }
+      ]
+    },
+    {
+      "rawName": "scheme",
+      "name": "SourceVector$Scheme",
+      "values": [
+        {
+          "rawName": "xyz",
+          "name": "xyz",
+          "doc": "Slippy map tilenames scheme."
+        },
+        {
+          "rawName": "tms",
+          "name": "tms",
+          "doc": "OSGeo spec scheme."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "SourceRaster$Type",
+      "values": [
+        {
+          "rawName": "raster",
+          "name": "raster",
+          "doc": "A raster tile source."
+        }
+      ]
+    },
+    {
+      "rawName": "scheme",
+      "name": "SourceRaster$Scheme",
+      "values": [
+        {
+          "rawName": "xyz",
+          "name": "xyz",
+          "doc": "Slippy map tilenames scheme."
+        },
+        {
+          "rawName": "tms",
+          "name": "tms",
+          "doc": "OSGeo spec scheme."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "SourceRasterDem$Type",
+      "values": [
+        {
+          "rawName": "raster-dem",
+          "name": "rasterDem",
+          "doc": "A RGB-encoded raster DEM source"
+        }
+      ]
+    },
+    {
+      "rawName": "encoding",
+      "name": "SourceRasterDem$Encoding",
+      "values": [
+        {
+          "rawName": "terrarium",
+          "name": "terrarium",
+          "doc": "Terrarium format PNG tiles. See https://aws.amazon.com/es/public-datasets/terrain/ for more info."
+        },
+        {
+          "rawName": "mapbox",
+          "name": "mapbox",
+          "doc": "Mapbox Terrain RGB tiles. See https://www.mapbox.com/help/access-elevation-data/#mapbox-terrain-rgb for more info."
+        },
+        {
+          "rawName": "custom",
+          "name": "custom",
+          "doc": "Decodes tiles using the redFactor, blueFactor, greenFactor, baseShift parameters."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "SourceGeojson$Type",
+      "values": [
+        {
+          "rawName": "geojson",
+          "name": "geojson",
+          "doc": "A GeoJSON data source."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "SourceVideo$Type",
+      "values": [
+        {
+          "rawName": "video",
+          "name": "video",
+          "doc": "A video data source."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "SourceImage$Type",
+      "values": [
+        {
+          "rawName": "image",
+          "name": "image",
+          "doc": "An image data source."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "Layer$Type",
+      "values": [
+        {
+          "rawName": "fill",
+          "name": "fill",
+          "doc": "A filled polygon with an optional stroked border."
+        },
+        {
+          "rawName": "line",
+          "name": "line",
+          "doc": "A stroked line."
+        },
+        {
+          "rawName": "symbol",
+          "name": "symbol",
+          "doc": "An icon or a text label."
+        },
+        {
+          "rawName": "circle",
+          "name": "circle",
+          "doc": "A filled circle."
+        },
+        {
+          "rawName": "heatmap",
+          "name": "heatmap",
+          "doc": "A heatmap."
+        },
+        {
+          "rawName": "fill-extrusion",
+          "name": "fillExtrusion",
+          "doc": "An extruded (3D) polygon."
+        },
+        {
+          "rawName": "raster",
+          "name": "raster",
+          "doc": "Raster map textures such as satellite imagery."
+        },
+        {
+          "rawName": "hillshade",
+          "name": "hillshade",
+          "doc": "Client-side hillshading visualization based on DEM data. The implementation supports Mapbox Terrain RGB, Mapzen Terrarium tiles and custom encodings."
+        },
+        {
+          "rawName": "background",
+          "name": "background",
+          "doc": "The background color or pattern of the map."
+        }
+      ]
+    },
+    {
+      "rawName": "visibility",
+      "name": "Visibility",
+      "values": [
+        {
+          "rawName": "visible",
+          "name": "visible",
+          "doc": "The layer is shown."
+        },
+        {
+          "rawName": "none",
+          "name": "none",
+          "doc": "The layer is not shown."
+        }
+      ]
+    },
+    {
+      "rawName": "line-cap",
+      "name": "LayoutLine$LineCap",
+      "values": [
+        {
+          "rawName": "butt",
+          "name": "butt",
+          "doc": "A cap with a squared-off end which is drawn to the exact endpoint of the line."
+        },
+        {
+          "rawName": "round",
+          "name": "round",
+          "doc": "A cap with a rounded end which is drawn beyond the endpoint of the line at a radius of one-half of the line's width and centered on the endpoint of the line."
+        },
+        {
+          "rawName": "square",
+          "name": "square",
+          "doc": "A cap with a squared-off end which is drawn beyond the endpoint of the line at a distance of one-half of the line's width."
+        }
+      ]
+    },
+    {
+      "rawName": "line-join",
+      "name": "LayoutLine$LineJoin",
+      "values": [
+        {
+          "rawName": "bevel",
+          "name": "bevel",
+          "doc": "A join with a squared-off end which is drawn beyond the endpoint of the line at a distance of one-half of the line's width."
+        },
+        {
+          "rawName": "round",
+          "name": "round",
+          "doc": "A join with a rounded end which is drawn beyond the endpoint of the line at a radius of one-half of the line's width and centered on the endpoint of the line."
+        },
+        {
+          "rawName": "miter",
+          "name": "miter",
+          "doc": "A join with a sharp, angled corner which is drawn with the outer sides beyond the endpoint of the path until they meet."
+        }
+      ]
+    },
+    {
+      "rawName": "symbol-placement",
+      "name": "LayoutSymbol$SymbolPlacement",
+      "values": [
+        {
+          "rawName": "point",
+          "name": "point",
+          "doc": "The label is placed at the point where the geometry is located."
+        },
+        {
+          "rawName": "line",
+          "name": "line",
+          "doc": "The label is placed along the line of the geometry. Can only be used on `LineString` and `Polygon` geometries."
+        },
+        {
+          "rawName": "line-center",
+          "name": "lineCenter",
+          "doc": "The label is placed at the center of the line of the geometry. Can only be used on `LineString` and `Polygon` geometries. Note that a single feature in a vector tile may contain multiple line geometries."
+        }
+      ]
+    },
+    {
+      "rawName": "symbol-z-order",
+      "name": "LayoutSymbol$SymbolZOrder",
+      "values": [
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "Sorts symbols by `symbol-sort-key` if set. Otherwise, sorts symbols by their y-position relative to the viewport if `icon-allow-overlap` or `text-allow-overlap` is set to `true` or `icon-ignore-placement` or `text-ignore-placement` is `false`."
+        },
+        {
+          "rawName": "viewport-y",
+          "name": "viewportY",
+          "doc": "Sorts symbols by their y-position relative to the viewport if `icon-allow-overlap` or `text-allow-overlap` is set to `true` or `icon-ignore-placement` or `text-ignore-placement` is `false`."
+        },
+        {
+          "rawName": "source",
+          "name": "source",
+          "doc": "Sorts symbols by `symbol-sort-key` if set. Otherwise, no sorting is applied; symbols are rendered in the same order as the source data."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-overlap",
+      "name": "LayoutSymbol$IconOverlap",
+      "values": [
+        {
+          "rawName": "never",
+          "name": "never",
+          "doc": "The icon will be hidden if it collides with any other previously drawn symbol."
+        },
+        {
+          "rawName": "always",
+          "name": "always",
+          "doc": "The icon will be visible even if it collides with any other previously drawn symbol."
+        },
+        {
+          "rawName": "cooperative",
+          "name": "cooperative",
+          "doc": "If the icon collides with another previously drawn symbol, the overlap mode for that symbol is checked. If the previous symbol was placed using `never` overlap mode, the new icon is hidden. If the previous symbol was placed using `always` or `cooperative` overlap mode, the new icon is visible."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-rotation-alignment",
+      "name": "LayoutSymbol$IconRotationAlignment",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "When `symbol-placement` is set to `point`, aligns icons east-west. When `symbol-placement` is set to `line` or `line-center`, aligns icon x-axes with the line."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "Produces icons whose x-axes are aligned with the x-axis of the viewport, regardless of the value of `symbol-placement`."
+        },
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "When `symbol-placement` is set to `point`, this is equivalent to `viewport`. When `symbol-placement` is set to `line` or `line-center`, this is equivalent to `map`."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-text-fit",
+      "name": "LayoutSymbol$IconTextFit",
+      "values": [
+        {
+          "rawName": "none",
+          "name": "none",
+          "doc": "The icon is displayed at its intrinsic aspect ratio."
+        },
+        {
+          "rawName": "width",
+          "name": "width",
+          "doc": "The icon is scaled in the x-dimension to fit the width of the text."
+        },
+        {
+          "rawName": "height",
+          "name": "height",
+          "doc": "The icon is scaled in the y-dimension to fit the height of the text."
+        },
+        {
+          "rawName": "both",
+          "name": "both",
+          "doc": "The icon is scaled in both x- and y-dimensions."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-anchor",
+      "name": "LayoutSymbol$IconAnchor",
+      "values": [
+        {
+          "rawName": "center",
+          "name": "center",
+          "doc": "The center of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "left",
+          "name": "left",
+          "doc": "The left side of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "right",
+          "name": "right",
+          "doc": "The right side of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "top",
+          "name": "top",
+          "doc": "The top of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom",
+          "name": "bottom",
+          "doc": "The bottom of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-left",
+          "name": "topLeft",
+          "doc": "The top left corner of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-right",
+          "name": "topRight",
+          "doc": "The top right corner of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-left",
+          "name": "bottomLeft",
+          "doc": "The bottom left corner of the icon is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-right",
+          "name": "bottomRight",
+          "doc": "The bottom right corner of the icon is placed closest to the anchor."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-pitch-alignment",
+      "name": "LayoutSymbol$IconPitchAlignment",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The icon is aligned to the plane of the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The icon is aligned to the plane of the viewport."
+        },
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "Automatically matches the value of `icon-rotation-alignment`."
+        }
+      ]
+    },
+    {
+      "rawName": "text-pitch-alignment",
+      "name": "LayoutSymbol$TextPitchAlignment",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The text is aligned to the plane of the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The text is aligned to the plane of the viewport."
+        },
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "Automatically matches the value of `text-rotation-alignment`."
+        }
+      ]
+    },
+    {
+      "rawName": "text-rotation-alignment",
+      "name": "LayoutSymbol$TextRotationAlignment",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "When `symbol-placement` is set to `point`, aligns text east-west. When `symbol-placement` is set to `line` or `line-center`, aligns text x-axes with the line."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "Produces glyphs whose x-axes are aligned with the x-axis of the viewport, regardless of the value of `symbol-placement`."
+        },
+        {
+          "rawName": "viewport-glyph",
+          "name": "viewportGlyph",
+          "doc": "When `symbol-placement` is set to `point`, aligns text to the x-axis of the viewport. When `symbol-placement` is set to `line` or `line-center`, aligns glyphs to the x-axis of the viewport and places them along the line."
+        },
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "When `symbol-placement` is set to `point`, this is equivalent to `viewport`. When `symbol-placement` is set to `line` or `line-center`, this is equivalent to `map`."
+        }
+      ]
+    },
+    {
+      "rawName": "text-justify",
+      "name": "LayoutSymbol$TextJustify",
+      "values": [
+        {
+          "rawName": "auto",
+          "name": "auto",
+          "doc": "The text is aligned towards the anchor position."
+        },
+        {
+          "rawName": "left",
+          "name": "left",
+          "doc": "The text is aligned to the left."
+        },
+        {
+          "rawName": "center",
+          "name": "center",
+          "doc": "The text is centered."
+        },
+        {
+          "rawName": "right",
+          "name": "right",
+          "doc": "The text is aligned to the right."
+        }
+      ]
+    },
+    {
+      "rawName": "text-variable-anchor",
+      "name": "LayoutSymbol$TextVariableAnchor",
+      "values": [
+        {
+          "rawName": "center",
+          "name": "center",
+          "doc": "The center of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "left",
+          "name": "left",
+          "doc": "The left side of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "right",
+          "name": "right",
+          "doc": "The right side of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top",
+          "name": "top",
+          "doc": "The top of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom",
+          "name": "bottom",
+          "doc": "The bottom of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-left",
+          "name": "topLeft",
+          "doc": "The top left corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-right",
+          "name": "topRight",
+          "doc": "The top right corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-left",
+          "name": "bottomLeft",
+          "doc": "The bottom left corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-right",
+          "name": "bottomRight",
+          "doc": "The bottom right corner of the text is placed closest to the anchor."
+        }
+      ]
+    },
+    {
+      "rawName": "text-anchor",
+      "name": "LayoutSymbol$TextAnchor",
+      "values": [
+        {
+          "rawName": "center",
+          "name": "center",
+          "doc": "The center of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "left",
+          "name": "left",
+          "doc": "The left side of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "right",
+          "name": "right",
+          "doc": "The right side of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top",
+          "name": "top",
+          "doc": "The top of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom",
+          "name": "bottom",
+          "doc": "The bottom of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-left",
+          "name": "topLeft",
+          "doc": "The top left corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "top-right",
+          "name": "topRight",
+          "doc": "The top right corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-left",
+          "name": "bottomLeft",
+          "doc": "The bottom left corner of the text is placed closest to the anchor."
+        },
+        {
+          "rawName": "bottom-right",
+          "name": "bottomRight",
+          "doc": "The bottom right corner of the text is placed closest to the anchor."
+        }
+      ]
+    },
+    {
+      "rawName": "text-writing-mode",
+      "name": "LayoutSymbol$TextWritingMode",
+      "values": [
+        {
+          "rawName": "horizontal",
+          "name": "horizontal",
+          "doc": "If a text's language supports horizontal writing mode, symbols with point placement would be laid out horizontally."
+        },
+        {
+          "rawName": "vertical",
+          "name": "vertical",
+          "doc": "If a text's language supports vertical writing mode, symbols with point placement would be laid out vertically."
+        }
+      ]
+    },
+    {
+      "rawName": "text-transform",
+      "name": "LayoutSymbol$TextTransform",
+      "values": [
+        {
+          "rawName": "none",
+          "name": "none",
+          "doc": "The text is not altered."
+        },
+        {
+          "rawName": "uppercase",
+          "name": "uppercase",
+          "doc": "Forces all letters to be displayed in uppercase."
+        },
+        {
+          "rawName": "lowercase",
+          "name": "lowercase",
+          "doc": "Forces all letters to be displayed in lowercase."
+        }
+      ]
+    },
+    {
+      "rawName": "text-overlap",
+      "name": "LayoutSymbol$TextOverlap",
+      "values": [
+        {
+          "rawName": "never",
+          "name": "never",
+          "doc": "The text will be hidden if it collides with any other previously drawn symbol."
+        },
+        {
+          "rawName": "always",
+          "name": "always",
+          "doc": "The text will be visible even if it collides with any other previously drawn symbol."
+        },
+        {
+          "rawName": "cooperative",
+          "name": "cooperative",
+          "doc": "If the text collides with another previously drawn symbol, the overlap mode for that symbol is checked. If the previous symbol was placed using `never` overlap mode, the new text is hidden. If the previous symbol was placed using `always` or `cooperative` overlap mode, the new text is visible."
+        }
+      ]
+    },
+    {
+      "rawName": "anchor",
+      "name": "Light$Anchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The position of the light source is aligned to the rotation of the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The position of the light source is aligned to the rotation of the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "type",
+      "name": "Projection$Type",
+      "values": [
+        {
+          "rawName": "mercator",
+          "name": "mercator",
+          "doc": "The Mercator projection."
+        },
+        {
+          "rawName": "globe",
+          "name": "globe",
+          "doc": "The globe projection."
+        }
+      ]
+    },
+    {
+      "rawName": "fill-translate-anchor",
+      "name": "PaintFill$FillTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The fill is translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The fill is translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "fill-extrusion-translate-anchor",
+      "name": "PaintFillExtrusion$FillExtrusionTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The fill extrusion is translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The fill extrusion is translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "line-translate-anchor",
+      "name": "PaintLine$LineTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The line is translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The line is translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "circle-translate-anchor",
+      "name": "PaintCircle$CircleTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The circle is translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The circle is translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "circle-pitch-scale",
+      "name": "PaintCircle$CirclePitchScale",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "Circles are scaled according to their apparent distance to the camera."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "Circles are not scaled."
+        }
+      ]
+    },
+    {
+      "rawName": "circle-pitch-alignment",
+      "name": "PaintCircle$CirclePitchAlignment",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The circle is aligned to the plane of the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The circle is aligned to the plane of the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "icon-translate-anchor",
+      "name": "PaintSymbol$IconTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "Icons are translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "Icons are translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "text-translate-anchor",
+      "name": "PaintSymbol$TextTranslateAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The text is translated relative to the map."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The text is translated relative to the viewport."
+        }
+      ]
+    },
+    {
+      "rawName": "raster-resampling",
+      "name": "PaintRaster$RasterResampling",
+      "values": [
+        {
+          "rawName": "linear",
+          "name": "linear",
+          "doc": "(Bi)linear filtering interpolates pixel values using the weighted average of the four closest original source pixels creating a smooth but blurry look when overscaled"
+        },
+        {
+          "rawName": "nearest",
+          "name": "nearest",
+          "doc": "Nearest neighbor filtering interpolates pixel values using the nearest original source pixel creating a sharp but pixelated look when overscaled"
+        }
+      ]
+    },
+    {
+      "rawName": "hillshade-illumination-anchor",
+      "name": "PaintHillshade$HillshadeIlluminationAnchor",
+      "values": [
+        {
+          "rawName": "map",
+          "name": "map",
+          "doc": "The hillshade illumination is relative to the north direction."
+        },
+        {
+          "rawName": "viewport",
+          "name": "viewport",
+          "doc": "The hillshade illumination is relative to the top of the viewport."
+        }
+      ]
+    }
+  ],
+  "typedefs": [
+    {
+      "name": "Sources",
+      "type": "Map<Object, Source>"
+    },
+    {
+      "name": "Filter",
+      "type": "List<Object>"
+    },
+    {
+      "name": "PromoteId",
+      "type": "Map<Object, String>"
+    }
+  ]
+}
