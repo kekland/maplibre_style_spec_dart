@@ -1,5 +1,8 @@
+import 'package:geojson_vi/geojson_vi.dart';
 import 'package:maplibre_style_spec/src/expression/expression.dart';
 import 'package:maplibre_style_spec/src/types/locale.dart';
+
+typedef ICanonicalTileID = ({num z, num x, num y, String key});
 
 class EvaluationContext {
   EvaluationContext({
@@ -8,6 +11,8 @@ class EvaluationContext {
     required this.zoom,
     required this.locale,
     this.lineProgress,
+    this.feature,
+    this.canonical,
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
     Map<String, dynamic>? featureState,
@@ -31,6 +36,8 @@ class EvaluationContext {
   final Map<String, Expression> _bindings;
   final Map<String, dynamic> _properties;
   final Map<String, dynamic> _featureState;
+  final GeoJSON? feature;
+  final ICanonicalTileID? canonical;
 
   Map<String, dynamic> get properties => _properties;
 
