@@ -31,6 +31,13 @@ ExpressionAnnotation _getExpressionAnnotation(Declaration expr) {
   );
 }
 
+String? _getExpressionCustomFromJson(Declaration expr) {
+  final expressionAnnotation = expr.declaredElement!.metadata.firstWhereOrNull((v) => v.element is ConstructorElement);
+  final value = expressionAnnotation!.computeConstantValue()!;
+
+  return value.getField('customFromJson')?.toFunctionValue()?.name;
+}
+
 List<ParameterElement> _getExpressionParameters(FunctionDeclaration decl) {
   final expr = decl.functionExpression;
   final parameters = <ParameterElement>[];
@@ -142,8 +149,16 @@ List<String> _generateExpressionFromJsonCode(FunctionDeclaration decl) {
   final code = <String>[];
   final annotation = _getExpressionAnnotation(decl);
   final parameters = _getExpressionParameters(decl);
+  final customFromJson = _getExpressionCustomFromJson(decl);
 
   code.add('  factory ${annotation.name}.fromJson(List<dynamic> args) {');
+
+  if (customFromJson != null) {
+    code.add('    return $customFromJson(args);');
+    code.add('  }');
+    return code;
+  }
+
   code.add(
       '    assert(args[0] == \'${annotation.rawName}\', \'Invalid expression type: \${args[0]}, expected [${annotation.rawName}]\');');
   code.add('');

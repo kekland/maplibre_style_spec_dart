@@ -20,13 +20,23 @@ class Color {
   factory Color.fromJson(String value) {
     // Convert percentages to 0-1 range because csslib doesn't support it
     // Collect [number]% and divide by 100
+    var _value = value;
+
     final regex = RegExp(r'(\d+(\.\d+)?)%');
-    value = value.replaceAllMapped(regex, (match) {
+    _value = _value.replaceAllMapped(regex, (match) {
       final percentage = double.parse(match.group(1)!);
       return (percentage / 100).toString();
     });
 
-    final _color = css.Color.css(value);
+    if (_value.startsWith('#')) {
+      // Check for 3/4 digit hex
+      if (_value.length == 4 || _value.length == 5) {
+        // Duplicate each character, because csslib doesn't support 3/4 digit hex values
+        _value = '#${_value.split('').skip(1).map((e) => e * 2).join()}';
+      }
+    }
+
+    final _color = css.Color.css(_value);
 
     return Color(
       r: _color.rgba.r / 255,

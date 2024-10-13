@@ -1275,19 +1275,7 @@ class Literal<T> extends Expression<T> {
   });
 
   factory Literal.fromJson(List<dynamic> args) {
-    assert(args[0] == 'literal', 'Invalid expression type: ${args[0]}, expected [literal]');
-
-    var i = 1;
-
-    // Parse arg0
-    T arg0;
-
-    arg0 = args[i] as T;
-    i++;
-
-    return Literal(
-      value: arg0,
-    );
+    return literalExpressionFromJsonImpl(args);
   }
 
   final T value;
@@ -1335,6 +1323,25 @@ class CollatorExpression extends Expression<Collator> {
     return collatorExpressionImpl(
       context,
       object,
+    );
+  }
+}
+
+class Format extends Expression<Formatted> {
+  const Format({
+    super.type,
+  });
+
+  factory Format.fromJson(List<dynamic> args) {
+    assert(args[0] == 'format', 'Invalid expression type: ${args[0]}, expected [format]');
+
+    return const Format();
+  }
+
+  @override
+  Formatted evaluate(EvaluationContext context) {
+    return formatExpressionImpl(
+      context,
     );
   }
 }
@@ -2955,6 +2962,7 @@ Expression<T> expressionFromJson<T>(List<dynamic> args) {
     'var' => Var<T>.fromJson(args),
     'literal' => Literal<T>.fromJson(args),
     'collator' => CollatorExpression.fromJson(args),
+    'format' => Format.fromJson(args),
     'image' => ImageExpression.fromJson(args),
     'number-format' => NumberFormat.fromJson(args),
     'array' => ArrayAssertion.fromJson(args),

@@ -576,6 +576,32 @@ const generateDartCode = () => {
   code.push('  };');
   code.push('}');
 
+  code.push('bool isTypeEnumList<T>() {')
+  code.push('  return switch(T) {')
+
+  for (const $enum of enums) {
+    const { name } = $enum;
+
+    code.push(`    const (List<${name}>) => true,`);
+  }
+
+  code.push(`    _ => false,`);
+  code.push('  };');
+  code.push('}');
+
+  code.push('T parseEnumListJson<T>(dynamic json) {');
+  code.push('  return switch(T) {')
+
+  for (const $enum of enums) {
+    const { name } = $enum;
+
+    code.push(`    const (List<${name}>) => (json as List).map((e) => ${name}.fromJson(e)).toList() as T,`);
+  }
+
+  code.push(`    _ => throw Exception('Unknown enum type: \$T'),`);
+  code.push('  };');
+  code.push('}');
+
   return code;
 }
 

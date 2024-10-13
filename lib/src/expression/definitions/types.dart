@@ -1,10 +1,30 @@
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
+import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
+import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
-@ExpressionAnnotation('Literal', rawName: 'literal')
+@ExpressionAnnotation('Literal', rawName: 'literal', customFromJson: literalExpressionFromJsonImpl)
 T literalExpressionImpl<T>(EvaluationContext context, T value) => value;
+
+Literal<T> literalExpressionFromJsonImpl<T>(List<dynamic> args) {
+  assert(args[0] == 'literal');
+
+  if (args.length != 2) {
+    throw Exception('Expected 2 arguments, got ${args.length}');
+  }
+
+  if (isTypeEnum<T>()) {
+    return Literal<T>(value: parseEnumJson<T>(args[1]));
+  }
+
+  if (isTypeEnumList<T>()) {
+    return Literal<T>(value: parseEnumListJson<T>(args[1]));
+  }
+
+  return Literal<T>(value: args[1] as T);
+}
 
 @ExpressionAnnotation('CollatorExpression', rawName: 'collator')
 Collator collatorExpressionImpl(
@@ -24,16 +44,13 @@ Collator collatorExpressionImpl(
   );
 }
 
-// TODO: Implement
-// @ExpressionAnnotation('Format', rawName: 'format')
-// Formatted formatExpressionImpl(
-//   EvaluationContext context,
-//   Expression<String> value,
-// ) {
-//   final _value = value(context);
-
-//   return Formatted(_value);
-// }
+@ExpressionAnnotation('Format', rawName: 'format')
+Formatted formatExpressionImpl(
+  EvaluationContext context,
+) {
+  // TODO
+  return Formatted.empty();
+}
 
 @ExpressionAnnotation('ImageExpression', rawName: 'image')
 ResolvedImage imageExpressionImpl(
@@ -66,7 +83,7 @@ String numberFormatExpressionImpl(
   final _minFractionDigits = options.minFractionDigits?.evaluate(context);
   final _maxFractionDigits = options.maxFractionDigits?.evaluate(context);
 
-  final format = NumberFormat(null, _locale);
+  final format = intl.NumberFormat(null, _locale);
 
   if (_currency != null) format.currencyName = _currency;
   if (_minFractionDigits != null) format.minimumFractionDigits = _minFractionDigits;

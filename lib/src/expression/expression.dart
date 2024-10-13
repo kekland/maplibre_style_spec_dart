@@ -1,5 +1,6 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
+import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
 export 'evaluation.dart';
 
@@ -21,7 +22,17 @@ abstract class Expression<T> {
 
     if (T == Formatted && args is String) return Literal<Formatted>(value: Formatted.fromJson(args)) as Expression<T>;
 
-    if (args is String) return Literal<String>(value: args) as Expression<T>;
+    if (T == Padding && args is num) return Literal<Padding>(value: Padding.fromJson([args])) as Expression<T>;
+
+    if (args is String) {
+      if (isTypeEnum<T>()) {
+        return Literal<T>(value: parseEnumJson<T>(args)) as Expression<T>;
+      }
+
+      return Literal<String>(value: args) as Expression<T>;
+    }
+
+    if (args == null) return Literal<Null>(value: null) as Expression<T>;
     if (args is num) return Literal<num>(value: args) as Expression<T>;
     if (args is bool) return Literal<bool>(value: args) as Expression<T>;
     if (args is Map<String, dynamic>) return Literal<Map<String, dynamic>>(value: args) as Expression<T>;
