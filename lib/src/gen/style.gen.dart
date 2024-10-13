@@ -447,7 +447,7 @@ class SourceGeoJson extends Source {
     num? maxzoom,
     String? attribution,
     num? buffer,
-    Object? filter,
+    Expression<bool>? filter,
     num? tolerance,
     bool? cluster,
     num? clusterRadius,
@@ -484,7 +484,7 @@ class SourceGeoJson extends Source {
       maxzoom: json['maxzoom'] != null? json['maxzoom'] as num : null,
       attribution: json['attribution'] != null? json['attribution'] as String : null,
       buffer: json['buffer'] != null? json['buffer'] as num : null,
-      filter: json['filter'] != null? json['filter'] as Object : null,
+      filter: json['filter'] != null? Expression<bool>.fromJson(json['filter']) : null,
       tolerance: json['tolerance'] != null? json['tolerance'] as num : null,
       cluster: json['cluster'] != null? json['cluster'] as bool : null,
       clusterRadius: json['clusterRadius'] != null? json['clusterRadius'] as num : null,
@@ -513,7 +513,7 @@ class SourceGeoJson extends Source {
   final num buffer;
 
   /// An expression for filtering features prior to processing them for rendering.
-  final Object? filter;
+  final Expression<bool>? filter;
 
   /// Douglas-Peucker simplification tolerance (higher means simpler geometries and faster performance).
   final num tolerance;
@@ -653,7 +653,7 @@ class Layer {
     String? sourceLayer,
     num? minzoom,
     num? maxzoom,
-    List<Object>? filter,
+    Expression<bool>? filter,
     Layout? layout,
     Paint? paint,
   }) {
@@ -680,7 +680,7 @@ class Layer {
       sourceLayer: json['source-layer'] != null? json['source-layer'] as String : null,
       minzoom: json['minzoom'] != null? json['minzoom'] as num : null,
       maxzoom: json['maxzoom'] != null? json['maxzoom'] as num : null,
-      filter: json['filter'] != null? (json['filter'] as List).cast<Object>() : null,
+      filter: json['filter'] != null? Expression<bool>.fromJson(json['filter']) : null,
       layout: json['layout'] != null? Layout.fromJson(json['layout'], type: Layer$Type.fromJson(json['type'])) : null,
       paint: json['paint'] != null? Paint.fromJson(json['paint'], type: Layer$Type.fromJson(json['type'])) : null,
     );
@@ -708,7 +708,7 @@ class Layer {
   final num? maxzoom;
 
   /// A expression specifying conditions on source features. Only features that match the filter are displayed. Zoom expressions in filters are only evaluated at integer zoom levels. The `feature-state` expression is not supported in filter expressions.
-  final List<Object>? filter;
+  final Expression<bool>? filter;
 
   /// Layout properties for the layer.
   final Layout? layout;

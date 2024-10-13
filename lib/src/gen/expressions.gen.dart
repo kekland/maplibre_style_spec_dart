@@ -161,7 +161,7 @@ class IndexOfExpression extends Expression<int> {
 }
 
 /// Returns an item from an array or a substring from a string from a specified start index, or between a start index and an end index if set. The return value is inclusive of the start index but not of the end index. In a string, a UTF-16 surrogate pair counts as a single position.
-class SliceExpression extends Expression<dynamic> {
+class SliceExpression<T> extends Expression<T> {
   const SliceExpression({
     required this.input,
     required this.start,
@@ -176,9 +176,9 @@ class SliceExpression extends Expression<dynamic> {
     var i = 1;
 
     // Parse arg0
-    Expression<dynamic> arg0;
+    Expression<T> arg0;
 
-    arg0 = Expression<dynamic>.fromJson(args[i]);
+    arg0 = Expression<T>.fromJson(args[i]);
     i++;
 
     // Parse arg1
@@ -202,12 +202,12 @@ class SliceExpression extends Expression<dynamic> {
     );
   }
 
-  final Expression<dynamic> input;
+  final Expression<T> input;
   final Expression<int> start;
   final Expression<int>? end;
 
   @override
-  dynamic evaluate(EvaluationContext context) {
+  T evaluate(EvaluationContext context) {
     return sliceExpressionImpl(
       context,
       input,
@@ -3173,7 +3173,7 @@ Expression<T> expressionFromJson<T>(List<dynamic> args) {
     'at' => AtExpression.fromJson(args),
     'in' => InExpression.fromJson(args),
     'index-of' => IndexOfExpression.fromJson(args),
-    'slice' => SliceExpression.fromJson(args),
+    'slice' => SliceExpression<T>.fromJson(args),
     'get' => GetExpression<T>.fromJson(args),
     'has' => HasExpression.fromJson(args),
     'length' => LengthExpression.fromJson(args),

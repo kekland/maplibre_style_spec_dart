@@ -56,30 +56,37 @@ int indexOfExpressionImpl(
 }
 
 @ExpressionAnnotation('SliceExpression', rawName: 'slice')
-dynamic sliceExpressionImpl(
+T sliceExpressionImpl<T>(
   EvaluationContext context,
-  Expression<dynamic> input,
+  Expression<T> input,
   Expression<int> start,
   Expression<int>? end,
 ) {
   final _input = input(context);
+
+  if (_input is! List && _input is! String) {
+    throw Exception('Unsupported type ${_input.runtimeType} for "slice" operator');
+  }
+
   final _start = start(context);
   final _end = end?.evaluate(context);
 
-  if (_start < 0 || _start >= _input.length) {
+  final length = (_input is List) ? (_input as List).length : (_input as String).length;
+
+  if (_start < 0 || _start >= length) {
     throw Exception('Start index $_start is out of bounds');
   }
 
-  if (_end != null && (_end < 0 || _end >= _input.length)) {
+  if (_end != null && (_end < 0 || _end >= length)) {
     throw Exception('End index $_end is out of bounds');
   }
 
   if (_input is List) {
-    return _input.sublist(_start, _end);
+    return _input.sublist(_start, _end) as T;
   }
 
   if (_input is String) {
-    return _input.substring(_start, _end);
+    return _input.substring(_start, _end) as T;
   }
 
   throw Exception('Unsupported type ${_input.runtimeType} for "slice" operator');

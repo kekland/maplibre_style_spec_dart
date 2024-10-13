@@ -130,6 +130,10 @@ const createField = (name, parentName, object) => {
     dartType = $enum.name;
   }
 
+  if (name === 'filter') {
+    dartType = 'Expression<bool>';
+  }
+
   const props = {
     rawName: name,
     name: convertToDartVariableName(name),

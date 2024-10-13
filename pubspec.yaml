@@ -3,7 +3,7 @@ description: A starting point for Dart libraries or applications.
 version: 1.0.0
 
 environment:
-  sdk: ^3.6.0-334.2.beta
+  sdk: ^3.5.0
 
 dependencies:
   collection: ^1.19.0
