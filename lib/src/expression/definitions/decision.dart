@@ -71,6 +71,9 @@ bool equalsExpressionImpl(
 
   if (_left is String && _right is String) {
     // TODO: Collator
+
+    // Collation probably will not exist in Dart for a while.
+    // Consider using icu4c bindings.
     _collator;
   }
 

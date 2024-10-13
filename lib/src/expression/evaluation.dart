@@ -1,10 +1,12 @@
 import 'package:maplibre_style_spec/src/expression/expression.dart';
+import 'package:maplibre_style_spec/src/types/locale.dart';
 
 class EvaluationContext {
   EvaluationContext({
     this.id,
     required this.geometryType,
     required this.zoom,
+    required this.locale,
     this.lineProgress,
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
@@ -16,6 +18,7 @@ class EvaluationContext {
   static EvaluationContext empty() {
     return EvaluationContext(
       geometryType: 'Point',
+      locale: Locale(languageCode: 'en'),
       zoom: 0,
     );
   }
@@ -24,6 +27,7 @@ class EvaluationContext {
   final String geometryType;
   final double? lineProgress;
   final double zoom;
+  final Locale locale;
   final Map<String, Expression> _bindings;
   final Map<String, dynamic> _properties;
   final Map<String, dynamic> _featureState;
@@ -39,6 +43,7 @@ class EvaluationContext {
       id: id,
       geometryType: geometryType,
       lineProgress: lineProgress,
+      locale: locale,
       zoom: zoom,
       bindings: {..._bindings, ...?bindings},
       properties: {..._properties, ...?properties},
@@ -51,6 +56,7 @@ class EvaluationContext {
     String? geometryType,
     double? lineProgress,
     double? zoom,
+    Locale? locale,
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
     Map<String, dynamic>? featureState,
@@ -59,6 +65,7 @@ class EvaluationContext {
       id: id ?? this.id,
       geometryType: geometryType ?? this.geometryType,
       lineProgress: lineProgress ?? this.lineProgress,
+      locale: locale ?? this.locale,
       zoom: zoom ?? this.zoom,
       bindings: bindings ?? _bindings,
       properties: properties ?? _properties,

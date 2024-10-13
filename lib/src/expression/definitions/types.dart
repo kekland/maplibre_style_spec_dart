@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
@@ -22,7 +24,16 @@ Collator collatorExpressionImpl(
   );
 }
 
-// TODO: Format
+// TODO: Implement
+// @ExpressionAnnotation('Format', rawName: 'format')
+// Formatted formatExpressionImpl(
+//   EvaluationContext context,
+//   Expression<String> value,
+// ) {
+//   final _value = value(context);
+
+//   return Formatted(_value);
+// }
 
 @ExpressionAnnotation('ImageExpression', rawName: 'image')
 ResolvedImage imageExpressionImpl(
@@ -49,18 +60,19 @@ String numberFormatExpressionImpl(
   }) options,
 ) {
   final _number = number(context);
+
   final _locale = options.locale?.evaluate(context);
   final _currency = options.currency?.evaluate(context);
   final _minFractionDigits = options.minFractionDigits?.evaluate(context);
   final _maxFractionDigits = options.maxFractionDigits?.evaluate(context);
 
-  // TODO: Intl
-  _locale;
-  _currency;
-  _minFractionDigits;
-  _maxFractionDigits;
+  final format = NumberFormat(null, _locale);
 
-  return _number.toString();
+  if (_currency != null) format.currencyName = _currency;
+  if (_minFractionDigits != null) format.minimumFractionDigits = _minFractionDigits;
+  if (_maxFractionDigits != null) format.maximumFractionDigits = _maxFractionDigits;
+
+  return format.format(_number);
 }
 
 // ------------------------------------

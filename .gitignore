@@ -8,3 +8,6 @@ pubspec.lock
 
 # Temporary output from the scripts
 style.gen.temp.json
+
+# Test files
+test/fixtures

@@ -46,7 +46,5 @@ String resolvedLocaleExpressionImpl(
   Expression<Collator> collator,
 ) {
   final _collator = collator(context);
-
-  // TODO: System locale
-  return _collator.locale?.languageCode ?? '';
+  return (_collator.locale ?? context.locale).languageCode;
 }
