@@ -1,25 +1,47 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:maplibre_style_spec/src/gen/style.gen.dart';
+import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
+Map<String, dynamic> _getFixturesInDirectory(Directory directory) {
+  final fixtures = <String, dynamic>{};
+
+  for (final entity in directory.listSync()) {
+    if (entity is File && entity.path.endsWith('.json')) {
+      final name = entity.path.split('/').last.split('.').first;
+      fixtures[name] = jsonDecode(entity.readAsStringSync());
+    }
+  }
+
+  return fixtures;
+}
+
 void main() {
-  group('Fixtures JSON parsing test', () {
-    final fixtures = Directory('test/fixtures').listSync();
+  group('[Fixtures] Style JSON parsing', () {
+    final fixtures = _getFixturesInDirectory(Directory('test/fixtures/styles'));
 
-    for (final entity in fixtures) {
-      if (entity is File && entity.path.endsWith('.json') && !entity.path.endsWith('-original.json')) {
-        final name = entity.path.split('/').last.split('.').first;
+    for (final name in fixtures.keys) {
+      final json = fixtures[name];
 
-        test(name, () {
-          final json = jsonDecode(entity.readAsStringSync());
-          final style = Style.fromJson(json);
+      test(name, () {
+        final style = Style.fromJson(json);
+        expect(style, isNotNull);
+      });
+    }
+  });
 
-          expect(style, isNotNull);
-        });
-      }
+  group('[Fixtures] TileJSON parsing', () {
+    final fixtures = _getFixturesInDirectory(Directory('test/fixtures/tilejson'));
+
+    for (final name in fixtures.keys) {
+      final json = fixtures[name];
+
+      test(name, () {
+        final style = $TileJson.fromJson(json);
+        expect(style, isNotNull);
+      });
     }
   });
 }

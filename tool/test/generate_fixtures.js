@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
+const util = require('util');
 const fs = require('fs');
 const path = require('path');
 const keys = require('./keys').default;
-const { exec } = require('child_process');
+const exec = util.promisify(require('child_process').exec);
 
 const createMaptilerMaps = (apiKey) => {
   const maps = [
@@ -54,13 +55,15 @@ const createMaptilerMaps = (apiKey) => {
 
   console.log(`Generating ${maps.length} map files...`);
 
-  const fixturesPath = path.join(__dirname, '..', 'test', 'fixtures');
+  const fixturesPath = path.join(__dirname, '..', '..', 'test', 'fixtures');
 
   if (fs.existsSync(fixturesPath)) {
     fs.rmSync(fixturesPath, { recursive: true });
   }
 
   fs.mkdirSync(fixturesPath);
+  fs.mkdirSync(path.join(fixturesPath, 'styles'));
+  fs.mkdirSync(path.join(fixturesPath, 'tilejson'));
 
   for (const map of maps) {
     const filePath = path.join(fixturesPath, `${map.name}.json`);
@@ -80,19 +83,40 @@ const createMaptilerMaps = (apiKey) => {
 
     // Perform gl-style-migrate on each file and replace the original
     const filePath = path.join(fixturesPath, file);
-    
-    // Move the original file to {name}-original.json
-    const originalPath = filePath.replace('.json', '-original.json');
-    fs.renameSync(filePath, originalPath);
+    const resultPath = path.join(fixturesPath, 'styles', file);
 
-    exec(`gl-style-migrate ${originalPath} > ${filePath}`, (err, stdout, stderr) => {
-      if (err) {
-        console.error(`Failed to migrate ${filePath}`);
-        console.error(stderr);
+    try {
+      const { stdout, stderr } = await exec(`gl-style-migrate ${filePath} > ${resultPath}`);
+      console.log(`Migrated ${filePath} to ${resultPath}`);
+    }
+    catch (e) {
+      console.error(`Failed to migrate ${filePath}`);
+      return;
+    }
+
+    // Remove the original file
+    fs.rmSync(filePath);
+
+    // Generate TileJSON fixtures
+    const data = JSON.parse(fs.readFileSync(resultPath, 'utf8'));
+
+    const tileJsonUrls = Object.values(data.sources)
+      .filter(s => s.type === 'vector' || s.type === 'raster' || s.type === 'raster-dem')
+      .map(s => s.url)
+      .filter(Boolean)
+
+    for (const url of tileJsonUrls) {
+      const data = await fetch(url);
+
+      if (data.status !== 200) {
+        console.error(`Failed to fetch ${url}`);
       }
       else {
-        console.log(`Migrated ${filePath}`);
+        let tileJsonPath = path.join(fixturesPath, 'tilejson', url.replace('https://', '').split('?')[0].replace(/[^a-z0-9]/gi, '_') + '.json');
+  
+        fs.writeFileSync(tileJsonPath, JSON.stringify(await data.json(), null, 2));
+        console.log(`Wrote ${tileJsonPath}`);
       }
-    });
+    }
   }
 })()
