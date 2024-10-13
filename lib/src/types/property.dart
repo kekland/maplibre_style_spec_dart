@@ -1,7 +1,6 @@
 // ignore_for_file: null_check_on_nullable_type_parameter
 
 import 'package:maplibre_style_spec/src/_src.dart';
-import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
 T? _parseJsonForKnownTypes<T>(dynamic json) {
   if (json is T) {

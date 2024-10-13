@@ -1,6 +1,4 @@
 import 'package:maplibre_style_spec/src/_src.dart';
-import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
-import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
 export 'evaluation.dart';
 

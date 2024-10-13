@@ -2,8 +2,6 @@ import 'package:intl/intl.dart' as intl;
 
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
-import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
-import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
 @ExpressionAnnotation('LiteralExpression', rawName: 'literal', customFromJson: literalExpressionFromJsonImpl)
 T literalExpressionImpl<T>(EvaluationContext context, T value) => value;

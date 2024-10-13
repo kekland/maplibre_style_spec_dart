@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:maplibre_style_spec/src/_src.dart';
-import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
 import 'package:test/test.dart';
 
 void main() {
