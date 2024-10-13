@@ -243,7 +243,7 @@ List<String> _generateExpressionEvaluateCode(FunctionDeclaration decl) {
   return code;
 }
 
-List<String> _generateExpressionCode(FunctionDeclaration decl) {
+List<String> _generateExpressionCode(Map<String, dynamic> referenceExpressions, FunctionDeclaration decl) {
   final annotation = _getExpressionAnnotation(decl);
   final expr = decl.functionExpression;
 
@@ -251,6 +251,14 @@ List<String> _generateExpressionCode(FunctionDeclaration decl) {
   final returnType = decl.returnType!.type!.toString();
 
   final typeParametersSource = expr.typeParameters?.toSource();
+
+  final referenceDoc = referenceExpressions[annotation.rawName]?['doc'] as String?; 
+
+  if (referenceDoc != null) {
+    for (final line in referenceDoc.split('\n')) {
+      code.add('/// $line');
+    }
+  }
 
   if (typeParametersSource != null) {
     code.add('class ${annotation.name}$typeParametersSource extends Expression<$returnType> {');
@@ -260,6 +268,7 @@ List<String> _generateExpressionCode(FunctionDeclaration decl) {
 
   code.addAll(_generateExpressionConstructorCode(decl));
   code.add('');
+  code.add('/// Creates a new instance of [${annotation.name}] by parsing the given [args] as a JSON list.');
   code.addAll(_generateExpressionFromJsonCode(decl));
   code.add('');
   code.addAll(_generateExpressionFieldsCode(decl));
@@ -298,6 +307,9 @@ Future<void> main() async {
     bool hasGeneric,
   })>{};
 
+  final referenceExpressions =
+      jsonDecode(referenceFile.readAsStringSync())['expression_name']['values'] as Map<String, dynamic>;
+
   for (final context in collection.contexts) {
     for (final file in context.contextRoot.analyzedFiles()) {
       if (!file.endsWith('.dart')) continue;
@@ -313,7 +325,7 @@ Future<void> main() async {
 
             if (isExpression) {
               final annotation = _getExpressionAnnotation(declaration);
-              final generatedCode = _generateExpressionCode(declaration);
+              final generatedCode = _generateExpressionCode(referenceExpressions, declaration);
               final typeParameters = declaration.functionExpression.typeParameters;
 
               code.addAll(generatedCode);
@@ -357,13 +369,11 @@ Future<void> main() async {
 
   print('Generated expressions: ${generatedExpressions.length}');
 
-  final referenceExpressions = (jsonDecode(referenceFile.readAsStringSync())['expression_name']['values'] as Map).keys;
-
   final generatedExpressionsNameSet = generatedExpressions.map((e) => e.rawName).toSet();
-  final referenceExpressionsSet = referenceExpressions.toSet();
+  final referenceExpressionsNameSet = referenceExpressions.keys.toSet();
 
-  final extraExpressions = generatedExpressionsNameSet.difference(referenceExpressionsSet);
-  final missingExpressions = referenceExpressionsSet.difference(generatedExpressionsNameSet);
+  final extraExpressions = generatedExpressionsNameSet.difference(referenceExpressionsNameSet);
+  final missingExpressions = referenceExpressionsNameSet.difference(generatedExpressionsNameSet);
 
   if (extraExpressions.isNotEmpty) {
     print('[WARN] Extra expressions: $extraExpressions');

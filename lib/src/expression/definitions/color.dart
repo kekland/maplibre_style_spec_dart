@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('ToRgba', rawName: 'to-rgba')
+@ExpressionAnnotation('ToRgbaExpression', rawName: 'to-rgba')
 List<num> toRgbaExpressionImpl(
   EvaluationContext context,
   Expression<Color> value,
@@ -10,7 +10,7 @@ List<num> toRgbaExpressionImpl(
   return [color.r * 255.0, color.g * 255.0, color.b * 255.0, color.a];
 }
 
-@ExpressionAnnotation('Rgb', rawName: 'rgb')
+@ExpressionAnnotation('RgbExpression', rawName: 'rgb')
 Color rgbExpressionImpl(
   EvaluationContext context,
   Expression<num> r,
@@ -24,7 +24,7 @@ Color rgbExpressionImpl(
   );
 }
 
-@ExpressionAnnotation('Rgba', rawName: 'rgba')
+@ExpressionAnnotation('RgbaExpression', rawName: 'rgba')
 Color rgbaExpressionImpl(
   EvaluationContext context,
   Expression<num> r,

@@ -4,15 +4,17 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/definitions/_definitions.dart';
 
-class Zoom extends Expression<num> {
-  const Zoom({
+/// Gets the current zoom level.  Note that in style layout and paint properties, ["zoom"] may only appear as the input to a top-level "step" or "interpolate" expression.
+class ZoomExpression extends Expression<num> {
+  const ZoomExpression({
     super.type,
   });
 
-  factory Zoom.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ZoomExpression] by parsing the given [args] as a JSON list.
+  factory ZoomExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'zoom', 'Invalid expression type: ${args[0]}, expected [zoom]');
 
-    return const Zoom();
+    return const ZoomExpression();
   }
 
   @override
@@ -23,14 +25,16 @@ class Zoom extends Expression<num> {
   }
 }
 
-class At extends Expression<dynamic> {
-  const At({
+/// Retrieves an item from an array.
+class AtExpression extends Expression<dynamic> {
+  const AtExpression({
     required this.index,
     required this.array,
     super.type,
   });
 
-  factory At.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AtExpression] by parsing the given [args] as a JSON list.
+  factory AtExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'at', 'Invalid expression type: ${args[0]}, expected [at]');
 
     var i = 1;
@@ -47,7 +51,7 @@ class At extends Expression<dynamic> {
     arg1 = Expression<List<dynamic>>.fromJson(args[i]);
     i++;
 
-    return At(
+    return AtExpression(
       index: arg0,
       array: arg1,
     );
@@ -66,14 +70,18 @@ class At extends Expression<dynamic> {
   }
 }
 
-class In extends Expression<dynamic> {
-  const In({
+/// Determines whether an item exists in an array or a substring exists in a string.
+///
+///  - [Measure distances](https://maplibre.org/maplibre-gl-js/docs/examples/measure/)
+class InExpression extends Expression<dynamic> {
+  const InExpression({
     required this.needle,
     required this.haystack,
     super.type,
   });
 
-  factory In.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [InExpression] by parsing the given [args] as a JSON list.
+  factory InExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'in', 'Invalid expression type: ${args[0]}, expected [in]');
 
     var i = 1;
@@ -90,7 +98,7 @@ class In extends Expression<dynamic> {
     arg1 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return In(
+    return InExpression(
       needle: arg0,
       haystack: arg1,
     );
@@ -109,14 +117,16 @@ class In extends Expression<dynamic> {
   }
 }
 
-class IndexOf extends Expression<dynamic> {
-  const IndexOf({
+/// Returns the first position at which an item can be found in an array or a substring can be found in a string, or `-1` if the input cannot be found. Accepts an optional index from where to begin the search. In a string, a UTF-16 surrogate pair counts as a single position.
+class IndexOfExpression extends Expression<dynamic> {
+  const IndexOfExpression({
     required this.needle,
     required this.haystack,
     super.type,
   });
 
-  factory IndexOf.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [IndexOfExpression] by parsing the given [args] as a JSON list.
+  factory IndexOfExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'index-of', 'Invalid expression type: ${args[0]}, expected [index-of]');
 
     var i = 1;
@@ -133,7 +143,7 @@ class IndexOf extends Expression<dynamic> {
     arg1 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return IndexOf(
+    return IndexOfExpression(
       needle: arg0,
       haystack: arg1,
     );
@@ -152,15 +162,17 @@ class IndexOf extends Expression<dynamic> {
   }
 }
 
-class Slice extends Expression<dynamic> {
-  const Slice({
+/// Returns an item from an array or a substring from a string from a specified start index, or between a start index and an end index if set. The return value is inclusive of the start index but not of the end index. In a string, a UTF-16 surrogate pair counts as a single position.
+class SliceExpression extends Expression<dynamic> {
+  const SliceExpression({
     required this.input,
     required this.start,
     this.end,
     super.type,
   });
 
-  factory Slice.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [SliceExpression] by parsing the given [args] as a JSON list.
+  factory SliceExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'slice', 'Invalid expression type: ${args[0]}, expected [slice]');
 
     var i = 1;
@@ -185,7 +197,7 @@ class Slice extends Expression<dynamic> {
       i++;
     }
 
-    return Slice(
+    return SliceExpression(
       input: arg0,
       start: arg1,
       end: arg2,
@@ -207,14 +219,22 @@ class Slice extends Expression<dynamic> {
   }
 }
 
-class Get<T> extends Expression<T> {
-  const Get({
+/// Retrieves a property value from the current feature's properties, or from another object if a second argument is provided. Returns null if the requested property is missing.
+///
+///  - [Change the case of labels](https://maplibre.org/maplibre-gl-js/docs/examples/change-case-of-labels/)
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+///
+///  - [Extrude polygons for 3D indoor mapping](https://maplibre.org/maplibre-gl-js/docs/examples/3d-extrusion-floorplan/)
+class GetExpression<T> extends Expression<T> {
+  const GetExpression({
     required this.key,
     this.object,
     super.type,
   });
 
-  factory Get.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [GetExpression] by parsing the given [args] as a JSON list.
+  factory GetExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'get', 'Invalid expression type: ${args[0]}, expected [get]');
 
     var i = 1;
@@ -233,7 +253,7 @@ class Get<T> extends Expression<T> {
       i++;
     }
 
-    return Get(
+    return GetExpression(
       key: arg0,
       object: arg1,
     );
@@ -252,14 +272,18 @@ class Get<T> extends Expression<T> {
   }
 }
 
-class Has extends Expression<bool> {
-  const Has({
+/// Tests for the presence of an property value in the current feature's properties, or from another object if a second argument is provided.
+///
+///  - [Create and style clusters](https://maplibre.org/maplibre-gl-js/docs/examples/cluster/)
+class HasExpression extends Expression<bool> {
+  const HasExpression({
     required this.key,
     this.object,
     super.type,
   });
 
-  factory Has.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [HasExpression] by parsing the given [args] as a JSON list.
+  factory HasExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'has', 'Invalid expression type: ${args[0]}, expected [has]');
 
     var i = 1;
@@ -278,7 +302,7 @@ class Has extends Expression<bool> {
       i++;
     }
 
-    return Has(
+    return HasExpression(
       key: arg0,
       object: arg1,
     );
@@ -297,13 +321,15 @@ class Has extends Expression<bool> {
   }
 }
 
-class Length extends Expression<int> {
-  const Length({
+/// Gets the length of an array or string. In a string, a UTF-16 surrogate pair counts as a single position.
+class LengthExpression extends Expression<int> {
+  const LengthExpression({
     required this.value,
     super.type,
   });
 
-  factory Length.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LengthExpression] by parsing the given [args] as a JSON list.
+  factory LengthExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'length', 'Invalid expression type: ${args[0]}, expected [length]');
 
     var i = 1;
@@ -314,7 +340,7 @@ class Length extends Expression<int> {
     arg0 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return Length(
+    return LengthExpression(
       value: arg0,
     );
   }
@@ -330,15 +356,19 @@ class Length extends Expression<int> {
   }
 }
 
-class Step<T> extends Expression<T> {
-  const Step({
+/// Produces discrete, stepped results by evaluating a piecewise-constant function defined by pairs of input and output values ("stops"). The `input` may be any numeric expression (e.g., `["get", "population"]`). Stop inputs must be numeric literals in strictly ascending order. Returns the output value of the stop just less than the input, or the first output if the input is less than the first stop.
+///
+///  - [Create and style clusters](https://maplibre.org/maplibre-gl-js/docs/examples/cluster/)
+class StepExpression<T> extends Expression<T> {
+  const StepExpression({
     required this.input,
     required this.minOutput,
     required this.stops,
     super.type,
   });
 
-  factory Step.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [StepExpression] by parsing the given [args] as a JSON list.
+  factory StepExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'step', 'Invalid expression type: ${args[0]}, expected [step]');
 
     var i = 1;
@@ -366,7 +396,7 @@ class Step<T> extends Expression<T> {
       ));
     }
 
-    return Step(
+    return StepExpression(
       input: arg0,
       minOutput: arg1,
       stops: arg2,
@@ -388,15 +418,33 @@ class Step<T> extends Expression<T> {
   }
 }
 
-class Interpolate<T> extends Expression<T> {
-  const Interpolate({
+/// Produces continuous, smooth results by interpolating between pairs of input and output values ("stops"). The `input` may be any numeric expression (e.g., `["get", "population"]`). Stop inputs must be numeric literals in strictly ascending order. The output type must be `number`, `array<number>`, or `color`.
+///
+/// Interpolation types:
+///
+/// - `["linear"]`, or an expression returning one of those types: Interpolates linearly between the pair of stops just less than and just greater than the input.
+///
+/// - `["exponential", base]`: Interpolates exponentially between the stops just less than and just greater than the input. `base` controls the rate at which the output increases: higher values make the output increase more towards the high end of the range. With values close to 1 the output increases linearly.
+///
+/// - `["cubic-bezier", x1, y1, x2, y2]`: Interpolates using the cubic bezier curve defined by the given control points.
+///
+///  - [Animate map camera around a point](https://maplibre.org/maplibre-gl-js/docs/examples/animate-camera-around-point/)
+///
+///  - [Change building color based on zoom level](https://maplibre.org/maplibre-gl-js/docs/examples/change-building-color-based-on-zoom-level/)
+///
+///  - [Create a heatmap layer](https://maplibre.org/maplibre-gl-js/docs/examples/heatmap-layer/)
+///
+///  - [Visualize population density](https://maplibre.org/maplibre-gl-js/docs/examples/visualize-population-density/)
+class InterpolateExpression<T> extends Expression<T> {
+  const InterpolateExpression({
     required this.options,
     required this.input,
     required this.stops,
     super.type,
   });
 
-  factory Interpolate.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [InterpolateExpression] by parsing the given [args] as a JSON list.
+  factory InterpolateExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'interpolate', 'Invalid expression type: ${args[0]}, expected [interpolate]');
 
     var i = 1;
@@ -424,7 +472,7 @@ class Interpolate<T> extends Expression<T> {
       ));
     }
 
-    return Interpolate(
+    return InterpolateExpression(
       options: arg0,
       input: arg1,
       stops: arg2,
@@ -446,13 +494,15 @@ class Interpolate<T> extends Expression<T> {
   }
 }
 
-class IsSupportedScript extends Expression<bool> {
-  const IsSupportedScript({
+/// Returns `true` if the input string is expected to render legibly. Returns `false` if the input string contains sections that cannot be rendered without potential loss of meaning (e.g. Indic scripts that require complex text shaping, or right-to-left scripts if the the `mapbox-gl-rtl-text` plugin is not in use in MapLibre GL JS).
+class IsSupportedScriptExpression extends Expression<bool> {
+  const IsSupportedScriptExpression({
     required this.value,
     super.type,
   });
 
-  factory IsSupportedScript.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [IsSupportedScriptExpression] by parsing the given [args] as a JSON list.
+  factory IsSupportedScriptExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'is-supported-script', 'Invalid expression type: ${args[0]}, expected [is-supported-script]');
 
     var i = 1;
@@ -463,7 +513,7 @@ class IsSupportedScript extends Expression<bool> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return IsSupportedScript(
+    return IsSupportedScriptExpression(
       value: arg0,
     );
   }
@@ -479,13 +529,17 @@ class IsSupportedScript extends Expression<bool> {
   }
 }
 
-class Upcase extends Expression<String> {
-  const Upcase({
+/// Returns the input string converted to uppercase. Follows the Unicode Default Case Conversion algorithm and the locale-insensitive case mappings in the Unicode Character Database.
+///
+///  - [Change the case of labels](https://maplibre.org/maplibre-gl-js/docs/examples/change-case-of-labels/)
+class UpcaseExpression extends Expression<String> {
+  const UpcaseExpression({
     required this.value,
     super.type,
   });
 
-  factory Upcase.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [UpcaseExpression] by parsing the given [args] as a JSON list.
+  factory UpcaseExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'upcase', 'Invalid expression type: ${args[0]}, expected [upcase]');
 
     var i = 1;
@@ -496,7 +550,7 @@ class Upcase extends Expression<String> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return Upcase(
+    return UpcaseExpression(
       value: arg0,
     );
   }
@@ -512,13 +566,17 @@ class Upcase extends Expression<String> {
   }
 }
 
-class Downcase extends Expression<String> {
-  const Downcase({
+/// Returns the input string converted to lowercase. Follows the Unicode Default Case Conversion algorithm and the locale-insensitive case mappings in the Unicode Character Database.
+///
+///  - [Change the case of labels](https://maplibre.org/maplibre-gl-js/docs/examples/change-case-of-labels/)
+class DowncaseExpression extends Expression<String> {
+  const DowncaseExpression({
     required this.value,
     super.type,
   });
 
-  factory Downcase.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [DowncaseExpression] by parsing the given [args] as a JSON list.
+  factory DowncaseExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'downcase', 'Invalid expression type: ${args[0]}, expected [downcase]');
 
     var i = 1;
@@ -529,7 +587,7 @@ class Downcase extends Expression<String> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return Downcase(
+    return DowncaseExpression(
       value: arg0,
     );
   }
@@ -545,13 +603,23 @@ class Downcase extends Expression<String> {
   }
 }
 
-class Concat extends Expression<String> {
-  const Concat({
+/// Returns a `string` consisting of the concatenation of the inputs. Each input is converted to a string as if by `to-string`.
+///
+///  - [Add a generated icon to the map](https://maplibre.org/maplibre-gl-js/docs/examples/add-image-missing-generated/)
+///
+///  - [Create a time slider](https://maplibre.org/maplibre-gl-js/docs/examples/timeline-animation/)
+///
+///  - [Use a fallback image](https://maplibre.org/maplibre-gl-js/docs/examples/fallback-image/)
+///
+///  - [Variable label placement](https://maplibre.org/maplibre-gl-js/docs/examples/variable-label-placement/)
+class ConcatExpression extends Expression<String> {
+  const ConcatExpression({
     required this.values,
     super.type,
   });
 
-  factory Concat.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ConcatExpression] by parsing the given [args] as a JSON list.
+  factory ConcatExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'concat', 'Invalid expression type: ${args[0]}, expected [concat]');
 
     var i = 1;
@@ -564,7 +632,7 @@ class Concat extends Expression<String> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return Concat(
+    return ConcatExpression(
       values: arg0,
     );
   }
@@ -580,13 +648,15 @@ class Concat extends Expression<String> {
   }
 }
 
-class ResolvedLocale extends Expression<String> {
-  const ResolvedLocale({
+/// Returns the IETF language tag of the locale being used by the provided `collator`. This can be used to determine the default system locale, or to determine if a requested locale was successfully loaded.
+class ResolvedLocaleExpression extends Expression<String> {
+  const ResolvedLocaleExpression({
     required this.collator,
     super.type,
   });
 
-  factory ResolvedLocale.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ResolvedLocaleExpression] by parsing the given [args] as a JSON list.
+  factory ResolvedLocaleExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'resolved-locale', 'Invalid expression type: ${args[0]}, expected [resolved-locale]');
 
     var i = 1;
@@ -597,7 +667,7 @@ class ResolvedLocale extends Expression<String> {
     arg0 = Expression<Collator>.fromJson(args[i]);
     i++;
 
-    return ResolvedLocale(
+    return ResolvedLocaleExpression(
       collator: arg0,
     );
   }
@@ -613,14 +683,20 @@ class ResolvedLocale extends Expression<String> {
   }
 }
 
-class Case<T> extends Expression<T> {
-  const Case({
+/// Selects the first output whose corresponding test condition evaluates to true, or the fallback value otherwise.
+///
+///  - [Create a hover effect](https://maplibre.org/maplibre-gl-js/docs/examples/hover-styles/)
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class CaseExpression<T> extends Expression<T> {
+  const CaseExpression({
     required this.branches,
     required this.fallback,
     super.type,
   });
 
-  factory Case.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [CaseExpression] by parsing the given [args] as a JSON list.
+  factory CaseExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'case', 'Invalid expression type: ${args[0]}, expected [case]');
 
     var i = 1;
@@ -642,7 +718,7 @@ class Case<T> extends Expression<T> {
     arg1 = Expression<T>.fromJson(args[i]);
     i++;
 
-    return Case(
+    return CaseExpression(
       branches: arg0,
       fallback: arg1,
     );
@@ -661,15 +737,23 @@ class Case<T> extends Expression<T> {
   }
 }
 
-class Match<T> extends Expression<T> {
-  const Match({
+/// Selects the output whose label value matches the input value, or the fallback value if no match is found. The input can be any expression (e.g. `["get", "building_type"]`). Each label must be either:
+///
+///  - a single literal value; or
+///
+///  - an array of literal values, whose values must be all strings or all numbers (e.g. `[100, 101]` or `["c", "b"]`). The input matches if any of the values in the array matches, similar to the `"in"` operator.
+///
+/// Each label must be unique. If the input type does not match the type of the labels, the result will be the fallback value.
+class MatchExpression<T> extends Expression<T> {
+  const MatchExpression({
     required this.input,
     required this.branches,
     required this.fallback,
     super.type,
   });
 
-  factory Match.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [MatchExpression] by parsing the given [args] as a JSON list.
+  factory MatchExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'match', 'Invalid expression type: ${args[0]}, expected [match]');
 
     var i = 1;
@@ -697,7 +781,7 @@ class Match<T> extends Expression<T> {
     arg2 = Expression<T>.fromJson(args[i]);
     i++;
 
-    return Match(
+    return MatchExpression(
       input: arg0,
       branches: arg1,
       fallback: arg2,
@@ -719,13 +803,17 @@ class Match<T> extends Expression<T> {
   }
 }
 
-class Coalesce<T> extends Expression<T> {
-  const Coalesce({
+/// Evaluates each expression in turn until the first non-null value is obtained, and returns that value.
+///
+///  - [Use a fallback image](https://maplibre.org/maplibre-gl-js/docs/examples/fallback-image/)
+class CoalesceExpression<T> extends Expression<T> {
+  const CoalesceExpression({
     required this.expressions,
     super.type,
   });
 
-  factory Coalesce.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [CoalesceExpression] by parsing the given [args] as a JSON list.
+  factory CoalesceExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'coalesce', 'Invalid expression type: ${args[0]}, expected [coalesce]');
 
     var i = 1;
@@ -738,7 +826,7 @@ class Coalesce<T> extends Expression<T> {
       arg0.add(Expression<T>.fromJson(args[i]));
     }
 
-    return Coalesce(
+    return CoalesceExpression(
       expressions: arg0,
     );
   }
@@ -754,15 +842,25 @@ class Coalesce<T> extends Expression<T> {
   }
 }
 
-class Equals extends Expression<bool> {
-  const Equals({
+/// Returns `true` if the input values are equal, `false` otherwise. The comparison is strictly typed: values of different runtime types are always considered unequal. Cases where the types are known to be different at parse time are considered invalid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+///
+///  - [Add multiple geometries from one GeoJSON source](https://maplibre.org/maplibre-gl-js/docs/examples/multiple-geometries/)
+///
+///  - [Create a time slider](https://maplibre.org/maplibre-gl-js/docs/examples/timeline-animation/)
+///
+///  - [Display buildings in 3D](https://maplibre.org/maplibre-gl-js/docs/examples/3d-buildings/)
+///
+///  - [Filter symbols by toggling a list](https://maplibre.org/maplibre-gl-js/docs/examples/filter-markers/)
+class EqualsExpression extends Expression<bool> {
+  const EqualsExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory Equals.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [EqualsExpression] by parsing the given [args] as a JSON list.
+  factory EqualsExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '==', 'Invalid expression type: ${args[0]}, expected [==]');
 
     var i = 1;
@@ -787,7 +885,7 @@ class Equals extends Expression<bool> {
       i++;
     }
 
-    return Equals(
+    return EqualsExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -809,15 +907,19 @@ class Equals extends Expression<bool> {
   }
 }
 
-class NotEquals extends Expression<bool> {
-  const NotEquals({
+/// Returns `true` if the input values are not equal, `false` otherwise. The comparison is strictly typed: values of different runtime types are always considered unequal. Cases where the types are known to be different at parse time are considered invalid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class NotEqualsExpression extends Expression<bool> {
+  const NotEqualsExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory NotEquals.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [NotEqualsExpression] by parsing the given [args] as a JSON list.
+  factory NotEqualsExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '!=', 'Invalid expression type: ${args[0]}, expected [!=]');
 
     var i = 1;
@@ -842,7 +944,7 @@ class NotEquals extends Expression<bool> {
       i++;
     }
 
-    return NotEquals(
+    return NotEqualsExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -864,15 +966,17 @@ class NotEquals extends Expression<bool> {
   }
 }
 
-class GreaterThan extends Expression<bool> {
-  const GreaterThan({
+/// Returns `true` if the first input is strictly greater than the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+class GreaterThanExpression extends Expression<bool> {
+  const GreaterThanExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory GreaterThan.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [GreaterThanExpression] by parsing the given [args] as a JSON list.
+  factory GreaterThanExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '>', 'Invalid expression type: ${args[0]}, expected [>]');
 
     var i = 1;
@@ -897,7 +1001,7 @@ class GreaterThan extends Expression<bool> {
       i++;
     }
 
-    return GreaterThan(
+    return GreaterThanExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -919,15 +1023,19 @@ class GreaterThan extends Expression<bool> {
   }
 }
 
-class LessThan extends Expression<bool> {
-  const LessThan({
+/// Returns `true` if the first input is strictly less than the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class LessThanExpression extends Expression<bool> {
+  const LessThanExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory LessThan.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LessThanExpression] by parsing the given [args] as a JSON list.
+  factory LessThanExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '<', 'Invalid expression type: ${args[0]}, expected [<]');
 
     var i = 1;
@@ -952,7 +1060,7 @@ class LessThan extends Expression<bool> {
       i++;
     }
 
-    return LessThan(
+    return LessThanExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -974,15 +1082,19 @@ class LessThan extends Expression<bool> {
   }
 }
 
-class GreaterThanOrEquals extends Expression<bool> {
-  const GreaterThanOrEquals({
+/// Returns `true` if the first input is greater than or equal to the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class GreaterThanOrEqualsExpression extends Expression<bool> {
+  const GreaterThanOrEqualsExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory GreaterThanOrEquals.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [GreaterThanOrEqualsExpression] by parsing the given [args] as a JSON list.
+  factory GreaterThanOrEqualsExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '>=', 'Invalid expression type: ${args[0]}, expected [>=]');
 
     var i = 1;
@@ -1007,7 +1119,7 @@ class GreaterThanOrEquals extends Expression<bool> {
       i++;
     }
 
-    return GreaterThanOrEquals(
+    return GreaterThanOrEqualsExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -1029,15 +1141,17 @@ class GreaterThanOrEquals extends Expression<bool> {
   }
 }
 
-class LessThanOrEquals extends Expression<bool> {
-  const LessThanOrEquals({
+/// Returns `true` if the first input is less than or equal to the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
+class LessThanOrEqualsExpression extends Expression<bool> {
+  const LessThanOrEqualsExpression({
     required this.left,
     required this.right,
     this.collator,
     super.type,
   });
 
-  factory LessThanOrEquals.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LessThanOrEqualsExpression] by parsing the given [args] as a JSON list.
+  factory LessThanOrEqualsExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '<=', 'Invalid expression type: ${args[0]}, expected [<=]');
 
     var i = 1;
@@ -1062,7 +1176,7 @@ class LessThanOrEquals extends Expression<bool> {
       i++;
     }
 
-    return LessThanOrEquals(
+    return LessThanOrEqualsExpression(
       left: arg0,
       right: arg1,
       collator: arg2,
@@ -1084,13 +1198,17 @@ class LessThanOrEquals extends Expression<bool> {
   }
 }
 
-class All extends Expression<bool> {
-  const All({
+/// Returns `true` if all the inputs are `true`, `false` otherwise. The inputs are evaluated in order, and evaluation is short-circuiting: once an input expression evaluates to `false`, the result is `false` and no further input expressions are evaluated.
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class AllExpression extends Expression<bool> {
+  const AllExpression({
     required this.expressions,
     super.type,
   });
 
-  factory All.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AllExpression] by parsing the given [args] as a JSON list.
+  factory AllExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'all', 'Invalid expression type: ${args[0]}, expected [all]');
 
     var i = 1;
@@ -1103,7 +1221,7 @@ class All extends Expression<bool> {
       arg0.add(Expression<bool>.fromJson(args[i]));
     }
 
-    return All(
+    return AllExpression(
       expressions: arg0,
     );
   }
@@ -1119,13 +1237,15 @@ class All extends Expression<bool> {
   }
 }
 
-class Any extends Expression<bool> {
-  const Any({
+/// Returns `true` if any of the inputs are `true`, `false` otherwise. The inputs are evaluated in order, and evaluation is short-circuiting: once an input expression evaluates to `true`, the result is `true` and no further input expressions are evaluated.
+class AnyExpression extends Expression<bool> {
+  const AnyExpression({
     required this.expressions,
     super.type,
   });
 
-  factory Any.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AnyExpression] by parsing the given [args] as a JSON list.
+  factory AnyExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'any', 'Invalid expression type: ${args[0]}, expected [any]');
 
     var i = 1;
@@ -1138,7 +1258,7 @@ class Any extends Expression<bool> {
       arg0.add(Expression<bool>.fromJson(args[i]));
     }
 
-    return Any(
+    return AnyExpression(
       expressions: arg0,
     );
   }
@@ -1154,13 +1274,17 @@ class Any extends Expression<bool> {
   }
 }
 
-class Not extends Expression<bool> {
-  const Not({
+/// Logical negation. Returns `true` if the input is `false`, and `false` if the input is `true`.
+///
+///  - [Create and style clusters](https://maplibre.org/maplibre-gl-js/docs/examples/cluster/)
+class NotExpression extends Expression<bool> {
+  const NotExpression({
     required this.expression,
     super.type,
   });
 
-  factory Not.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [NotExpression] by parsing the given [args] as a JSON list.
+  factory NotExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '!', 'Invalid expression type: ${args[0]}, expected [!]');
 
     var i = 1;
@@ -1171,7 +1295,7 @@ class Not extends Expression<bool> {
     arg0 = Expression<bool>.fromJson(args[i]);
     i++;
 
-    return Not(
+    return NotExpression(
       expression: arg0,
     );
   }
@@ -1187,14 +1311,18 @@ class Not extends Expression<bool> {
   }
 }
 
-class Let<T> extends Expression<T> {
-  const Let({
+/// Binds expressions to named variables, which can then be referenced in the result expression using `["var", "variable_name"]`.
+///
+///  - [Visualize population density](https://maplibre.org/maplibre-gl-js/docs/examples/visualize-population-density/)
+class LetExpression<T> extends Expression<T> {
+  const LetExpression({
     required this.bindings,
     required this.child,
     super.type,
   });
 
-  factory Let.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LetExpression] by parsing the given [args] as a JSON list.
+  factory LetExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'let', 'Invalid expression type: ${args[0]}, expected [let]');
 
     var i = 1;
@@ -1216,7 +1344,7 @@ class Let<T> extends Expression<T> {
     arg1 = Expression<T>.fromJson(args[i]);
     i++;
 
-    return Let(
+    return LetExpression(
       bindings: arg0,
       child: arg1,
     );
@@ -1235,13 +1363,17 @@ class Let<T> extends Expression<T> {
   }
 }
 
-class Var<T> extends Expression<T> {
-  const Var({
+/// References variable bound using `let`.
+///
+///  - [Visualize population density](https://maplibre.org/maplibre-gl-js/docs/examples/visualize-population-density/)
+class VarExpression<T> extends Expression<T> {
+  const VarExpression({
     required this.name,
     super.type,
   });
 
-  factory Var.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [VarExpression] by parsing the given [args] as a JSON list.
+  factory VarExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'var', 'Invalid expression type: ${args[0]}, expected [var]');
 
     var i = 1;
@@ -1252,7 +1384,7 @@ class Var<T> extends Expression<T> {
     arg0 = args[i] as String;
     i++;
 
-    return Var(
+    return VarExpression(
       name: arg0,
     );
   }
@@ -1268,13 +1400,17 @@ class Var<T> extends Expression<T> {
   }
 }
 
-class Literal<T> extends Expression<T> {
-  const Literal({
+/// Provides a literal array or object value.
+///
+///  - [Display and style rich text labels](https://maplibre.org/maplibre-gl-js/docs/examples/display-and-style-rich-text-labels/)
+class LiteralExpression<T> extends Expression<T> {
+  const LiteralExpression({
     required this.value,
     super.type,
   });
 
-  factory Literal.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LiteralExpression] by parsing the given [args] as a JSON list.
+  factory LiteralExpression.fromJson(List<dynamic> args) {
     return literalExpressionFromJsonImpl(args);
   }
 
@@ -1289,13 +1425,15 @@ class Literal<T> extends Expression<T> {
   }
 }
 
-class CollatorExpression extends Expression<Collator> {
-  const CollatorExpression({
+/// Returns a `collator` for use in locale-dependent comparison operations. The `case-sensitive` and `diacritic-sensitive` options default to `false`. The `locale` argument specifies the IETF language tag of the locale to use. If none is provided, the default locale is used. If the requested locale is not available, the `collator` will use a system-defined fallback locale. Use `resolved-locale` to test the results of locale fallback behavior.
+class CollatorExpressionExpression extends Expression<Collator> {
+  const CollatorExpressionExpression({
     required this.object,
     super.type,
   });
 
-  factory CollatorExpression.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [CollatorExpressionExpression] by parsing the given [args] as a JSON list.
+  factory CollatorExpressionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'collator', 'Invalid expression type: ${args[0]}, expected [collator]');
 
     var i = 1;
@@ -1311,7 +1449,7 @@ class CollatorExpression extends Expression<Collator> {
     );
     i++;
 
-    return CollatorExpression(
+    return CollatorExpressionExpression(
       object: arg0,
     );
   }
@@ -1327,15 +1465,27 @@ class CollatorExpression extends Expression<Collator> {
   }
 }
 
-class Format extends Expression<Formatted> {
-  const Format({
+/// Returns a `formatted` string for displaying mixed-format text in the `text-field` property. The input may contain a string literal or expression, including an [`'image'`](#image) expression. Strings may be followed by a style override object that supports the following properties:
+///
+/// - `"text-font"`: Overrides the font stack specified by the root layout property.
+///
+/// - `"text-color"`: Overrides the color specified by the root paint property.
+///
+/// - `"font-scale"`: Applies a scaling factor on `text-size` as specified by the root layout property.
+///
+///  - [Change the case of labels](https://maplibre.org/maplibre-gl-js/docs/examples/change-case-of-labels/)
+///
+///  - [Display and style rich text labels](https://maplibre.org/maplibre-gl-js/docs/examples/display-and-style-rich-text-labels/)
+class FormatExpression extends Expression<Formatted> {
+  const FormatExpression({
     super.type,
   });
 
-  factory Format.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [FormatExpression] by parsing the given [args] as a JSON list.
+  factory FormatExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'format', 'Invalid expression type: ${args[0]}, expected [format]');
 
-    return const Format();
+    return const FormatExpression();
   }
 
   @override
@@ -1346,13 +1496,17 @@ class Format extends Expression<Formatted> {
   }
 }
 
-class ImageExpression extends Expression<ResolvedImage> {
-  const ImageExpression({
+/// Returns an `image` type for use in `icon-image`, `*-pattern` entries and as a section in the `format` expression. If set, the `image` argument will check that the requested image exists in the style and will return either the resolved image name or `null`, depending on whether or not the image is currently in the style. This validation process is synchronous and requires the image to have been added to the style before requesting it in the `image` argument.
+///
+///  - [Use a fallback image](https://maplibre.org/maplibre-gl-js/docs/examples/fallback-image/)
+class ImageExpressionExpression extends Expression<ResolvedImage> {
+  const ImageExpressionExpression({
     required this.value,
     super.type,
   });
 
-  factory ImageExpression.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ImageExpressionExpression] by parsing the given [args] as a JSON list.
+  factory ImageExpressionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'image', 'Invalid expression type: ${args[0]}, expected [image]');
 
     var i = 1;
@@ -1363,7 +1517,7 @@ class ImageExpression extends Expression<ResolvedImage> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return ImageExpression(
+    return ImageExpressionExpression(
       value: arg0,
     );
   }
@@ -1379,14 +1533,18 @@ class ImageExpression extends Expression<ResolvedImage> {
   }
 }
 
-class NumberFormat extends Expression<String> {
-  const NumberFormat({
+/// Converts the input number into a string representation using the providing formatting rules. If set, the `locale` argument specifies the locale to use, as a BCP 47 language tag. If set, the `currency` argument specifies an ISO 4217 code to use for currency-style formatting. If set, the `min-fraction-digits` and `max-fraction-digits` arguments specify the minimum and maximum number of fractional digits to include.
+///
+///  - [Display HTML clusters with custom properties](https://maplibre.org/maplibre-gl-js/docs/examples/cluster-html/)
+class NumberFormatExpression extends Expression<String> {
+  const NumberFormatExpression({
     required this.number,
     required this.options,
     super.type,
   });
 
-  factory NumberFormat.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [NumberFormatExpression] by parsing the given [args] as a JSON list.
+  factory NumberFormatExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'number-format', 'Invalid expression type: ${args[0]}, expected [number-format]');
 
     var i = 1;
@@ -1415,7 +1573,7 @@ class NumberFormat extends Expression<String> {
     );
     i++;
 
-    return NumberFormat(
+    return NumberFormatExpression(
       number: arg0,
       options: arg1,
     );
@@ -1439,15 +1597,17 @@ class NumberFormat extends Expression<String> {
   }
 }
 
-class ArrayAssertion extends Expression<List<dynamic>> {
-  const ArrayAssertion({
+/// Asserts that the input is an array (optionally with a specific item type and length). If, when the input expression is evaluated, it is not of the asserted type, then this assertion will cause the whole expression to be aborted.
+class ArrayAssertionExpression extends Expression<List<dynamic>> {
+  const ArrayAssertionExpression({
     required this.value,
     this.childType,
     this.childCount,
     super.type,
   });
 
-  factory ArrayAssertion.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ArrayAssertionExpression] by parsing the given [args] as a JSON list.
+  factory ArrayAssertionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'array', 'Invalid expression type: ${args[0]}, expected [array]');
 
     var i = 1;
@@ -1474,7 +1634,7 @@ class ArrayAssertion extends Expression<List<dynamic>> {
       i++;
     }
 
-    return ArrayAssertion(
+    return ArrayAssertionExpression(
       value: arg0,
       childType: arg1,
       childCount: arg2,
@@ -1496,13 +1656,17 @@ class ArrayAssertion extends Expression<List<dynamic>> {
   }
 }
 
-class BooleanAssertion extends Expression<bool> {
-  const BooleanAssertion({
+/// Asserts that the input value is a boolean. If multiple values are provided, each one is evaluated in order until a boolean is obtained. If none of the inputs are booleans, the expression is an error.
+///
+///  - [Create a hover effect](https://maplibre.org/maplibre-gl-js/docs/examples/hover-styles/)
+class BooleanAssertionExpression extends Expression<bool> {
+  const BooleanAssertionExpression({
     required this.args,
     super.type,
   });
 
-  factory BooleanAssertion.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [BooleanAssertionExpression] by parsing the given [args] as a JSON list.
+  factory BooleanAssertionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'boolean', 'Invalid expression type: ${args[0]}, expected [boolean]');
 
     var i = 1;
@@ -1515,7 +1679,7 @@ class BooleanAssertion extends Expression<bool> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return BooleanAssertion(
+    return BooleanAssertionExpression(
       args: arg0,
     );
   }
@@ -1531,13 +1695,15 @@ class BooleanAssertion extends Expression<bool> {
   }
 }
 
-class NumberAssertion extends Expression<num> {
-  const NumberAssertion({
+/// Asserts that the input value is a number. If multiple values are provided, each one is evaluated in order until a number is obtained. If none of the inputs are numbers, the expression is an error.
+class NumberAssertionExpression extends Expression<num> {
+  const NumberAssertionExpression({
     required this.args,
     super.type,
   });
 
-  factory NumberAssertion.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [NumberAssertionExpression] by parsing the given [args] as a JSON list.
+  factory NumberAssertionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'number', 'Invalid expression type: ${args[0]}, expected [number]');
 
     var i = 1;
@@ -1550,7 +1716,7 @@ class NumberAssertion extends Expression<num> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return NumberAssertion(
+    return NumberAssertionExpression(
       args: arg0,
     );
   }
@@ -1566,13 +1732,15 @@ class NumberAssertion extends Expression<num> {
   }
 }
 
-class StringAssertion extends Expression<String> {
-  const StringAssertion({
+/// Asserts that the input value is a string. If multiple values are provided, each one is evaluated in order until a string is obtained. If none of the inputs are strings, the expression is an error.
+class StringAssertionExpression extends Expression<String> {
+  const StringAssertionExpression({
     required this.args,
     super.type,
   });
 
-  factory StringAssertion.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [StringAssertionExpression] by parsing the given [args] as a JSON list.
+  factory StringAssertionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'string', 'Invalid expression type: ${args[0]}, expected [string]');
 
     var i = 1;
@@ -1585,7 +1753,7 @@ class StringAssertion extends Expression<String> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return StringAssertion(
+    return StringAssertionExpression(
       args: arg0,
     );
   }
@@ -1601,13 +1769,15 @@ class StringAssertion extends Expression<String> {
   }
 }
 
-class ObjectAssertion extends Expression<Map<String, dynamic>> {
-  const ObjectAssertion({
+/// Asserts that the input value is an object. If multiple values are provided, each one is evaluated in order until an object is obtained. If none of the inputs are objects, the expression is an error.
+class ObjectAssertionExpression extends Expression<Map<String, dynamic>> {
+  const ObjectAssertionExpression({
     required this.args,
     super.type,
   });
 
-  factory ObjectAssertion.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ObjectAssertionExpression] by parsing the given [args] as a JSON list.
+  factory ObjectAssertionExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'object', 'Invalid expression type: ${args[0]}, expected [object]');
 
     var i = 1;
@@ -1620,7 +1790,7 @@ class ObjectAssertion extends Expression<Map<String, dynamic>> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return ObjectAssertion(
+    return ObjectAssertionExpression(
       args: arg0,
     );
   }
@@ -1636,13 +1806,15 @@ class ObjectAssertion extends Expression<Map<String, dynamic>> {
   }
 }
 
-class TypeOf extends Expression<String> {
-  const TypeOf({
+/// Returns a string describing the type of the given value.
+class TypeOfExpression extends Expression<String> {
+  const TypeOfExpression({
     required this.value,
     super.type,
   });
 
-  factory TypeOf.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [TypeOfExpression] by parsing the given [args] as a JSON list.
+  factory TypeOfExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'typeof', 'Invalid expression type: ${args[0]}, expected [typeof]');
 
     var i = 1;
@@ -1653,7 +1825,7 @@ class TypeOf extends Expression<String> {
     arg0 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return TypeOf(
+    return TypeOfExpression(
       value: arg0,
     );
   }
@@ -1669,13 +1841,17 @@ class TypeOf extends Expression<String> {
   }
 }
 
-class ToString extends Expression<String> {
-  const ToString({
+/// Converts the input value to a string. If the input is `null`, the result is `""`. If the input is a boolean, the result is `"true"` or `"false"`. If the input is a number, it is converted to a string as specified by the ["NumberToString" algorithm](https://tc39.github.io/ecma262/#sec-tostring-applied-to-the-number-type) of the ECMAScript Language Specification. If the input is a color, it is converted to a string of the form `"rgba(r,g,b,a)"`, where `r`, `g`, and `b` are numerals ranging from 0 to 255, and `a` ranges from 0 to 1. Otherwise, the input is converted to a string in the format specified by the [`JSON.stringify`](https://tc39.github.io/ecma262/#sec-json.stringify) function of the ECMAScript Language Specification.
+///
+///  - [Create a time slider](https://maplibre.org/maplibre-gl-js/docs/examples/timeline-animation/)
+class ToStringExpression extends Expression<String> {
+  const ToStringExpression({
     required this.value,
     super.type,
   });
 
-  factory ToString.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ToStringExpression] by parsing the given [args] as a JSON list.
+  factory ToStringExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'to-string', 'Invalid expression type: ${args[0]}, expected [to-string]');
 
     var i = 1;
@@ -1686,7 +1862,7 @@ class ToString extends Expression<String> {
     arg0 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return ToString(
+    return ToStringExpression(
       value: arg0,
     );
   }
@@ -1702,13 +1878,15 @@ class ToString extends Expression<String> {
   }
 }
 
-class ToNumber extends Expression<num> {
-  const ToNumber({
+/// Converts the input value to a number, if possible. If the input is `null` or `false`, the result is 0. If the input is `true`, the result is 1. If the input is a string, it is converted to a number as specified by the ["ToNumber Applied to the String Type" algorithm](https://tc39.github.io/ecma262/#sec-tonumber-applied-to-the-string-type) of the ECMAScript Language Specification. If multiple values are provided, each one is evaluated in order until the first successful conversion is obtained. If none of the inputs can be converted, the expression is an error.
+class ToNumberExpression extends Expression<num> {
+  const ToNumberExpression({
     required this.values,
     super.type,
   });
 
-  factory ToNumber.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ToNumberExpression] by parsing the given [args] as a JSON list.
+  factory ToNumberExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'to-number', 'Invalid expression type: ${args[0]}, expected [to-number]');
 
     var i = 1;
@@ -1721,7 +1899,7 @@ class ToNumber extends Expression<num> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return ToNumber(
+    return ToNumberExpression(
       values: arg0,
     );
   }
@@ -1737,13 +1915,15 @@ class ToNumber extends Expression<num> {
   }
 }
 
-class ToBoolean extends Expression<bool> {
-  const ToBoolean({
+/// Converts the input value to a boolean. The result is `false` when then input is an empty string, 0, `false`, `null`, or `NaN`; otherwise it is `true`.
+class ToBooleanExpression extends Expression<bool> {
+  const ToBooleanExpression({
     required this.value,
     super.type,
   });
 
-  factory ToBoolean.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ToBooleanExpression] by parsing the given [args] as a JSON list.
+  factory ToBooleanExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'to-boolean', 'Invalid expression type: ${args[0]}, expected [to-boolean]');
 
     var i = 1;
@@ -1754,7 +1934,7 @@ class ToBoolean extends Expression<bool> {
     arg0 = Expression<dynamic>.fromJson(args[i]);
     i++;
 
-    return ToBoolean(
+    return ToBooleanExpression(
       value: arg0,
     );
   }
@@ -1770,13 +1950,17 @@ class ToBoolean extends Expression<bool> {
   }
 }
 
-class ToColor extends Expression<Color> {
-  const ToColor({
+/// Converts the input value to a color. If multiple values are provided, each one is evaluated in order until the first successful conversion is obtained. If none of the inputs can be converted, the expression is an error.
+///
+///  - [Visualize population density](https://maplibre.org/maplibre-gl-js/docs/examples/visualize-population-density/)
+class ToColorExpression extends Expression<Color> {
+  const ToColorExpression({
     required this.values,
     super.type,
   });
 
-  factory ToColor.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ToColorExpression] by parsing the given [args] as a JSON list.
+  factory ToColorExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'to-color', 'Invalid expression type: ${args[0]}, expected [to-color]');
 
     var i = 1;
@@ -1789,7 +1973,7 @@ class ToColor extends Expression<Color> {
       arg0.add(Expression<dynamic>.fromJson(args[i]));
     }
 
-    return ToColor(
+    return ToColorExpression(
       values: arg0,
     );
   }
@@ -1805,13 +1989,15 @@ class ToColor extends Expression<Color> {
   }
 }
 
-class ToRgba extends Expression<List<num>> {
-  const ToRgba({
+/// Returns a four-element array containing the input color's red, green, blue, and alpha components, in that order.
+class ToRgbaExpression extends Expression<List<num>> {
+  const ToRgbaExpression({
     required this.value,
     super.type,
   });
 
-  factory ToRgba.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ToRgbaExpression] by parsing the given [args] as a JSON list.
+  factory ToRgbaExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'to-rgba', 'Invalid expression type: ${args[0]}, expected [to-rgba]');
 
     var i = 1;
@@ -1822,7 +2008,7 @@ class ToRgba extends Expression<List<num>> {
     arg0 = Expression<Color>.fromJson(args[i]);
     i++;
 
-    return ToRgba(
+    return ToRgbaExpression(
       value: arg0,
     );
   }
@@ -1838,15 +2024,17 @@ class ToRgba extends Expression<List<num>> {
   }
 }
 
-class Rgb extends Expression<Color> {
-  const Rgb({
+/// Creates a color value from red, green, and blue components, which must range between 0 and 255, and an alpha component of 1. If any component is out of range, the expression is an error.
+class RgbExpression extends Expression<Color> {
+  const RgbExpression({
     required this.r,
     required this.g,
     required this.b,
     super.type,
   });
 
-  factory Rgb.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [RgbExpression] by parsing the given [args] as a JSON list.
+  factory RgbExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'rgb', 'Invalid expression type: ${args[0]}, expected [rgb]');
 
     var i = 1;
@@ -1869,7 +2057,7 @@ class Rgb extends Expression<Color> {
     arg2 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Rgb(
+    return RgbExpression(
       r: arg0,
       g: arg1,
       b: arg2,
@@ -1891,8 +2079,9 @@ class Rgb extends Expression<Color> {
   }
 }
 
-class Rgba extends Expression<Color> {
-  const Rgba({
+/// Creates a color value from red, green, blue components, which must range between 0 and 255, and an alpha component which must range between 0 and 1. If any component is out of range, the expression is an error.
+class RgbaExpression extends Expression<Color> {
+  const RgbaExpression({
     required this.r,
     required this.g,
     required this.b,
@@ -1900,7 +2089,8 @@ class Rgba extends Expression<Color> {
     super.type,
   });
 
-  factory Rgba.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [RgbaExpression] by parsing the given [args] as a JSON list.
+  factory RgbaExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'rgba', 'Invalid expression type: ${args[0]}, expected [rgba]');
 
     var i = 1;
@@ -1929,7 +2119,7 @@ class Rgba extends Expression<Color> {
     arg3 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Rgba(
+    return RgbaExpression(
       r: arg0,
       g: arg1,
       b: arg2,
@@ -1954,15 +2144,17 @@ class Rgba extends Expression<Color> {
   }
 }
 
-class Properties extends Expression<Map<String, dynamic>> {
-  const Properties({
+/// Gets the feature properties object.  Note that in some cases, it may be more efficient to use ["get", "property_name"] directly.
+class PropertiesExpression extends Expression<Map<String, dynamic>> {
+  const PropertiesExpression({
     super.type,
   });
 
-  factory Properties.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [PropertiesExpression] by parsing the given [args] as a JSON list.
+  factory PropertiesExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'properties', 'Invalid expression type: ${args[0]}, expected [properties]');
 
-    return const Properties();
+    return const PropertiesExpression();
   }
 
   @override
@@ -1973,13 +2165,17 @@ class Properties extends Expression<Map<String, dynamic>> {
   }
 }
 
-class FeatureState extends Expression<dynamic> {
-  const FeatureState({
+/// Retrieves a property value from the current feature's state. Returns null if the requested property is not present on the feature's state. A feature's state is not part of the GeoJSON or vector tile data, and must be set programmatically on each feature. When `source.promoteId` is not provided, features are identified by their `id` attribute, which must be an integer or a string that can be cast to an integer. When `source.promoteId` is provided, features are identified by their `promoteId` property, which may be a number, string, or any primitive data type. Note that ["feature-state"] can only be used with paint properties that support data-driven styling.
+///
+///  - [Create a hover effect](https://maplibre.org/maplibre-gl-js/docs/examples/hover-styles/)
+class FeatureStateExpression extends Expression<dynamic> {
+  const FeatureStateExpression({
     required this.key,
     super.type,
   });
 
-  factory FeatureState.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [FeatureStateExpression] by parsing the given [args] as a JSON list.
+  factory FeatureStateExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'feature-state', 'Invalid expression type: ${args[0]}, expected [feature-state]');
 
     var i = 1;
@@ -1990,7 +2186,7 @@ class FeatureState extends Expression<dynamic> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return FeatureState(
+    return FeatureStateExpression(
       key: arg0,
     );
   }
@@ -2006,15 +2202,17 @@ class FeatureState extends Expression<dynamic> {
   }
 }
 
-class GeometryType extends Expression<String> {
-  const GeometryType({
+/// Gets the feature's geometry type: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`.
+class GeometryTypeExpression extends Expression<String> {
+  const GeometryTypeExpression({
     super.type,
   });
 
-  factory GeometryType.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [GeometryTypeExpression] by parsing the given [args] as a JSON list.
+  factory GeometryTypeExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'geometry-type', 'Invalid expression type: ${args[0]}, expected [geometry-type]');
 
-    return const GeometryType();
+    return const GeometryTypeExpression();
   }
 
   @override
@@ -2025,15 +2223,17 @@ class GeometryType extends Expression<String> {
   }
 }
 
-class Id extends Expression<String?> {
-  const Id({
+/// Gets the feature's id, if it has one.
+class IdExpression extends Expression<String?> {
+  const IdExpression({
     super.type,
   });
 
-  factory Id.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [IdExpression] by parsing the given [args] as a JSON list.
+  factory IdExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'id', 'Invalid expression type: ${args[0]}, expected [id]');
 
-    return const Id();
+    return const IdExpression();
   }
 
   @override
@@ -2044,15 +2244,17 @@ class Id extends Expression<String?> {
   }
 }
 
-class LineProgress extends Expression<double> {
-  const LineProgress({
+/// Gets the progress along a gradient line. Can only be used in the `line-gradient` property.
+class LineProgressExpression extends Expression<double> {
+  const LineProgressExpression({
     super.type,
   });
 
-  factory LineProgress.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LineProgressExpression] by parsing the given [args] as a JSON list.
+  factory LineProgressExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'line-progress', 'Invalid expression type: ${args[0]}, expected [line-progress]');
 
-    return const LineProgress();
+    return const LineProgressExpression();
   }
 
   @override
@@ -2063,13 +2265,15 @@ class LineProgress extends Expression<double> {
   }
 }
 
-class Accumulated extends Expression<double> {
-  const Accumulated({
+/// Gets the value of a cluster property accumulated so far. Can only be used in the `clusterProperties` option of a clustered GeoJSON source.
+class AccumulatedExpression extends Expression<double> {
+  const AccumulatedExpression({
     required this.key,
     super.type,
   });
 
-  factory Accumulated.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AccumulatedExpression] by parsing the given [args] as a JSON list.
+  factory AccumulatedExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'accumulated', 'Invalid expression type: ${args[0]}, expected [accumulated]');
 
     var i = 1;
@@ -2080,7 +2284,7 @@ class Accumulated extends Expression<double> {
     arg0 = Expression<String>.fromJson(args[i]);
     i++;
 
-    return Accumulated(
+    return AccumulatedExpression(
       key: arg0,
     );
   }
@@ -2096,15 +2300,17 @@ class Accumulated extends Expression<double> {
   }
 }
 
-class Ln2 extends Expression<num> {
-  const Ln2({
+/// Returns mathematical constant ln(2).
+class Ln2Expression extends Expression<num> {
+  const Ln2Expression({
     super.type,
   });
 
-  factory Ln2.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [Ln2Expression] by parsing the given [args] as a JSON list.
+  factory Ln2Expression.fromJson(List<dynamic> args) {
     assert(args[0] == 'ln2', 'Invalid expression type: ${args[0]}, expected [ln2]');
 
-    return const Ln2();
+    return const Ln2Expression();
   }
 
   @override
@@ -2115,15 +2321,17 @@ class Ln2 extends Expression<num> {
   }
 }
 
-class Pi extends Expression<num> {
-  const Pi({
+/// Returns the mathematical constant pi.
+class PiExpression extends Expression<num> {
+  const PiExpression({
     super.type,
   });
 
-  factory Pi.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [PiExpression] by parsing the given [args] as a JSON list.
+  factory PiExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'pi', 'Invalid expression type: ${args[0]}, expected [pi]');
 
-    return const Pi();
+    return const PiExpression();
   }
 
   @override
@@ -2134,15 +2342,17 @@ class Pi extends Expression<num> {
   }
 }
 
-class E extends Expression<num> {
-  const E({
+/// Returns the mathematical constant e.
+class EExpression extends Expression<num> {
+  const EExpression({
     super.type,
   });
 
-  factory E.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [EExpression] by parsing the given [args] as a JSON list.
+  factory EExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'e', 'Invalid expression type: ${args[0]}, expected [e]');
 
-    return const E();
+    return const EExpression();
   }
 
   @override
@@ -2153,13 +2363,15 @@ class E extends Expression<num> {
   }
 }
 
-class Add extends Expression<num> {
-  const Add({
+/// Returns the sum of the inputs.
+class AddExpression extends Expression<num> {
+  const AddExpression({
     required this.args,
     super.type,
   });
 
-  factory Add.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AddExpression] by parsing the given [args] as a JSON list.
+  factory AddExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '+', 'Invalid expression type: ${args[0]}, expected [+]');
 
     var i = 1;
@@ -2172,7 +2384,7 @@ class Add extends Expression<num> {
       arg0.add(Expression<num>.fromJson(args[i]));
     }
 
-    return Add(
+    return AddExpression(
       args: arg0,
     );
   }
@@ -2188,13 +2400,15 @@ class Add extends Expression<num> {
   }
 }
 
-class Multiply extends Expression<num> {
-  const Multiply({
+/// Returns the product of the inputs.
+class MultiplyExpression extends Expression<num> {
+  const MultiplyExpression({
     required this.args,
     super.type,
   });
 
-  factory Multiply.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [MultiplyExpression] by parsing the given [args] as a JSON list.
+  factory MultiplyExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '*', 'Invalid expression type: ${args[0]}, expected [*]');
 
     var i = 1;
@@ -2207,7 +2421,7 @@ class Multiply extends Expression<num> {
       arg0.add(Expression<num>.fromJson(args[i]));
     }
 
-    return Multiply(
+    return MultiplyExpression(
       args: arg0,
     );
   }
@@ -2223,14 +2437,16 @@ class Multiply extends Expression<num> {
   }
 }
 
-class Minus extends Expression<num> {
-  const Minus({
+/// For two inputs, returns the result of subtracting the second input from the first. For a single input, returns the result of subtracting it from 0.
+class MinusExpression extends Expression<num> {
+  const MinusExpression({
     required this.left,
     this.right,
     super.type,
   });
 
-  factory Minus.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [MinusExpression] by parsing the given [args] as a JSON list.
+  factory MinusExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '-', 'Invalid expression type: ${args[0]}, expected [-]');
 
     var i = 1;
@@ -2249,7 +2465,7 @@ class Minus extends Expression<num> {
       i++;
     }
 
-    return Minus(
+    return MinusExpression(
       left: arg0,
       right: arg1,
     );
@@ -2268,14 +2484,18 @@ class Minus extends Expression<num> {
   }
 }
 
-class Divide extends Expression<num> {
-  const Divide({
+/// Returns the result of floating point division of the first input by the second.
+///
+///  - [Visualize population density](https://maplibre.org/maplibre-gl-js/docs/examples/visualize-population-density/)
+class DivideExpression extends Expression<num> {
+  const DivideExpression({
     required this.left,
     required this.right,
     super.type,
   });
 
-  factory Divide.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [DivideExpression] by parsing the given [args] as a JSON list.
+  factory DivideExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '/', 'Invalid expression type: ${args[0]}, expected [/]');
 
     var i = 1;
@@ -2292,7 +2512,7 @@ class Divide extends Expression<num> {
     arg1 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Divide(
+    return DivideExpression(
       left: arg0,
       right: arg1,
     );
@@ -2311,14 +2531,16 @@ class Divide extends Expression<num> {
   }
 }
 
-class Mod extends Expression<num> {
-  const Mod({
+/// Returns the remainder after integer division of the first input by the second.
+class ModExpression extends Expression<num> {
+  const ModExpression({
     required this.left,
     required this.right,
     super.type,
   });
 
-  factory Mod.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [ModExpression] by parsing the given [args] as a JSON list.
+  factory ModExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '%', 'Invalid expression type: ${args[0]}, expected [%]');
 
     var i = 1;
@@ -2335,7 +2557,7 @@ class Mod extends Expression<num> {
     arg1 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Mod(
+    return ModExpression(
       left: arg0,
       right: arg1,
     );
@@ -2354,14 +2576,16 @@ class Mod extends Expression<num> {
   }
 }
 
-class Pow extends Expression<num> {
-  const Pow({
+/// Returns the result of raising the first input to the power specified by the second.
+class PowExpression extends Expression<num> {
+  const PowExpression({
     required this.base,
     required this.exponent,
     super.type,
   });
 
-  factory Pow.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [PowExpression] by parsing the given [args] as a JSON list.
+  factory PowExpression.fromJson(List<dynamic> args) {
     assert(args[0] == '^', 'Invalid expression type: ${args[0]}, expected [^]');
 
     var i = 1;
@@ -2378,7 +2602,7 @@ class Pow extends Expression<num> {
     arg1 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Pow(
+    return PowExpression(
       base: arg0,
       exponent: arg1,
     );
@@ -2397,13 +2621,15 @@ class Pow extends Expression<num> {
   }
 }
 
-class Sqrt extends Expression<num> {
-  const Sqrt({
+/// Returns the square root of the input.
+class SqrtExpression extends Expression<num> {
+  const SqrtExpression({
     required this.value,
     super.type,
   });
 
-  factory Sqrt.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [SqrtExpression] by parsing the given [args] as a JSON list.
+  factory SqrtExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'sqrt', 'Invalid expression type: ${args[0]}, expected [sqrt]');
 
     var i = 1;
@@ -2414,7 +2640,7 @@ class Sqrt extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Sqrt(
+    return SqrtExpression(
       value: arg0,
     );
   }
@@ -2430,13 +2656,15 @@ class Sqrt extends Expression<num> {
   }
 }
 
-class Log10 extends Expression<num> {
-  const Log10({
+/// Returns the base-ten logarithm of the input.
+class Log10Expression extends Expression<num> {
+  const Log10Expression({
     required this.value,
     super.type,
   });
 
-  factory Log10.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [Log10Expression] by parsing the given [args] as a JSON list.
+  factory Log10Expression.fromJson(List<dynamic> args) {
     assert(args[0] == 'log10', 'Invalid expression type: ${args[0]}, expected [log10]');
 
     var i = 1;
@@ -2447,7 +2675,7 @@ class Log10 extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Log10(
+    return Log10Expression(
       value: arg0,
     );
   }
@@ -2463,13 +2691,15 @@ class Log10 extends Expression<num> {
   }
 }
 
-class Ln extends Expression<num> {
-  const Ln({
+/// Returns the natural logarithm of the input.
+class LnExpression extends Expression<num> {
+  const LnExpression({
     required this.value,
     super.type,
   });
 
-  factory Ln.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [LnExpression] by parsing the given [args] as a JSON list.
+  factory LnExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'ln', 'Invalid expression type: ${args[0]}, expected [ln]');
 
     var i = 1;
@@ -2480,7 +2710,7 @@ class Ln extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Ln(
+    return LnExpression(
       value: arg0,
     );
   }
@@ -2496,13 +2726,15 @@ class Ln extends Expression<num> {
   }
 }
 
-class Log2 extends Expression<num> {
-  const Log2({
+/// Returns the base-two logarithm of the input.
+class Log2Expression extends Expression<num> {
+  const Log2Expression({
     required this.value,
     super.type,
   });
 
-  factory Log2.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [Log2Expression] by parsing the given [args] as a JSON list.
+  factory Log2Expression.fromJson(List<dynamic> args) {
     assert(args[0] == 'log2', 'Invalid expression type: ${args[0]}, expected [log2]');
 
     var i = 1;
@@ -2513,7 +2745,7 @@ class Log2 extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Log2(
+    return Log2Expression(
       value: arg0,
     );
   }
@@ -2529,13 +2761,15 @@ class Log2 extends Expression<num> {
   }
 }
 
-class Sin extends Expression<num> {
-  const Sin({
+/// Returns the sine of the input.
+class SinExpression extends Expression<num> {
+  const SinExpression({
     required this.value,
     super.type,
   });
 
-  factory Sin.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [SinExpression] by parsing the given [args] as a JSON list.
+  factory SinExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'sin', 'Invalid expression type: ${args[0]}, expected [sin]');
 
     var i = 1;
@@ -2546,7 +2780,7 @@ class Sin extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Sin(
+    return SinExpression(
       value: arg0,
     );
   }
@@ -2562,13 +2796,15 @@ class Sin extends Expression<num> {
   }
 }
 
-class Cos extends Expression<num> {
-  const Cos({
+/// Returns the cosine of the input.
+class CosExpression extends Expression<num> {
+  const CosExpression({
     required this.value,
     super.type,
   });
 
-  factory Cos.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [CosExpression] by parsing the given [args] as a JSON list.
+  factory CosExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'cos', 'Invalid expression type: ${args[0]}, expected [cos]');
 
     var i = 1;
@@ -2579,7 +2815,7 @@ class Cos extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Cos(
+    return CosExpression(
       value: arg0,
     );
   }
@@ -2595,13 +2831,15 @@ class Cos extends Expression<num> {
   }
 }
 
-class Tan extends Expression<num> {
-  const Tan({
+/// Returns the tangent of the input.
+class TanExpression extends Expression<num> {
+  const TanExpression({
     required this.value,
     super.type,
   });
 
-  factory Tan.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [TanExpression] by parsing the given [args] as a JSON list.
+  factory TanExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'tan', 'Invalid expression type: ${args[0]}, expected [tan]');
 
     var i = 1;
@@ -2612,7 +2850,7 @@ class Tan extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Tan(
+    return TanExpression(
       value: arg0,
     );
   }
@@ -2628,13 +2866,15 @@ class Tan extends Expression<num> {
   }
 }
 
-class Asin extends Expression<num> {
-  const Asin({
+/// Returns the arcsine of the input.
+class AsinExpression extends Expression<num> {
+  const AsinExpression({
     required this.value,
     super.type,
   });
 
-  factory Asin.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AsinExpression] by parsing the given [args] as a JSON list.
+  factory AsinExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'asin', 'Invalid expression type: ${args[0]}, expected [asin]');
 
     var i = 1;
@@ -2645,7 +2885,7 @@ class Asin extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Asin(
+    return AsinExpression(
       value: arg0,
     );
   }
@@ -2661,13 +2901,15 @@ class Asin extends Expression<num> {
   }
 }
 
-class Acos extends Expression<num> {
-  const Acos({
+/// Returns the arccosine of the input.
+class AcosExpression extends Expression<num> {
+  const AcosExpression({
     required this.value,
     super.type,
   });
 
-  factory Acos.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AcosExpression] by parsing the given [args] as a JSON list.
+  factory AcosExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'acos', 'Invalid expression type: ${args[0]}, expected [acos]');
 
     var i = 1;
@@ -2678,7 +2920,7 @@ class Acos extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Acos(
+    return AcosExpression(
       value: arg0,
     );
   }
@@ -2694,13 +2936,15 @@ class Acos extends Expression<num> {
   }
 }
 
-class Atan extends Expression<num> {
-  const Atan({
+/// Returns the arctangent of the input.
+class AtanExpression extends Expression<num> {
+  const AtanExpression({
     required this.value,
     super.type,
   });
 
-  factory Atan.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AtanExpression] by parsing the given [args] as a JSON list.
+  factory AtanExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'atan', 'Invalid expression type: ${args[0]}, expected [atan]');
 
     var i = 1;
@@ -2711,7 +2955,7 @@ class Atan extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Atan(
+    return AtanExpression(
       value: arg0,
     );
   }
@@ -2727,13 +2971,15 @@ class Atan extends Expression<num> {
   }
 }
 
-class Min extends Expression<num> {
-  const Min({
+/// Returns the minimum value of the inputs.
+class MinExpression extends Expression<num> {
+  const MinExpression({
     required this.args,
     super.type,
   });
 
-  factory Min.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [MinExpression] by parsing the given [args] as a JSON list.
+  factory MinExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'min', 'Invalid expression type: ${args[0]}, expected [min]');
 
     var i = 1;
@@ -2746,7 +2992,7 @@ class Min extends Expression<num> {
       arg0.add(Expression<num>.fromJson(args[i]));
     }
 
-    return Min(
+    return MinExpression(
       args: arg0,
     );
   }
@@ -2762,13 +3008,15 @@ class Min extends Expression<num> {
   }
 }
 
-class Max extends Expression<num> {
-  const Max({
+/// Returns the maximum value of the inputs.
+class MaxExpression extends Expression<num> {
+  const MaxExpression({
     required this.args,
     super.type,
   });
 
-  factory Max.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [MaxExpression] by parsing the given [args] as a JSON list.
+  factory MaxExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'max', 'Invalid expression type: ${args[0]}, expected [max]');
 
     var i = 1;
@@ -2781,7 +3029,7 @@ class Max extends Expression<num> {
       arg0.add(Expression<num>.fromJson(args[i]));
     }
 
-    return Max(
+    return MaxExpression(
       args: arg0,
     );
   }
@@ -2797,13 +3045,15 @@ class Max extends Expression<num> {
   }
 }
 
-class Abs extends Expression<num> {
-  const Abs({
+/// Returns the absolute value of the input.
+class AbsExpression extends Expression<num> {
+  const AbsExpression({
     required this.value,
     super.type,
   });
 
-  factory Abs.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [AbsExpression] by parsing the given [args] as a JSON list.
+  factory AbsExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'abs', 'Invalid expression type: ${args[0]}, expected [abs]');
 
     var i = 1;
@@ -2814,7 +3064,7 @@ class Abs extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Abs(
+    return AbsExpression(
       value: arg0,
     );
   }
@@ -2830,13 +3080,15 @@ class Abs extends Expression<num> {
   }
 }
 
-class Round extends Expression<num> {
-  const Round({
+/// Rounds the input to the nearest integer. Halfway values are rounded away from zero. For example, `["round", -1.5]` evaluates to -2.
+class RoundExpression extends Expression<num> {
+  const RoundExpression({
     required this.value,
     super.type,
   });
 
-  factory Round.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [RoundExpression] by parsing the given [args] as a JSON list.
+  factory RoundExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'round', 'Invalid expression type: ${args[0]}, expected [round]');
 
     var i = 1;
@@ -2847,7 +3099,7 @@ class Round extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Round(
+    return RoundExpression(
       value: arg0,
     );
   }
@@ -2863,13 +3115,15 @@ class Round extends Expression<num> {
   }
 }
 
-class Ceil extends Expression<num> {
-  const Ceil({
+/// Returns the smallest integer that is greater than or equal to the input.
+class CeilExpression extends Expression<num> {
+  const CeilExpression({
     required this.value,
     super.type,
   });
 
-  factory Ceil.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [CeilExpression] by parsing the given [args] as a JSON list.
+  factory CeilExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'ceil', 'Invalid expression type: ${args[0]}, expected [ceil]');
 
     var i = 1;
@@ -2880,7 +3134,7 @@ class Ceil extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Ceil(
+    return CeilExpression(
       value: arg0,
     );
   }
@@ -2896,13 +3150,15 @@ class Ceil extends Expression<num> {
   }
 }
 
-class Floor extends Expression<num> {
-  const Floor({
+/// Returns the largest integer that is less than or equal to the input.
+class FloorExpression extends Expression<num> {
+  const FloorExpression({
     required this.value,
     super.type,
   });
 
-  factory Floor.fromJson(List<dynamic> args) {
+  /// Creates a new instance of [FloorExpression] by parsing the given [args] as a JSON list.
+  factory FloorExpression.fromJson(List<dynamic> args) {
     assert(args[0] == 'floor', 'Invalid expression type: ${args[0]}, expected [floor]');
 
     var i = 1;
@@ -2913,7 +3169,7 @@ class Floor extends Expression<num> {
     arg0 = Expression<num>.fromJson(args[i]);
     i++;
 
-    return Floor(
+    return FloorExpression(
       value: arg0,
     );
   }
@@ -2931,84 +3187,84 @@ class Floor extends Expression<num> {
 
 Expression<T> expressionFromJson<T>(List<dynamic> args) {
   return switch (args[0] as String) {
-    'zoom' => Zoom.fromJson(args),
-    'at' => At.fromJson(args),
-    'in' => In.fromJson(args),
-    'index-of' => IndexOf.fromJson(args),
-    'slice' => Slice.fromJson(args),
-    'get' => Get<T>.fromJson(args),
-    'has' => Has.fromJson(args),
-    'length' => Length.fromJson(args),
-    'step' => Step<T>.fromJson(args),
-    'interpolate' => Interpolate<T>.fromJson(args),
-    'is-supported-script' => IsSupportedScript.fromJson(args),
-    'upcase' => Upcase.fromJson(args),
-    'downcase' => Downcase.fromJson(args),
-    'concat' => Concat.fromJson(args),
-    'resolved-locale' => ResolvedLocale.fromJson(args),
-    'case' => Case<T>.fromJson(args),
-    'match' => Match<T>.fromJson(args),
-    'coalesce' => Coalesce<T>.fromJson(args),
-    '==' => Equals.fromJson(args),
-    '!=' => NotEquals.fromJson(args),
-    '>' => GreaterThan.fromJson(args),
-    '<' => LessThan.fromJson(args),
-    '>=' => GreaterThanOrEquals.fromJson(args),
-    '<=' => LessThanOrEquals.fromJson(args),
-    'all' => All.fromJson(args),
-    'any' => Any.fromJson(args),
-    '!' => Not.fromJson(args),
-    'let' => Let<T>.fromJson(args),
-    'var' => Var<T>.fromJson(args),
-    'literal' => Literal<T>.fromJson(args),
-    'collator' => CollatorExpression.fromJson(args),
-    'format' => Format.fromJson(args),
-    'image' => ImageExpression.fromJson(args),
-    'number-format' => NumberFormat.fromJson(args),
-    'array' => ArrayAssertion.fromJson(args),
-    'boolean' => BooleanAssertion.fromJson(args),
-    'number' => NumberAssertion.fromJson(args),
-    'string' => StringAssertion.fromJson(args),
-    'object' => ObjectAssertion.fromJson(args),
-    'typeof' => TypeOf.fromJson(args),
-    'to-string' => ToString.fromJson(args),
-    'to-number' => ToNumber.fromJson(args),
-    'to-boolean' => ToBoolean.fromJson(args),
-    'to-color' => ToColor.fromJson(args),
-    'to-rgba' => ToRgba.fromJson(args),
-    'rgb' => Rgb.fromJson(args),
-    'rgba' => Rgba.fromJson(args),
-    'properties' => Properties.fromJson(args),
-    'feature-state' => FeatureState.fromJson(args),
-    'geometry-type' => GeometryType.fromJson(args),
-    'id' => Id.fromJson(args),
-    'line-progress' => LineProgress.fromJson(args),
-    'accumulated' => Accumulated.fromJson(args),
-    'ln2' => Ln2.fromJson(args),
-    'pi' => Pi.fromJson(args),
-    'e' => E.fromJson(args),
-    '+' => Add.fromJson(args),
-    '*' => Multiply.fromJson(args),
-    '-' => Minus.fromJson(args),
-    '/' => Divide.fromJson(args),
-    '%' => Mod.fromJson(args),
-    '^' => Pow.fromJson(args),
-    'sqrt' => Sqrt.fromJson(args),
-    'log10' => Log10.fromJson(args),
-    'ln' => Ln.fromJson(args),
-    'log2' => Log2.fromJson(args),
-    'sin' => Sin.fromJson(args),
-    'cos' => Cos.fromJson(args),
-    'tan' => Tan.fromJson(args),
-    'asin' => Asin.fromJson(args),
-    'acos' => Acos.fromJson(args),
-    'atan' => Atan.fromJson(args),
-    'min' => Min.fromJson(args),
-    'max' => Max.fromJson(args),
-    'abs' => Abs.fromJson(args),
-    'round' => Round.fromJson(args),
-    'ceil' => Ceil.fromJson(args),
-    'floor' => Floor.fromJson(args),
+    'zoom' => ZoomExpression.fromJson(args),
+    'at' => AtExpression.fromJson(args),
+    'in' => InExpression.fromJson(args),
+    'index-of' => IndexOfExpression.fromJson(args),
+    'slice' => SliceExpression.fromJson(args),
+    'get' => GetExpression<T>.fromJson(args),
+    'has' => HasExpression.fromJson(args),
+    'length' => LengthExpression.fromJson(args),
+    'step' => StepExpression<T>.fromJson(args),
+    'interpolate' => InterpolateExpression<T>.fromJson(args),
+    'is-supported-script' => IsSupportedScriptExpression.fromJson(args),
+    'upcase' => UpcaseExpression.fromJson(args),
+    'downcase' => DowncaseExpression.fromJson(args),
+    'concat' => ConcatExpression.fromJson(args),
+    'resolved-locale' => ResolvedLocaleExpression.fromJson(args),
+    'case' => CaseExpression<T>.fromJson(args),
+    'match' => MatchExpression<T>.fromJson(args),
+    'coalesce' => CoalesceExpression<T>.fromJson(args),
+    '==' => EqualsExpression.fromJson(args),
+    '!=' => NotEqualsExpression.fromJson(args),
+    '>' => GreaterThanExpression.fromJson(args),
+    '<' => LessThanExpression.fromJson(args),
+    '>=' => GreaterThanOrEqualsExpression.fromJson(args),
+    '<=' => LessThanOrEqualsExpression.fromJson(args),
+    'all' => AllExpression.fromJson(args),
+    'any' => AnyExpression.fromJson(args),
+    '!' => NotExpression.fromJson(args),
+    'let' => LetExpression<T>.fromJson(args),
+    'var' => VarExpression<T>.fromJson(args),
+    'literal' => LiteralExpression<T>.fromJson(args),
+    'collator' => CollatorExpressionExpression.fromJson(args),
+    'format' => FormatExpression.fromJson(args),
+    'image' => ImageExpressionExpression.fromJson(args),
+    'number-format' => NumberFormatExpression.fromJson(args),
+    'array' => ArrayAssertionExpression.fromJson(args),
+    'boolean' => BooleanAssertionExpression.fromJson(args),
+    'number' => NumberAssertionExpression.fromJson(args),
+    'string' => StringAssertionExpression.fromJson(args),
+    'object' => ObjectAssertionExpression.fromJson(args),
+    'typeof' => TypeOfExpression.fromJson(args),
+    'to-string' => ToStringExpression.fromJson(args),
+    'to-number' => ToNumberExpression.fromJson(args),
+    'to-boolean' => ToBooleanExpression.fromJson(args),
+    'to-color' => ToColorExpression.fromJson(args),
+    'to-rgba' => ToRgbaExpression.fromJson(args),
+    'rgb' => RgbExpression.fromJson(args),
+    'rgba' => RgbaExpression.fromJson(args),
+    'properties' => PropertiesExpression.fromJson(args),
+    'feature-state' => FeatureStateExpression.fromJson(args),
+    'geometry-type' => GeometryTypeExpression.fromJson(args),
+    'id' => IdExpression.fromJson(args),
+    'line-progress' => LineProgressExpression.fromJson(args),
+    'accumulated' => AccumulatedExpression.fromJson(args),
+    'ln2' => Ln2Expression.fromJson(args),
+    'pi' => PiExpression.fromJson(args),
+    'e' => EExpression.fromJson(args),
+    '+' => AddExpression.fromJson(args),
+    '*' => MultiplyExpression.fromJson(args),
+    '-' => MinusExpression.fromJson(args),
+    '/' => DivideExpression.fromJson(args),
+    '%' => ModExpression.fromJson(args),
+    '^' => PowExpression.fromJson(args),
+    'sqrt' => SqrtExpression.fromJson(args),
+    'log10' => Log10Expression.fromJson(args),
+    'ln' => LnExpression.fromJson(args),
+    'log2' => Log2Expression.fromJson(args),
+    'sin' => SinExpression.fromJson(args),
+    'cos' => CosExpression.fromJson(args),
+    'tan' => TanExpression.fromJson(args),
+    'asin' => AsinExpression.fromJson(args),
+    'acos' => AcosExpression.fromJson(args),
+    'atan' => AtanExpression.fromJson(args),
+    'min' => MinExpression.fromJson(args),
+    'max' => MaxExpression.fromJson(args),
+    'abs' => AbsExpression.fromJson(args),
+    'round' => RoundExpression.fromJson(args),
+    'ceil' => CeilExpression.fromJson(args),
+    'floor' => FloorExpression.fromJson(args),
     _ => throw Exception('Unknown expression type: ${args[0]}'),
   } as Expression<T>;
 }

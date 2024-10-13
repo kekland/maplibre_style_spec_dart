@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/expression/expression.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('Let', rawName: 'let')
+@ExpressionAnnotation('LetExpression', rawName: 'let')
 T letExpressionImpl<T>(
   EvaluationContext context,
   List<(String, Expression<Object?>)> bindings,
@@ -16,7 +16,7 @@ T letExpressionImpl<T>(
   return child.evaluate(newContext);
 }
 
-@ExpressionAnnotation('Var', rawName: 'var')
+@ExpressionAnnotation('VarExpression', rawName: 'var')
 T varExpressionImpl<T>(
   EvaluationContext context,
   String name,

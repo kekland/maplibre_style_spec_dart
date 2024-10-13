@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('IsSupportedScript', rawName: 'is-supported-script')
+@ExpressionAnnotation('IsSupportedScriptExpression', rawName: 'is-supported-script')
 bool isSupportedScriptExpressionImpl(
   EvaluationContext context,
   Expression<String> value,
@@ -14,7 +14,7 @@ bool isSupportedScriptExpressionImpl(
   return true;
 }
 
-@ExpressionAnnotation('Upcase', rawName: 'upcase')
+@ExpressionAnnotation('UpcaseExpression', rawName: 'upcase')
 String upcaseExpressionImpl(
   EvaluationContext context,
   Expression<String> value,
@@ -23,7 +23,7 @@ String upcaseExpressionImpl(
   return _value.toUpperCase();
 }
 
-@ExpressionAnnotation('Downcase', rawName: 'downcase')
+@ExpressionAnnotation('DowncaseExpression', rawName: 'downcase')
 String downcaseExpressionImpl(
   EvaluationContext context,
   Expression<String> value,
@@ -32,7 +32,7 @@ String downcaseExpressionImpl(
   return _value.toLowerCase();
 }
 
-@ExpressionAnnotation('Concat', rawName: 'concat')
+@ExpressionAnnotation('ConcatExpression', rawName: 'concat')
 String concatExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> values,
@@ -40,7 +40,7 @@ String concatExpressionImpl(
   return values.map((value) => value(context)).join();
 }
 
-@ExpressionAnnotation('ResolvedLocale', rawName: 'resolved-locale')
+@ExpressionAnnotation('ResolvedLocaleExpression', rawName: 'resolved-locale')
 String resolvedLocaleExpressionImpl(
   EvaluationContext context,
   Expression<Collator> collator,

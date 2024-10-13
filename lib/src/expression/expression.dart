@@ -13,38 +13,62 @@ class _FormattedStringAdapterExpression extends Expression<Formatted> {
   Formatted evaluate(EvaluationContext context) => Formatted.fromJson(string(context));
 }
 
+bool _isJsonListWithElementType<T>(List<dynamic> json) {
+  for (final element in json) {
+    if (element is! T) return false;
+  }
+
+  return true;
+}
+
 abstract class Expression<T> {
   const Expression({Type? type}) : type = type ?? T;
 
   factory Expression.fromJson(dynamic args) {
-    if (T == Color && args is String) return Literal<Color>(value: Color.fromJson(args)) as Expression<T>;
-    if (T == Color && args is List<num>) return Literal<Color>(value: Color.fromList(args)) as Expression<T>;
+    // TODO: Literal parsing can be moved to Literal class, and by using a custom factory constructor there.
 
-    if (T == Formatted && args is String) return Literal<Formatted>(value: Formatted.fromJson(args)) as Expression<T>;
-
-    if (T == Padding && args is num) return Literal<Padding>(value: Padding.fromJson([args])) as Expression<T>;
-
-    if (args is String) {
-      if (isTypeEnum<T>()) {
-        return Literal<T>(value: parseEnumJson<T>(args)) as Expression<T>;
+    // [Color] literals
+    if (T == Color) {
+      if (args is String) {
+        return LiteralExpression<Color>(value: Color.fromJson(args)) as Expression<T>;
+      } else if (args is List && _isJsonListWithElementType<num>(args)) {
+        return LiteralExpression<Color>(value: Color.fromList(args as List<num>)) as Expression<T>;
       }
-
-      return Literal<String>(value: args) as Expression<T>;
     }
 
-    if (args == null) return Literal<Null>(value: null) as Expression<T>;
-    if (args is num) return Literal<num>(value: args) as Expression<T>;
-    if (args is bool) return Literal<bool>(value: args) as Expression<T>;
-    if (args is Map<String, dynamic>) return Literal<Map<String, dynamic>>(value: args) as Expression<T>;
-
-    // TODO: Improve this somehow
+    // [Formatted] literals
     if (T == Formatted) {
+      if (args is String) {
+        return LiteralExpression<Formatted>(value: Formatted.fromJson(args)) as Expression<T>;
+      }
+
+      // TODO: Improve this somehow
       try {
         return expressionFromJson<T>(args);
       } catch (e) {
         return _FormattedStringAdapterExpression(expressionFromJson<String>(args)) as Expression<T>;
       }
     }
+
+    // [Padding] literals
+    if (T == Padding && args is num) {
+      return LiteralExpression<Padding>(value: Padding.fromJson([args])) as Expression<T>;
+    }
+
+    // [Enum] or [String] literals
+    if (args is String) {
+      if (isTypeEnum<T>()) {
+        return LiteralExpression<T>(value: parseEnumJson<T>(args)) as Expression<T>;
+      }
+
+      return LiteralExpression<String>(value: args) as Expression<T>;
+    }
+
+    // Other common literals
+    if (args == null) return LiteralExpression<Null>(value: null) as Expression<T>;
+    if (args is num) return LiteralExpression<num>(value: args) as Expression<T>;
+    if (args is bool) return LiteralExpression<bool>(value: args) as Expression<T>;
+    if (args is Map<String, dynamic>) return LiteralExpression<Map<String, dynamic>>(value: args) as Expression<T>;
 
     return expressionFromJson<T>(args);
   }

@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('At', rawName: 'at')
+@ExpressionAnnotation('AtExpression', rawName: 'at')
 dynamic atExpressionImpl(
   EvaluationContext context,
   Expression<int> index,
@@ -17,7 +17,7 @@ dynamic atExpressionImpl(
   return _array[_index];
 }
 
-@ExpressionAnnotation('In', rawName: 'in')
+@ExpressionAnnotation('InExpression', rawName: 'in')
 dynamic inExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> needle,
@@ -36,7 +36,7 @@ dynamic inExpressionImpl(
   throw Exception('Unsupported type ${_haystack.runtimeType} for "in" operator');
 }
 
-@ExpressionAnnotation('IndexOf', rawName: 'index-of')
+@ExpressionAnnotation('IndexOfExpression', rawName: 'index-of')
 dynamic indexOfExpression(
   EvaluationContext context,
   Expression<dynamic> needle,
@@ -55,7 +55,7 @@ dynamic indexOfExpression(
   throw Exception('Unsupported type ${_haystack.runtimeType} for "indexOf" operator');
 }
 
-@ExpressionAnnotation('Slice', rawName: 'slice')
+@ExpressionAnnotation('SliceExpression', rawName: 'slice')
 dynamic sliceExpression(
   EvaluationContext context,
   Expression<dynamic> input,
@@ -85,7 +85,7 @@ dynamic sliceExpression(
   throw Exception('Unsupported type ${_input.runtimeType} for "slice" operator');
 }
 
-@ExpressionAnnotation('Get', rawName: 'get')
+@ExpressionAnnotation('GetExpression', rawName: 'get')
 T getExpressionImpl<T>(
   EvaluationContext context,
   Expression<String> key,
@@ -107,7 +107,7 @@ T getExpressionImpl<T>(
   return context.getProperty(_key);
 }
 
-@ExpressionAnnotation('Has', rawName: 'has')
+@ExpressionAnnotation('HasExpression', rawName: 'has')
 bool hasExpressionImpl(
   EvaluationContext context,
   Expression<String> key,
@@ -123,7 +123,7 @@ bool hasExpressionImpl(
   return context.hasProperty(_key);
 }
 
-@ExpressionAnnotation('Length', rawName: 'length')
+@ExpressionAnnotation('LengthExpression', rawName: 'length')
 int lengthExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> value,

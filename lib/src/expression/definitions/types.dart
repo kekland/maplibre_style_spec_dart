@@ -5,10 +5,10 @@ import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 import 'package:maplibre_style_spec/src/gen/expressions.gen.dart';
 import 'package:maplibre_style_spec/src/gen/style.gen.dart';
 
-@ExpressionAnnotation('Literal', rawName: 'literal', customFromJson: literalExpressionFromJsonImpl)
+@ExpressionAnnotation('LiteralExpression', rawName: 'literal', customFromJson: literalExpressionFromJsonImpl)
 T literalExpressionImpl<T>(EvaluationContext context, T value) => value;
 
-Literal<T> literalExpressionFromJsonImpl<T>(List<dynamic> args) {
+LiteralExpression<T> literalExpressionFromJsonImpl<T>(List<dynamic> args) {
   assert(args[0] == 'literal');
 
   if (args.length != 2) {
@@ -16,17 +16,17 @@ Literal<T> literalExpressionFromJsonImpl<T>(List<dynamic> args) {
   }
 
   if (isTypeEnum<T>()) {
-    return Literal<T>(value: parseEnumJson<T>(args[1]));
+    return LiteralExpression<T>(value: parseEnumJson<T>(args[1]));
   }
 
   if (isTypeEnumList<T>()) {
-    return Literal<T>(value: parseEnumListJson<T>(args[1]));
+    return LiteralExpression<T>(value: parseEnumListJson<T>(args[1]));
   }
 
-  return Literal<T>(value: args[1] as T);
+  return LiteralExpression<T>(value: args[1] as T);
 }
 
-@ExpressionAnnotation('CollatorExpression', rawName: 'collator')
+@ExpressionAnnotation('CollatorExpressionExpression', rawName: 'collator')
 Collator collatorExpressionImpl(
   EvaluationContext context,
   ({
@@ -44,7 +44,7 @@ Collator collatorExpressionImpl(
   );
 }
 
-@ExpressionAnnotation('Format', rawName: 'format')
+@ExpressionAnnotation('FormatExpression', rawName: 'format')
 Formatted formatExpressionImpl(
   EvaluationContext context,
 ) {
@@ -52,7 +52,7 @@ Formatted formatExpressionImpl(
   return Formatted.empty();
 }
 
-@ExpressionAnnotation('ImageExpression', rawName: 'image')
+@ExpressionAnnotation('ImageExpressionExpression', rawName: 'image')
 ResolvedImage imageExpressionImpl(
   EvaluationContext context,
   Expression<String> value,
@@ -65,7 +65,7 @@ ResolvedImage imageExpressionImpl(
   return ResolvedImage();
 }
 
-@ExpressionAnnotation('NumberFormat', rawName: 'number-format')
+@ExpressionAnnotation('NumberFormatExpression', rawName: 'number-format')
 String numberFormatExpressionImpl(
   EvaluationContext context,
   Expression<num> number,
@@ -96,7 +96,7 @@ String numberFormatExpressionImpl(
 // Assertions
 // ------------------------------------
 
-@ExpressionAnnotation('ArrayAssertion', rawName: 'array')
+@ExpressionAnnotation('ArrayAssertionExpression', rawName: 'array')
 List arrayAssertionExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> value,
@@ -145,7 +145,7 @@ T _assertionExpressionImpl<T>(
   throw Exception('Assertion failed.');
 }
 
-@ExpressionAnnotation('BooleanAssertion', rawName: 'boolean')
+@ExpressionAnnotation('BooleanAssertionExpression', rawName: 'boolean')
 bool booleanAssertionExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> args,
@@ -153,7 +153,7 @@ bool booleanAssertionExpressionImpl(
   return _assertionExpressionImpl<bool>(context, args);
 }
 
-@ExpressionAnnotation('NumberAssertion', rawName: 'number')
+@ExpressionAnnotation('NumberAssertionExpression', rawName: 'number')
 num numberAssertionExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> args,
@@ -161,7 +161,7 @@ num numberAssertionExpressionImpl(
   return _assertionExpressionImpl<num>(context, args);
 }
 
-@ExpressionAnnotation('StringAssertion', rawName: 'string')
+@ExpressionAnnotation('StringAssertionExpression', rawName: 'string')
 String stringAssertionExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> args,
@@ -169,7 +169,7 @@ String stringAssertionExpressionImpl(
   return _assertionExpressionImpl<String>(context, args);
 }
 
-@ExpressionAnnotation('ObjectAssertion', rawName: 'object')
+@ExpressionAnnotation('ObjectAssertionExpression', rawName: 'object')
 Map<String, dynamic> objectAssertionExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> args,
@@ -195,7 +195,7 @@ String _typeOf(dynamic value) {
   throw 'Unsupported type: ${value.runtimeType}';
 }
 
-@ExpressionAnnotation('TypeOf', rawName: 'typeof')
+@ExpressionAnnotation('TypeOfExpression', rawName: 'typeof')
 String typeOfExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> value,
@@ -207,7 +207,7 @@ String typeOfExpressionImpl(
 // Coercion
 // ------------------------------------
 
-@ExpressionAnnotation('ToString', rawName: 'to-string')
+@ExpressionAnnotation('ToStringExpression', rawName: 'to-string')
 String toStringExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> value,
@@ -233,7 +233,7 @@ String toStringExpressionImpl(
   return _value.toString();
 }
 
-@ExpressionAnnotation('ToNumber', rawName: 'to-number')
+@ExpressionAnnotation('ToNumberExpression', rawName: 'to-number')
 num toNumberExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> values,
@@ -253,7 +253,7 @@ num toNumberExpressionImpl(
   throw Exception('Could not convert any of the values to a number.');
 }
 
-@ExpressionAnnotation('ToBoolean', rawName: 'to-boolean')
+@ExpressionAnnotation('ToBooleanExpression', rawName: 'to-boolean')
 bool toBooleanExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> value,
@@ -267,7 +267,7 @@ bool toBooleanExpressionImpl(
   return true;
 }
 
-@ExpressionAnnotation('ToColor', rawName: 'to-color')
+@ExpressionAnnotation('ToColorExpression', rawName: 'to-color')
 Color toColorExpressionImpl(
   EvaluationContext context,
   List<Expression<dynamic>> values,

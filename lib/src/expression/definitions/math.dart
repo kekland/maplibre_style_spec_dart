@@ -3,26 +3,26 @@ import 'dart:math' as math;
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('Ln2', rawName: 'ln2')
+@ExpressionAnnotation('Ln2Expression', rawName: 'ln2')
 num ln2ExpressionImpl(EvaluationContext context) => math.ln2;
 
-@ExpressionAnnotation('Pi', rawName: 'pi')
+@ExpressionAnnotation('PiExpression', rawName: 'pi')
 num piExpressionImpl(EvaluationContext context) => math.pi;
 
-@ExpressionAnnotation('E', rawName: 'e')
+@ExpressionAnnotation('EExpression', rawName: 'e')
 num eExpressionImpl(EvaluationContext context) => math.e;
 
-@ExpressionAnnotation('Add', rawName: '+')
+@ExpressionAnnotation('AddExpression', rawName: '+')
 num addExpressionImpl(EvaluationContext context, List<Expression<num>> args) {
   return args.fold(0, (a, b) => a + b(context));
 }
 
-@ExpressionAnnotation('Multiply', rawName: '*')
+@ExpressionAnnotation('MultiplyExpression', rawName: '*')
 num multiplyExpressionImpl(EvaluationContext context, List<Expression<num>> args) {
   return args.fold(1, (a, b) => a * b(context));
 }
 
-@ExpressionAnnotation('Minus', rawName: '-')
+@ExpressionAnnotation('MinusExpression', rawName: '-')
 num minusExpressionImpl(
   EvaluationContext context,
   Expression<num> left,
@@ -35,7 +35,7 @@ num minusExpressionImpl(
   return left(context) - right(context);
 }
 
-@ExpressionAnnotation('Divide', rawName: '/')
+@ExpressionAnnotation('DivideExpression', rawName: '/')
 num divideExpressionImpl(
   EvaluationContext context,
   Expression<num> left,
@@ -44,7 +44,7 @@ num divideExpressionImpl(
   return left(context) / right(context);
 }
 
-@ExpressionAnnotation('Mod', rawName: '%')
+@ExpressionAnnotation('ModExpression', rawName: '%')
 num modExpressionImpl(
   EvaluationContext context,
   Expression<num> left,
@@ -53,7 +53,7 @@ num modExpressionImpl(
   return left(context) % right(context);
 }
 
-@ExpressionAnnotation('Pow', rawName: '^')
+@ExpressionAnnotation('PowExpression', rawName: '^')
 num powExpressionImpl(
   EvaluationContext context,
   Expression<num> base,
@@ -62,7 +62,7 @@ num powExpressionImpl(
   return math.pow(base(context), exponent(context));
 }
 
-@ExpressionAnnotation('Sqrt', rawName: 'sqrt')
+@ExpressionAnnotation('SqrtExpression', rawName: 'sqrt')
 num sqrtExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -70,7 +70,7 @@ num sqrtExpressionImpl(
   return math.sqrt(value(context));
 }
 
-@ExpressionAnnotation('Log10', rawName: 'log10')
+@ExpressionAnnotation('Log10Expression', rawName: 'log10')
 num log10ExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -78,7 +78,7 @@ num log10ExpressionImpl(
   return math.log(value(context)) / math.ln10;
 }
 
-@ExpressionAnnotation('Ln', rawName: 'ln')
+@ExpressionAnnotation('LnExpression', rawName: 'ln')
 num lnExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -86,7 +86,7 @@ num lnExpressionImpl(
   return math.log(value(context));
 }
 
-@ExpressionAnnotation('Log2', rawName: 'log2')
+@ExpressionAnnotation('Log2Expression', rawName: 'log2')
 num log2ExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -94,7 +94,7 @@ num log2ExpressionImpl(
   return math.log(value(context)) / math.ln2;
 }
 
-@ExpressionAnnotation('Sin', rawName: 'sin')
+@ExpressionAnnotation('SinExpression', rawName: 'sin')
 num sinExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -102,7 +102,7 @@ num sinExpressionImpl(
   return math.sin(value(context));
 }
 
-@ExpressionAnnotation('Cos', rawName: 'cos')
+@ExpressionAnnotation('CosExpression', rawName: 'cos')
 num cosExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -110,7 +110,7 @@ num cosExpressionImpl(
   return math.cos(value(context));
 }
 
-@ExpressionAnnotation('Tan', rawName: 'tan')
+@ExpressionAnnotation('TanExpression', rawName: 'tan')
 num tanExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -118,7 +118,7 @@ num tanExpressionImpl(
   return math.tan(value(context));
 }
 
-@ExpressionAnnotation('Asin', rawName: 'asin')
+@ExpressionAnnotation('AsinExpression', rawName: 'asin')
 num asinExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -126,7 +126,7 @@ num asinExpressionImpl(
   return math.asin(value(context));
 }
 
-@ExpressionAnnotation('Acos', rawName: 'acos')
+@ExpressionAnnotation('AcosExpression', rawName: 'acos')
 num acosExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -134,7 +134,7 @@ num acosExpressionImpl(
   return math.acos(value(context));
 }
 
-@ExpressionAnnotation('Atan', rawName: 'atan')
+@ExpressionAnnotation('AtanExpression', rawName: 'atan')
 num atanExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -142,7 +142,7 @@ num atanExpressionImpl(
   return math.atan(value(context));
 }
 
-@ExpressionAnnotation('Min', rawName: 'min')
+@ExpressionAnnotation('MinExpression', rawName: 'min')
 num minExpressionImpl(
   EvaluationContext context,
   List<Expression<num>> args,
@@ -150,7 +150,7 @@ num minExpressionImpl(
   return args.map((e) => e(context)).reduce(math.min);
 }
 
-@ExpressionAnnotation('Max', rawName: 'max')
+@ExpressionAnnotation('MaxExpression', rawName: 'max')
 num maxExpressionImpl(
   EvaluationContext context,
   List<Expression<num>> args,
@@ -158,7 +158,7 @@ num maxExpressionImpl(
   return args.map((e) => e(context)).reduce(math.max);
 }
 
-@ExpressionAnnotation('Abs', rawName: 'abs')
+@ExpressionAnnotation('AbsExpression', rawName: 'abs')
 num absExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -166,7 +166,7 @@ num absExpressionImpl(
   return value(context).abs();
 }
 
-@ExpressionAnnotation('Round', rawName: 'round')
+@ExpressionAnnotation('RoundExpression', rawName: 'round')
 num roundExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -174,7 +174,7 @@ num roundExpressionImpl(
   return value(context).round();
 }
 
-@ExpressionAnnotation('Ceil', rawName: 'ceil')
+@ExpressionAnnotation('CeilExpression', rawName: 'ceil')
 num ceilExpressionImpl(
   EvaluationContext context,
   Expression<num> value,
@@ -182,7 +182,7 @@ num ceilExpressionImpl(
   return value(context).ceilToDouble();
 }
 
-@ExpressionAnnotation('Floor', rawName: 'floor')
+@ExpressionAnnotation('FloorExpression', rawName: 'floor')
 num floorExpressionImpl(
   EvaluationContext context,
   Expression<num> value,

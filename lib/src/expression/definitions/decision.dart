@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('Case', rawName: 'case')
+@ExpressionAnnotation('CaseExpression', rawName: 'case')
 T caseExpressionImpl<T>(
   EvaluationContext context,
   List<(Expression<bool> test, Expression<T> output)> branches,
@@ -16,7 +16,7 @@ T caseExpressionImpl<T>(
   return fallback(context);
 }
 
-@ExpressionAnnotation('Match', rawName: 'match')
+@ExpressionAnnotation('MatchExpression', rawName: 'match')
 T matchExpressionImpl<T>(
   EvaluationContext context,
   Expression<dynamic> input,
@@ -38,7 +38,7 @@ T matchExpressionImpl<T>(
   return fallback(context);
 }
 
-@ExpressionAnnotation('Coalesce', rawName: 'coalesce')
+@ExpressionAnnotation('CoalesceExpression', rawName: 'coalesce')
 T coalesceExpressionImpl<T>(
   EvaluationContext context,
   List<Expression<T>> expressions,
@@ -54,7 +54,7 @@ T coalesceExpressionImpl<T>(
   throw Exception('All expressions returned null');
 }
 
-@ExpressionAnnotation('Equals', rawName: '==')
+@ExpressionAnnotation('EqualsExpression', rawName: '==')
 bool equalsExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -80,7 +80,7 @@ bool equalsExpressionImpl(
   return _left == _right;
 }
 
-@ExpressionAnnotation('NotEquals', rawName: '!=')
+@ExpressionAnnotation('NotEqualsExpression', rawName: '!=')
 bool notEqualsExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -90,7 +90,7 @@ bool notEqualsExpressionImpl(
   return !equalsExpressionImpl(context, left, right, collator);
 }
 
-@ExpressionAnnotation('GreaterThan', rawName: '>')
+@ExpressionAnnotation('GreaterThanExpression', rawName: '>')
 bool greaterThanExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -118,7 +118,7 @@ bool greaterThanExpressionImpl(
   throw Exception('Unsupported types for "greater than" operator: ${_left.runtimeType} and ${_right.runtimeType}');
 }
 
-@ExpressionAnnotation('LessThan', rawName: '<')
+@ExpressionAnnotation('LessThanExpression', rawName: '<')
 bool lessThanExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -128,7 +128,7 @@ bool lessThanExpressionImpl(
   return !greaterThanExpressionImpl(context, left, right, collator) && !equalsExpressionImpl(context, left, right, collator);
 }
 
-@ExpressionAnnotation('GreaterThanOrEquals', rawName: '>=')
+@ExpressionAnnotation('GreaterThanOrEqualsExpression', rawName: '>=')
 bool greaterThanOrEqualsExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -138,7 +138,7 @@ bool greaterThanOrEqualsExpressionImpl(
   return greaterThanExpressionImpl(context, left, right, collator) || equalsExpressionImpl(context, left, right, collator);
 }
 
-@ExpressionAnnotation('LessThanOrEquals', rawName: '<=')
+@ExpressionAnnotation('LessThanOrEqualsExpression', rawName: '<=')
 bool lessThanOrEqualsExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> left,
@@ -148,7 +148,7 @@ bool lessThanOrEqualsExpressionImpl(
   return lessThanExpressionImpl(context, left, right, collator) || equalsExpressionImpl(context, left, right, collator);
 }
 
-@ExpressionAnnotation('All', rawName: 'all')
+@ExpressionAnnotation('AllExpression', rawName: 'all')
 bool allExpressionImpl(
   EvaluationContext context,
   List<Expression<bool>> expressions,
@@ -162,7 +162,7 @@ bool allExpressionImpl(
   return true;
 }
 
-@ExpressionAnnotation('Any', rawName: 'any')
+@ExpressionAnnotation('AnyExpression', rawName: 'any')
 bool anyExpressionImpl(
   EvaluationContext context,
   List<Expression<bool>> expressions,
@@ -176,7 +176,7 @@ bool anyExpressionImpl(
   return false;
 }
 
-@ExpressionAnnotation('Not', rawName: '!')
+@ExpressionAnnotation('NotExpression', rawName: '!')
 bool notExpressionImpl(
   EvaluationContext context,
   Expression<bool> expression,

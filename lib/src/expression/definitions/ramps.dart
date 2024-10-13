@@ -1,7 +1,7 @@
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
 
-@ExpressionAnnotation('Step', rawName: 'step')
+@ExpressionAnnotation('StepExpression', rawName: 'step')
 T stepExpressionImpl<T>(
   EvaluationContext context,
   Expression<num> input,
@@ -19,7 +19,7 @@ T stepExpressionImpl<T>(
   return minOutput(context);
 }
 
-@ExpressionAnnotation('Interpolate', rawName: 'interpolate')
+@ExpressionAnnotation('InterpolateExpression', rawName: 'interpolate')
 T interpolateExpressionImpl<T>(
   EvaluationContext context,
   Object options,
