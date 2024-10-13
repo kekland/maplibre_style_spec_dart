@@ -55,22 +55,31 @@ List<ParameterElement> _getExpressionParameters(FunctionDeclaration decl) {
 List<String> _generateExpressionConstructorCode(FunctionDeclaration decl) {
   final code = <String>[];
   final annotation = _getExpressionAnnotation(decl);
+  final parameters = _getExpressionParameters(decl);
+  final returnType = decl.returnType!.type!.toString();
 
-  code.add('  const ${annotation.name}({');
+  if (parameters.isNotEmpty || returnType == 'dynamic') {
+    code.add('  const ${annotation.name}({');
 
-  for (final parameter in _getExpressionParameters(decl)) {
-    final type = parameter.type;
-    final isNullable = type.isNullable;
+    for (final parameter in _getExpressionParameters(decl)) {
+      final type = parameter.type;
+      final isNullable = type.isNullable;
 
-    if (isNullable) {
-      code.add('    this.${parameter.name},');
-    } else {
-      code.add('    required this.${parameter.name},');
+      if (isNullable) {
+        code.add('    this.${parameter.name},');
+      } else {
+        code.add('    required this.${parameter.name},');
+      }
     }
+
+    code.add('    super.type,');
+    code.add('  })');
+  }
+  else {
+    code.add('  const ${annotation.name}()');
   }
 
-  code.add('    super.type,');
-  code.add('  });');
+  code.add('      : super();');
 
   return code;
 }
@@ -252,7 +261,7 @@ List<String> _generateExpressionCode(Map<String, dynamic> referenceExpressions, 
 
   final typeParametersSource = expr.typeParameters?.toSource();
 
-  final referenceDoc = referenceExpressions[annotation.rawName]?['doc'] as String?; 
+  final referenceDoc = referenceExpressions[annotation.rawName]?['doc'] as String?;
 
   if (referenceDoc != null) {
     for (final line in referenceDoc.split('\n')) {

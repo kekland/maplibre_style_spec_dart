@@ -6,9 +6,7 @@ import 'package:maplibre_style_spec/src/expression/definitions/_definitions.dart
 
 /// Gets the current zoom level.  Note that in style layout and paint properties, ["zoom"] may only appear as the input to a top-level "step" or "interpolate" expression.
 class ZoomExpression extends Expression<num> {
-  const ZoomExpression({
-    super.type,
-  });
+  const ZoomExpression() : super();
 
   /// Creates a new instance of [ZoomExpression] by parsing the given [args] as a JSON list.
   factory ZoomExpression.fromJson(List<dynamic> args) {
@@ -31,7 +29,7 @@ class AtExpression extends Expression<dynamic> {
     required this.index,
     required this.array,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AtExpression] by parsing the given [args] as a JSON list.
   factory AtExpression.fromJson(List<dynamic> args) {
@@ -78,7 +76,7 @@ class InExpression extends Expression<dynamic> {
     required this.needle,
     required this.haystack,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [InExpression] by parsing the given [args] as a JSON list.
   factory InExpression.fromJson(List<dynamic> args) {
@@ -118,12 +116,12 @@ class InExpression extends Expression<dynamic> {
 }
 
 /// Returns the first position at which an item can be found in an array or a substring can be found in a string, or `-1` if the input cannot be found. Accepts an optional index from where to begin the search. In a string, a UTF-16 surrogate pair counts as a single position.
-class IndexOfExpression extends Expression<dynamic> {
+class IndexOfExpression extends Expression<int> {
   const IndexOfExpression({
     required this.needle,
     required this.haystack,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [IndexOfExpression] by parsing the given [args] as a JSON list.
   factory IndexOfExpression.fromJson(List<dynamic> args) {
@@ -153,8 +151,8 @@ class IndexOfExpression extends Expression<dynamic> {
   final Expression<dynamic> haystack;
 
   @override
-  dynamic evaluate(EvaluationContext context) {
-    return indexOfExpression(
+  int evaluate(EvaluationContext context) {
+    return indexOfExpressionImpl(
       context,
       needle,
       haystack,
@@ -169,7 +167,7 @@ class SliceExpression extends Expression<dynamic> {
     required this.start,
     this.end,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [SliceExpression] by parsing the given [args] as a JSON list.
   factory SliceExpression.fromJson(List<dynamic> args) {
@@ -210,7 +208,7 @@ class SliceExpression extends Expression<dynamic> {
 
   @override
   dynamic evaluate(EvaluationContext context) {
-    return sliceExpression(
+    return sliceExpressionImpl(
       context,
       input,
       start,
@@ -231,7 +229,7 @@ class GetExpression<T> extends Expression<T> {
     required this.key,
     this.object,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [GetExpression] by parsing the given [args] as a JSON list.
   factory GetExpression.fromJson(List<dynamic> args) {
@@ -280,7 +278,7 @@ class HasExpression extends Expression<bool> {
     required this.key,
     this.object,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [HasExpression] by parsing the given [args] as a JSON list.
   factory HasExpression.fromJson(List<dynamic> args) {
@@ -326,7 +324,7 @@ class LengthExpression extends Expression<int> {
   const LengthExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LengthExpression] by parsing the given [args] as a JSON list.
   factory LengthExpression.fromJson(List<dynamic> args) {
@@ -365,7 +363,7 @@ class StepExpression<T> extends Expression<T> {
     required this.minOutput,
     required this.stops,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [StepExpression] by parsing the given [args] as a JSON list.
   factory StepExpression.fromJson(List<dynamic> args) {
@@ -441,7 +439,7 @@ class InterpolateExpression<T> extends Expression<T> {
     required this.input,
     required this.stops,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [InterpolateExpression] by parsing the given [args] as a JSON list.
   factory InterpolateExpression.fromJson(List<dynamic> args) {
@@ -499,7 +497,7 @@ class IsSupportedScriptExpression extends Expression<bool> {
   const IsSupportedScriptExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [IsSupportedScriptExpression] by parsing the given [args] as a JSON list.
   factory IsSupportedScriptExpression.fromJson(List<dynamic> args) {
@@ -536,7 +534,7 @@ class UpcaseExpression extends Expression<String> {
   const UpcaseExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [UpcaseExpression] by parsing the given [args] as a JSON list.
   factory UpcaseExpression.fromJson(List<dynamic> args) {
@@ -573,7 +571,7 @@ class DowncaseExpression extends Expression<String> {
   const DowncaseExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [DowncaseExpression] by parsing the given [args] as a JSON list.
   factory DowncaseExpression.fromJson(List<dynamic> args) {
@@ -616,7 +614,7 @@ class ConcatExpression extends Expression<String> {
   const ConcatExpression({
     required this.values,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ConcatExpression] by parsing the given [args] as a JSON list.
   factory ConcatExpression.fromJson(List<dynamic> args) {
@@ -653,7 +651,7 @@ class ResolvedLocaleExpression extends Expression<String> {
   const ResolvedLocaleExpression({
     required this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ResolvedLocaleExpression] by parsing the given [args] as a JSON list.
   factory ResolvedLocaleExpression.fromJson(List<dynamic> args) {
@@ -693,7 +691,7 @@ class CaseExpression<T> extends Expression<T> {
     required this.branches,
     required this.fallback,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [CaseExpression] by parsing the given [args] as a JSON list.
   factory CaseExpression.fromJson(List<dynamic> args) {
@@ -750,7 +748,7 @@ class MatchExpression<T> extends Expression<T> {
     required this.branches,
     required this.fallback,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [MatchExpression] by parsing the given [args] as a JSON list.
   factory MatchExpression.fromJson(List<dynamic> args) {
@@ -810,7 +808,7 @@ class CoalesceExpression<T> extends Expression<T> {
   const CoalesceExpression({
     required this.expressions,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [CoalesceExpression] by parsing the given [args] as a JSON list.
   factory CoalesceExpression.fromJson(List<dynamic> args) {
@@ -857,7 +855,7 @@ class EqualsExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [EqualsExpression] by parsing the given [args] as a JSON list.
   factory EqualsExpression.fromJson(List<dynamic> args) {
@@ -916,7 +914,7 @@ class NotEqualsExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [NotEqualsExpression] by parsing the given [args] as a JSON list.
   factory NotEqualsExpression.fromJson(List<dynamic> args) {
@@ -973,7 +971,7 @@ class GreaterThanExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [GreaterThanExpression] by parsing the given [args] as a JSON list.
   factory GreaterThanExpression.fromJson(List<dynamic> args) {
@@ -1032,7 +1030,7 @@ class LessThanExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LessThanExpression] by parsing the given [args] as a JSON list.
   factory LessThanExpression.fromJson(List<dynamic> args) {
@@ -1091,7 +1089,7 @@ class GreaterThanOrEqualsExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [GreaterThanOrEqualsExpression] by parsing the given [args] as a JSON list.
   factory GreaterThanOrEqualsExpression.fromJson(List<dynamic> args) {
@@ -1148,7 +1146,7 @@ class LessThanOrEqualsExpression extends Expression<bool> {
     required this.right,
     this.collator,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LessThanOrEqualsExpression] by parsing the given [args] as a JSON list.
   factory LessThanOrEqualsExpression.fromJson(List<dynamic> args) {
@@ -1205,7 +1203,7 @@ class AllExpression extends Expression<bool> {
   const AllExpression({
     required this.expressions,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AllExpression] by parsing the given [args] as a JSON list.
   factory AllExpression.fromJson(List<dynamic> args) {
@@ -1242,7 +1240,7 @@ class AnyExpression extends Expression<bool> {
   const AnyExpression({
     required this.expressions,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AnyExpression] by parsing the given [args] as a JSON list.
   factory AnyExpression.fromJson(List<dynamic> args) {
@@ -1281,7 +1279,7 @@ class NotExpression extends Expression<bool> {
   const NotExpression({
     required this.expression,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [NotExpression] by parsing the given [args] as a JSON list.
   factory NotExpression.fromJson(List<dynamic> args) {
@@ -1319,7 +1317,7 @@ class LetExpression<T> extends Expression<T> {
     required this.bindings,
     required this.child,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LetExpression] by parsing the given [args] as a JSON list.
   factory LetExpression.fromJson(List<dynamic> args) {
@@ -1370,7 +1368,7 @@ class VarExpression<T> extends Expression<T> {
   const VarExpression({
     required this.name,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [VarExpression] by parsing the given [args] as a JSON list.
   factory VarExpression.fromJson(List<dynamic> args) {
@@ -1407,7 +1405,7 @@ class LiteralExpression<T> extends Expression<T> {
   const LiteralExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LiteralExpression] by parsing the given [args] as a JSON list.
   factory LiteralExpression.fromJson(List<dynamic> args) {
@@ -1430,7 +1428,7 @@ class CollatorExpressionExpression extends Expression<Collator> {
   const CollatorExpressionExpression({
     required this.object,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [CollatorExpressionExpression] by parsing the given [args] as a JSON list.
   factory CollatorExpressionExpression.fromJson(List<dynamic> args) {
@@ -1477,9 +1475,7 @@ class CollatorExpressionExpression extends Expression<Collator> {
 ///
 ///  - [Display and style rich text labels](https://maplibre.org/maplibre-gl-js/docs/examples/display-and-style-rich-text-labels/)
 class FormatExpression extends Expression<Formatted> {
-  const FormatExpression({
-    super.type,
-  });
+  const FormatExpression() : super();
 
   /// Creates a new instance of [FormatExpression] by parsing the given [args] as a JSON list.
   factory FormatExpression.fromJson(List<dynamic> args) {
@@ -1503,7 +1499,7 @@ class ImageExpressionExpression extends Expression<ResolvedImage> {
   const ImageExpressionExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ImageExpressionExpression] by parsing the given [args] as a JSON list.
   factory ImageExpressionExpression.fromJson(List<dynamic> args) {
@@ -1541,7 +1537,7 @@ class NumberFormatExpression extends Expression<String> {
     required this.number,
     required this.options,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [NumberFormatExpression] by parsing the given [args] as a JSON list.
   factory NumberFormatExpression.fromJson(List<dynamic> args) {
@@ -1604,7 +1600,7 @@ class ArrayAssertionExpression extends Expression<List<dynamic>> {
     this.childType,
     this.childCount,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ArrayAssertionExpression] by parsing the given [args] as a JSON list.
   factory ArrayAssertionExpression.fromJson(List<dynamic> args) {
@@ -1663,7 +1659,7 @@ class BooleanAssertionExpression extends Expression<bool> {
   const BooleanAssertionExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [BooleanAssertionExpression] by parsing the given [args] as a JSON list.
   factory BooleanAssertionExpression.fromJson(List<dynamic> args) {
@@ -1700,7 +1696,7 @@ class NumberAssertionExpression extends Expression<num> {
   const NumberAssertionExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [NumberAssertionExpression] by parsing the given [args] as a JSON list.
   factory NumberAssertionExpression.fromJson(List<dynamic> args) {
@@ -1737,7 +1733,7 @@ class StringAssertionExpression extends Expression<String> {
   const StringAssertionExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [StringAssertionExpression] by parsing the given [args] as a JSON list.
   factory StringAssertionExpression.fromJson(List<dynamic> args) {
@@ -1774,7 +1770,7 @@ class ObjectAssertionExpression extends Expression<Map<String, dynamic>> {
   const ObjectAssertionExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ObjectAssertionExpression] by parsing the given [args] as a JSON list.
   factory ObjectAssertionExpression.fromJson(List<dynamic> args) {
@@ -1811,7 +1807,7 @@ class TypeOfExpression extends Expression<String> {
   const TypeOfExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [TypeOfExpression] by parsing the given [args] as a JSON list.
   factory TypeOfExpression.fromJson(List<dynamic> args) {
@@ -1848,7 +1844,7 @@ class ToStringExpression extends Expression<String> {
   const ToStringExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ToStringExpression] by parsing the given [args] as a JSON list.
   factory ToStringExpression.fromJson(List<dynamic> args) {
@@ -1883,7 +1879,7 @@ class ToNumberExpression extends Expression<num> {
   const ToNumberExpression({
     required this.values,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ToNumberExpression] by parsing the given [args] as a JSON list.
   factory ToNumberExpression.fromJson(List<dynamic> args) {
@@ -1920,7 +1916,7 @@ class ToBooleanExpression extends Expression<bool> {
   const ToBooleanExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ToBooleanExpression] by parsing the given [args] as a JSON list.
   factory ToBooleanExpression.fromJson(List<dynamic> args) {
@@ -1957,7 +1953,7 @@ class ToColorExpression extends Expression<Color> {
   const ToColorExpression({
     required this.values,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ToColorExpression] by parsing the given [args] as a JSON list.
   factory ToColorExpression.fromJson(List<dynamic> args) {
@@ -1994,7 +1990,7 @@ class ToRgbaExpression extends Expression<List<num>> {
   const ToRgbaExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ToRgbaExpression] by parsing the given [args] as a JSON list.
   factory ToRgbaExpression.fromJson(List<dynamic> args) {
@@ -2031,7 +2027,7 @@ class RgbExpression extends Expression<Color> {
     required this.g,
     required this.b,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [RgbExpression] by parsing the given [args] as a JSON list.
   factory RgbExpression.fromJson(List<dynamic> args) {
@@ -2087,7 +2083,7 @@ class RgbaExpression extends Expression<Color> {
     required this.b,
     required this.a,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [RgbaExpression] by parsing the given [args] as a JSON list.
   factory RgbaExpression.fromJson(List<dynamic> args) {
@@ -2146,9 +2142,7 @@ class RgbaExpression extends Expression<Color> {
 
 /// Gets the feature properties object.  Note that in some cases, it may be more efficient to use ["get", "property_name"] directly.
 class PropertiesExpression extends Expression<Map<String, dynamic>> {
-  const PropertiesExpression({
-    super.type,
-  });
+  const PropertiesExpression() : super();
 
   /// Creates a new instance of [PropertiesExpression] by parsing the given [args] as a JSON list.
   factory PropertiesExpression.fromJson(List<dynamic> args) {
@@ -2172,7 +2166,7 @@ class FeatureStateExpression extends Expression<dynamic> {
   const FeatureStateExpression({
     required this.key,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [FeatureStateExpression] by parsing the given [args] as a JSON list.
   factory FeatureStateExpression.fromJson(List<dynamic> args) {
@@ -2204,9 +2198,7 @@ class FeatureStateExpression extends Expression<dynamic> {
 
 /// Gets the feature's geometry type: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`.
 class GeometryTypeExpression extends Expression<String> {
-  const GeometryTypeExpression({
-    super.type,
-  });
+  const GeometryTypeExpression() : super();
 
   /// Creates a new instance of [GeometryTypeExpression] by parsing the given [args] as a JSON list.
   factory GeometryTypeExpression.fromJson(List<dynamic> args) {
@@ -2225,9 +2217,7 @@ class GeometryTypeExpression extends Expression<String> {
 
 /// Gets the feature's id, if it has one.
 class IdExpression extends Expression<String?> {
-  const IdExpression({
-    super.type,
-  });
+  const IdExpression() : super();
 
   /// Creates a new instance of [IdExpression] by parsing the given [args] as a JSON list.
   factory IdExpression.fromJson(List<dynamic> args) {
@@ -2246,9 +2236,7 @@ class IdExpression extends Expression<String?> {
 
 /// Gets the progress along a gradient line. Can only be used in the `line-gradient` property.
 class LineProgressExpression extends Expression<double> {
-  const LineProgressExpression({
-    super.type,
-  });
+  const LineProgressExpression() : super();
 
   /// Creates a new instance of [LineProgressExpression] by parsing the given [args] as a JSON list.
   factory LineProgressExpression.fromJson(List<dynamic> args) {
@@ -2270,7 +2258,7 @@ class AccumulatedExpression extends Expression<double> {
   const AccumulatedExpression({
     required this.key,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AccumulatedExpression] by parsing the given [args] as a JSON list.
   factory AccumulatedExpression.fromJson(List<dynamic> args) {
@@ -2302,9 +2290,7 @@ class AccumulatedExpression extends Expression<double> {
 
 /// Returns mathematical constant ln(2).
 class Ln2Expression extends Expression<num> {
-  const Ln2Expression({
-    super.type,
-  });
+  const Ln2Expression() : super();
 
   /// Creates a new instance of [Ln2Expression] by parsing the given [args] as a JSON list.
   factory Ln2Expression.fromJson(List<dynamic> args) {
@@ -2323,9 +2309,7 @@ class Ln2Expression extends Expression<num> {
 
 /// Returns the mathematical constant pi.
 class PiExpression extends Expression<num> {
-  const PiExpression({
-    super.type,
-  });
+  const PiExpression() : super();
 
   /// Creates a new instance of [PiExpression] by parsing the given [args] as a JSON list.
   factory PiExpression.fromJson(List<dynamic> args) {
@@ -2344,9 +2328,7 @@ class PiExpression extends Expression<num> {
 
 /// Returns the mathematical constant e.
 class EExpression extends Expression<num> {
-  const EExpression({
-    super.type,
-  });
+  const EExpression() : super();
 
   /// Creates a new instance of [EExpression] by parsing the given [args] as a JSON list.
   factory EExpression.fromJson(List<dynamic> args) {
@@ -2368,7 +2350,7 @@ class AddExpression extends Expression<num> {
   const AddExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AddExpression] by parsing the given [args] as a JSON list.
   factory AddExpression.fromJson(List<dynamic> args) {
@@ -2405,7 +2387,7 @@ class MultiplyExpression extends Expression<num> {
   const MultiplyExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [MultiplyExpression] by parsing the given [args] as a JSON list.
   factory MultiplyExpression.fromJson(List<dynamic> args) {
@@ -2443,7 +2425,7 @@ class MinusExpression extends Expression<num> {
     required this.left,
     this.right,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [MinusExpression] by parsing the given [args] as a JSON list.
   factory MinusExpression.fromJson(List<dynamic> args) {
@@ -2492,7 +2474,7 @@ class DivideExpression extends Expression<num> {
     required this.left,
     required this.right,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [DivideExpression] by parsing the given [args] as a JSON list.
   factory DivideExpression.fromJson(List<dynamic> args) {
@@ -2537,7 +2519,7 @@ class ModExpression extends Expression<num> {
     required this.left,
     required this.right,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [ModExpression] by parsing the given [args] as a JSON list.
   factory ModExpression.fromJson(List<dynamic> args) {
@@ -2582,7 +2564,7 @@ class PowExpression extends Expression<num> {
     required this.base,
     required this.exponent,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [PowExpression] by parsing the given [args] as a JSON list.
   factory PowExpression.fromJson(List<dynamic> args) {
@@ -2626,7 +2608,7 @@ class SqrtExpression extends Expression<num> {
   const SqrtExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [SqrtExpression] by parsing the given [args] as a JSON list.
   factory SqrtExpression.fromJson(List<dynamic> args) {
@@ -2661,7 +2643,7 @@ class Log10Expression extends Expression<num> {
   const Log10Expression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [Log10Expression] by parsing the given [args] as a JSON list.
   factory Log10Expression.fromJson(List<dynamic> args) {
@@ -2696,7 +2678,7 @@ class LnExpression extends Expression<num> {
   const LnExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [LnExpression] by parsing the given [args] as a JSON list.
   factory LnExpression.fromJson(List<dynamic> args) {
@@ -2731,7 +2713,7 @@ class Log2Expression extends Expression<num> {
   const Log2Expression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [Log2Expression] by parsing the given [args] as a JSON list.
   factory Log2Expression.fromJson(List<dynamic> args) {
@@ -2766,7 +2748,7 @@ class SinExpression extends Expression<num> {
   const SinExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [SinExpression] by parsing the given [args] as a JSON list.
   factory SinExpression.fromJson(List<dynamic> args) {
@@ -2801,7 +2783,7 @@ class CosExpression extends Expression<num> {
   const CosExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [CosExpression] by parsing the given [args] as a JSON list.
   factory CosExpression.fromJson(List<dynamic> args) {
@@ -2836,7 +2818,7 @@ class TanExpression extends Expression<num> {
   const TanExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [TanExpression] by parsing the given [args] as a JSON list.
   factory TanExpression.fromJson(List<dynamic> args) {
@@ -2871,7 +2853,7 @@ class AsinExpression extends Expression<num> {
   const AsinExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AsinExpression] by parsing the given [args] as a JSON list.
   factory AsinExpression.fromJson(List<dynamic> args) {
@@ -2906,7 +2888,7 @@ class AcosExpression extends Expression<num> {
   const AcosExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AcosExpression] by parsing the given [args] as a JSON list.
   factory AcosExpression.fromJson(List<dynamic> args) {
@@ -2941,7 +2923,7 @@ class AtanExpression extends Expression<num> {
   const AtanExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AtanExpression] by parsing the given [args] as a JSON list.
   factory AtanExpression.fromJson(List<dynamic> args) {
@@ -2976,7 +2958,7 @@ class MinExpression extends Expression<num> {
   const MinExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [MinExpression] by parsing the given [args] as a JSON list.
   factory MinExpression.fromJson(List<dynamic> args) {
@@ -3013,7 +2995,7 @@ class MaxExpression extends Expression<num> {
   const MaxExpression({
     required this.args,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [MaxExpression] by parsing the given [args] as a JSON list.
   factory MaxExpression.fromJson(List<dynamic> args) {
@@ -3050,7 +3032,7 @@ class AbsExpression extends Expression<num> {
   const AbsExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [AbsExpression] by parsing the given [args] as a JSON list.
   factory AbsExpression.fromJson(List<dynamic> args) {
@@ -3085,7 +3067,7 @@ class RoundExpression extends Expression<num> {
   const RoundExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [RoundExpression] by parsing the given [args] as a JSON list.
   factory RoundExpression.fromJson(List<dynamic> args) {
@@ -3120,7 +3102,7 @@ class CeilExpression extends Expression<num> {
   const CeilExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [CeilExpression] by parsing the given [args] as a JSON list.
   factory CeilExpression.fromJson(List<dynamic> args) {
@@ -3155,7 +3137,7 @@ class FloorExpression extends Expression<num> {
   const FloorExpression({
     required this.value,
     super.type,
-  });
+  }) : super();
 
   /// Creates a new instance of [FloorExpression] by parsing the given [args] as a JSON list.
   factory FloorExpression.fromJson(List<dynamic> args) {

@@ -37,7 +37,7 @@ dynamic inExpressionImpl(
 }
 
 @ExpressionAnnotation('IndexOfExpression', rawName: 'index-of')
-dynamic indexOfExpression(
+int indexOfExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> needle,
   Expression<dynamic> haystack,
@@ -56,7 +56,7 @@ dynamic indexOfExpression(
 }
 
 @ExpressionAnnotation('SliceExpression', rawName: 'slice')
-dynamic sliceExpression(
+dynamic sliceExpressionImpl(
   EvaluationContext context,
   Expression<dynamic> input,
   Expression<int> start,
