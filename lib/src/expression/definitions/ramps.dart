@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:bezier/bezier.dart';
-import 'package:color_models/color_models.dart' as cm;
 import 'package:maplibre_style_spec/src/_src.dart';
 import 'package:maplibre_style_spec/src/expression/generator/annotations.dart';
+import 'package:maplibre_style_spec/src/utils/color_utils.dart';
 import 'package:vector_math/vector_math.dart';
 
 @ExpressionAnnotation('StepExpression', rawName: 'step')
@@ -143,22 +143,22 @@ T _interpolateExpressionImpl<T>(
   final a = stops[index].$2.evaluate(context);
   final b = stops[index + 1].$2.evaluate(context);
 
-  if (T == num) return _interpolateNumber(t, a as num, b as num) as T;
-  if (T == List<num>) return _interpolateNumberList(t, a as List<num>, b as List<num>) as T;
-  if (T == Padding) return _interpolatePadding(t, a as Padding, b as Padding) as T;
+  if (T == num) return _interpolateNumber(a as num, b as num, t) as T;
+  if (T == List<num>) return _interpolateNumberList(a as List<num>, b as List<num>, t) as T;
+  if (T == Padding) return _interpolatePadding(a as Padding, b as Padding, t) as T;
   if (T == VariableAnchorOffsetCollection) {
     return _interpolateVariableAnchorOffsetCollection(
-      t,
       a as VariableAnchorOffsetCollection,
       b as VariableAnchorOffsetCollection,
+      t,
     ) as T;
   }
 
   if (T == Color) {
     return switch (colorInterpolationMode) {
-      _ColorInterpolationMode.rgb => _interpolateColor(t, a as Color, b as Color) as T,
-      _ColorInterpolationMode.hcl => _interpolateColorHcl(t, a as Color, b as Color) as T,
-      _ColorInterpolationMode.lab => _interpolateColorLab(t, a as Color, b as Color) as T,
+      _ColorInterpolationMode.rgb => _interpolateColor(a as Color, b as Color, t) as T,
+      _ColorInterpolationMode.hcl => _interpolateColorHcl(a as Color, b as Color, t) as T,
+      _ColorInterpolationMode.lab => _interpolateColorLab(a as Color, b as Color, t) as T,
     };
   }
 
@@ -237,50 +237,80 @@ num _exponentialInterpolation(num input, num base, num lowerValue, num upperValu
   }
 }
 
-num _interpolateNumber(num t, num a, num b) {
+num _interpolateNumber(num a, num b, num t) {
   return a + (b - a) * t;
 }
 
-List<num> _interpolateNumberList(num t, List<num> a, List<num> b) {
-  return List.generate(a.length, (i) => _interpolateNumber(t, a[i], b[i]));
+List<num> _interpolateNumberList(List<num> a, List<num> b, num t) {
+  return List.generate(a.length, (i) => _interpolateNumber(a[i], b[i], t));
 }
 
-Color _interpolateColor(num t, Color a, Color b) {
-  final list = _interpolateNumberList(t, a.toRgbaList(), b.toRgbaList());
+Color _interpolateColor(Color a, Color b, num t) {
+  final list = _interpolateNumberList(a.toRgbaList(), b.toRgbaList(), t);
   return Color(r: list[0].toDouble(), g: list[1].toDouble(), b: list[2].toDouble(), a: list[3].toDouble());
 }
 
-Color _interpolateColorHcl(num t, Color a, Color b) {
-  // color_models doesn't support CIE L*C*h*
-  throw UnimplementedError();
+Color _interpolateColorHcl(Color a, Color b, num t) {
+  final (hue0, chroma0, light0, alphaF) = hclColorFromColor(a);
+  final (hue1, chroma1, light1, alphaT) = hclColorFromColor(b);
+
+  num? hue, chroma;
+
+  if (!hue0.isNaN && !hue1.isNaN) {
+    var dh = hue1 - hue0;
+
+    if (hue1 > hue0 && dh > 180) {
+      dh -= 360;
+    } else if (hue1 < hue0 && hue0 - hue1 > 180) {
+      dh += 360;
+    }
+
+    hue = hue0 + t * dh;
+  } else if (!hue0.isNaN) {
+    hue = hue0;
+    if (light1 == 1 || light1 == 0) {
+      chroma = chroma0;
+    }
+  } else if (!hue1.isNaN) {
+    hue = hue1;
+    if (light0 == 1 || light0 == 0) {
+      chroma = chroma1;
+    }
+  } else {
+    hue = double.nan;
+  }
+
+  return colorFromHclColor((
+    hue,
+    chroma ?? _interpolateNumber(chroma0, chroma1, t),
+    _interpolateNumber(light0, light1, t),
+    _interpolateNumber(alphaF, alphaT, t),
+  ));
 }
 
-Color _interpolateColorLab(num t, Color a, Color b) {
-  final aModel = cm.RgbColor(a.r * 255, a.b * 255, a.g * 255, (a.a * 255).round());
-  final bModel = cm.RgbColor(b.r * 255, b.b * 255, b.g * 255, (b.a * 255).round());
+Color _interpolateColorLab(Color a, Color b, num t) {
+  final aLab = labColorFromColor(a);
+  final bLab = labColorFromColor(b);
 
-  final aLab = aModel.toLabColor();
-  final bLab = bModel.toLabColor();
+  final outLabList = _interpolateNumberList(aLab.asLabList, bLab.asLabList, t);
+  final outLabColor = (outLabList[0], outLabList[1], outLabList[2], outLabList[3]);
 
-  final result = aLab.interpolate(bLab, t.toDouble());
-  final resultRgb = result.toRgbColor();
-
-  return Color(r: resultRgb.red / 255, g: resultRgb.green / 255, b: resultRgb.blue / 255, a: resultRgb.alpha / 255);
+  return colorFromLabColor(outLabColor);
 }
 
-Padding _interpolatePadding(num t, Padding a, Padding b) {
-  final top = _interpolateNumber(t, a.top, b.top);
-  final right = _interpolateNumber(t, a.right, b.right);
-  final bottom = _interpolateNumber(t, a.bottom, b.bottom);
-  final left = _interpolateNumber(t, a.left, b.left);
-
-  return Padding(top: top, right: right, bottom: bottom, left: left);
+Padding _interpolatePadding(Padding a, Padding b, num t) {
+  return Padding(
+    top: _interpolateNumber(a.top, b.top, t),
+    right: _interpolateNumber(a.right, b.right, t),
+    bottom: _interpolateNumber(a.bottom, b.bottom, t),
+    left: _interpolateNumber(a.left, b.left, t),
+  );
 }
 
 VariableAnchorOffsetCollection _interpolateVariableAnchorOffsetCollection(
-  num t,
   VariableAnchorOffsetCollection a,
   VariableAnchorOffsetCollection b,
+  num t,
 ) {
   throw UnimplementedError();
 }
