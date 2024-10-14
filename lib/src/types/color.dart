@@ -22,6 +22,7 @@ class Color {
     // Collect [number]% and divide by 100
     var _value = value;
 
+    // TODO: Color parsing with csslib sucks :( Maybe rewrite?
     final regex = RegExp(r'(\d+(\.\d+)?)%');
     _value = _value.replaceAllMapped(regex, (match) {
       final percentage = double.parse(match.group(1)!);
@@ -33,6 +34,22 @@ class Color {
       if (_value.length == 4 || _value.length == 5) {
         // Duplicate each character, because csslib doesn't support 3/4 digit hex values
         _value = '#${_value.split('').skip(1).map((e) => e * 2).join()}';
+      }
+    }
+
+    if (_value.startsWith('hsl')) {
+      final inBrackets = _value.split('(').last.split(')').first;
+      final parts = inBrackets.split(',').map((e) => e.trim()).toList();
+
+      final h = double.parse(parts[0]);
+
+      // H should be in range 0..1
+      parts[0] = (h / 360).toString();
+
+      if (_value.startsWith('hsla')) {
+        _value = 'hsla(${parts.join(',')})';
+      } else {
+        _value = 'hsl(${parts.join(',')})';
       }
     }
 
@@ -52,4 +69,9 @@ class Color {
   final double a;
 
   List<double> toRgbaList() => [r, g, b, a];
+
+  @override
+  String toString() {
+    return 'Color(r: $r, g: $g, b: $b, a: $a)';
+  }
 }

@@ -127,8 +127,13 @@ T _interpolateExpressionImpl<T>(
 
   final value = input.evaluate(context);
 
+  // If value is less than first stop, return the first output value
+  if (value < stops.first.$1) {
+    return stops.first.$2.evaluate(context);
+  }
+
   // If value is greater than the last stop, return the last output value
-  if (value > stops.last.$1) {
+  if (value >= stops.last.$1) {
     return stops.last.$2.evaluate(context);
   }
 

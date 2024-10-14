@@ -65,10 +65,6 @@ bool equalsExpressionImpl(
   final _right = right(context);
   final _collator = collator?.evaluate(context);
 
-  if (_left.runtimeType != _right.runtimeType) {
-    throw Exception('Cannot compare different types: ${_left.runtimeType} and ${_right.runtimeType}');
-  }
-
   if (_left is String && _right is String) {
     // TODO: Collator
 
