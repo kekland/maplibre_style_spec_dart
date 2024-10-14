@@ -74,8 +74,7 @@ List<String> _generateExpressionConstructorCode(FunctionDeclaration decl) {
 
     code.add('    super.type,');
     code.add('  })');
-  }
-  else {
+  } else {
     code.add('  const ${annotation.name}()');
   }
 
@@ -94,6 +93,10 @@ List<String> _generateExpressionFieldsCode(FunctionDeclaration decl) {
 
   return code;
 }
+
+const _typesWithFromJson = [
+  'InterpolationOptions',
+];
 
 String _generateFromJsonTypeCast(
   DartType type,
@@ -150,6 +153,10 @@ String _generateFromJsonTypeCast(
       return code;
     }
   } else {
+    if (_typesWithFromJson.contains(type.getDisplayString())) {
+      return '${type.getDisplayString()}.fromJson($accessor as dynamic)';
+    }
+
     return '$accessor as ${type.getDisplayString()}';
   }
 }
@@ -293,7 +300,7 @@ Future<void> main() async {
   final rootDirectory = File(scriptPath).parent.parent.parent;
   final expressionsDirectory = Directory('${rootDirectory.path}/lib/src/expression/definitions');
   final outputFile = File('${rootDirectory.path}/lib/src/gen/expressions.gen.dart');
-  final referenceFile = File('${rootDirectory.path}/reference/v8.json');
+  final referenceFile = File('${rootDirectory.path}/reference/style/v8.json');
 
   final collection = AnalysisContextCollection(
     includedPaths: [expressionsDirectory.absolute.path],

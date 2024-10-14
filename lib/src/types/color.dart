@@ -50,4 +50,6 @@ class Color {
   final double g;
   final double b;
   final double a;
+
+  List<double> toRgbaList() => [r, g, b, a];
 }

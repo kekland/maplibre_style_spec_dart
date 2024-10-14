@@ -11,7 +11,7 @@ class _FormattedStringAdapterExpression extends Expression<Formatted> {
   Formatted evaluate(EvaluationContext context) => Formatted.fromJson(string(context));
 }
 
-bool _isJsonListWithElementType<T>(List<dynamic> json) {
+bool isListWithElementType<T>(List<dynamic> json) {
   for (final element in json) {
     if (element is! T) return false;
   }
@@ -29,7 +29,7 @@ abstract class Expression<T> {
     if (T == Color) {
       if (args is String) {
         return LiteralExpression<Color>(value: Color.fromJson(args)) as Expression<T>;
-      } else if (args is List && _isJsonListWithElementType<num>(args)) {
+      } else if (args is List && isListWithElementType<num>(args)) {
         return LiteralExpression<Color>(value: Color.fromList(args as List<num>)) as Expression<T>;
       }
     }

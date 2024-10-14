@@ -134,6 +134,42 @@ class Style {
   /// 
   /// Except for layers of the `background` type, each layer needs to refer to a source. Layers take the data that they get from a source, optionally filter features, and then define how those features are styled.
   final List<Layer> layers;
+
+  Style copyWith({
+    String? name,
+    Object? metadata,
+    List<num>? center,
+    num? zoom,
+    num? bearing,
+    num? pitch,
+    Light? light,
+    Sky? sky,
+    Projection? projection,
+    Terrain? terrain,
+    Map<Object, Source>? sources,
+    Sprite? sprite,
+    String? glyphs,
+    Transition? transition,
+    List<Layer>? layers,
+  }) {
+    return Style(
+      name: name ?? this.name,
+      metadata: metadata ?? this.metadata,
+      center: center ?? this.center,
+      zoom: zoom ?? this.zoom,
+      bearing: bearing ?? this.bearing,
+      pitch: pitch ?? this.pitch,
+      light: light ?? this.light,
+      sky: sky ?? this.sky,
+      projection: projection ?? this.projection,
+      terrain: terrain ?? this.terrain,
+      sources: sources ?? this.sources,
+      sprite: sprite ?? this.sprite,
+      glyphs: glyphs ?? this.glyphs,
+      transition: transition ?? this.transition,
+      layers: layers ?? this.layers,
+    );
+  }
 }
 
 class SourceVector extends Source {
@@ -220,6 +256,32 @@ class SourceVector extends Source {
 
   /// A setting to determine whether a source's tiles are cached locally.
   final bool volatile;
+
+  SourceVector copyWith({
+    SourceVector$Type? type,
+    String? url,
+    List<String>? tiles,
+    List<num>? bounds,
+    SourceVector$Scheme? scheme,
+    num? minzoom,
+    num? maxzoom,
+    String? attribution,
+    Map<Object, String>? promoteId,
+    bool? volatile,
+  }) {
+    return SourceVector(
+      type: type ?? this.type,
+      url: url ?? this.url,
+      tiles: tiles ?? this.tiles,
+      bounds: bounds ?? this.bounds,
+      scheme: scheme ?? this.scheme,
+      minzoom: minzoom ?? this.minzoom,
+      maxzoom: maxzoom ?? this.maxzoom,
+      attribution: attribution ?? this.attribution,
+      promoteId: promoteId ?? this.promoteId,
+      volatile: volatile ?? this.volatile,
+    );
+  }
 }
 
 class SourceRaster extends Source {
@@ -306,6 +368,32 @@ class SourceRaster extends Source {
 
   /// A setting to determine whether a source's tiles are cached locally.
   final bool volatile;
+
+  SourceRaster copyWith({
+    SourceRaster$Type? type,
+    String? url,
+    List<String>? tiles,
+    List<num>? bounds,
+    num? minzoom,
+    num? maxzoom,
+    num? tileSize,
+    SourceRaster$Scheme? scheme,
+    String? attribution,
+    bool? volatile,
+  }) {
+    return SourceRaster(
+      type: type ?? this.type,
+      url: url ?? this.url,
+      tiles: tiles ?? this.tiles,
+      bounds: bounds ?? this.bounds,
+      minzoom: minzoom ?? this.minzoom,
+      maxzoom: maxzoom ?? this.maxzoom,
+      tileSize: tileSize ?? this.tileSize,
+      scheme: scheme ?? this.scheme,
+      attribution: attribution ?? this.attribution,
+      volatile: volatile ?? this.volatile,
+    );
+  }
 }
 
 class SourceRasterDem extends Source {
@@ -420,6 +508,40 @@ class SourceRasterDem extends Source {
 
   /// A setting to determine whether a source's tiles are cached locally.
   final bool volatile;
+
+  SourceRasterDem copyWith({
+    SourceRasterDem$Type? type,
+    String? url,
+    List<String>? tiles,
+    List<num>? bounds,
+    num? minzoom,
+    num? maxzoom,
+    num? tileSize,
+    String? attribution,
+    SourceRasterDem$Encoding? encoding,
+    num? redFactor,
+    num? blueFactor,
+    num? greenFactor,
+    num? baseShift,
+    bool? volatile,
+  }) {
+    return SourceRasterDem(
+      type: type ?? this.type,
+      url: url ?? this.url,
+      tiles: tiles ?? this.tiles,
+      bounds: bounds ?? this.bounds,
+      minzoom: minzoom ?? this.minzoom,
+      maxzoom: maxzoom ?? this.maxzoom,
+      tileSize: tileSize ?? this.tileSize,
+      attribution: attribution ?? this.attribution,
+      encoding: encoding ?? this.encoding,
+      redFactor: redFactor ?? this.redFactor,
+      blueFactor: blueFactor ?? this.blueFactor,
+      greenFactor: greenFactor ?? this.greenFactor,
+      baseShift: baseShift ?? this.baseShift,
+      volatile: volatile ?? this.volatile,
+    );
+  }
 }
 
 class SourceGeoJson extends Source {
@@ -555,6 +677,42 @@ class SourceGeoJson extends Source {
 
   /// A property to use as a feature id (for feature state). Either a property name, or an object of the form `{<sourceLayer>: <propertyName>}`.
   final Map<Object, String>? promoteId;
+
+  SourceGeoJson copyWith({
+    SourceGeoJson$Type? type,
+    Object? data,
+    num? maxzoom,
+    String? attribution,
+    num? buffer,
+    Expression<bool>? filter,
+    num? tolerance,
+    bool? cluster,
+    num? clusterRadius,
+    num? clusterMaxZoom,
+    num? clusterMinPoints,
+    Object? clusterProperties,
+    bool? lineMetrics,
+    bool? generateId,
+    Map<Object, String>? promoteId,
+  }) {
+    return SourceGeoJson(
+      type: type ?? this.type,
+      data: data ?? this.data,
+      maxzoom: maxzoom ?? this.maxzoom,
+      attribution: attribution ?? this.attribution,
+      buffer: buffer ?? this.buffer,
+      filter: filter ?? this.filter,
+      tolerance: tolerance ?? this.tolerance,
+      cluster: cluster ?? this.cluster,
+      clusterRadius: clusterRadius ?? this.clusterRadius,
+      clusterMaxZoom: clusterMaxZoom ?? this.clusterMaxZoom,
+      clusterMinPoints: clusterMinPoints ?? this.clusterMinPoints,
+      clusterProperties: clusterProperties ?? this.clusterProperties,
+      lineMetrics: lineMetrics ?? this.lineMetrics,
+      generateId: generateId ?? this.generateId,
+      promoteId: promoteId ?? this.promoteId,
+    );
+  }
 }
 
 class SourceVideo extends Source {
@@ -592,6 +750,18 @@ class SourceVideo extends Source {
 
   /// Corners of video specified in longitude, latitude pairs.
   final List<List<num>> coordinates;
+
+  SourceVideo copyWith({
+    SourceVideo$Type? type,
+    List<String>? urls,
+    List<List<num>>? coordinates,
+  }) {
+    return SourceVideo(
+      type: type ?? this.type,
+      urls: urls ?? this.urls,
+      coordinates: coordinates ?? this.coordinates,
+    );
+  }
 }
 
 class SourceImage extends Source {
@@ -629,6 +799,18 @@ class SourceImage extends Source {
 
   /// Corners of image specified in longitude, latitude pairs.
   final List<List<num>> coordinates;
+
+  SourceImage copyWith({
+    SourceImage$Type? type,
+    String? url,
+    List<List<num>>? coordinates,
+  }) {
+    return SourceImage(
+      type: type ?? this.type,
+      url: url ?? this.url,
+      coordinates: coordinates ?? this.coordinates,
+    );
+  }
 }
 
 class Layer {
@@ -715,6 +897,32 @@ class Layer {
 
   /// Default paint properties for this layer.
   final Paint? paint;
+
+  Layer copyWith({
+    String? id,
+    Layer$Type? type,
+    Object? metadata,
+    String? source,
+    String? sourceLayer,
+    num? minzoom,
+    num? maxzoom,
+    Expression<bool>? filter,
+    Layout? layout,
+    Paint? paint,
+  }) {
+    return Layer(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      metadata: metadata ?? this.metadata,
+      source: source ?? this.source,
+      sourceLayer: sourceLayer ?? this.sourceLayer,
+      minzoom: minzoom ?? this.minzoom,
+      maxzoom: maxzoom ?? this.maxzoom,
+      filter: filter ?? this.filter,
+      layout: layout ?? this.layout,
+      paint: paint ?? this.paint,
+    );
+  }
 }
 
 class LayoutBackground extends Layout {
@@ -738,6 +946,14 @@ class LayoutBackground extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutBackground copyWith({
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutBackground(
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutFill extends Layout {
@@ -768,6 +984,16 @@ class LayoutFill extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutFill copyWith({
+    DataDrivenProperty<num>? fillSortKey,
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutFill(
+      fillSortKey: fillSortKey ?? this.fillSortKey,
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutCircle extends Layout {
@@ -798,6 +1024,16 @@ class LayoutCircle extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutCircle copyWith({
+    DataDrivenProperty<num>? circleSortKey,
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutCircle(
+      circleSortKey: circleSortKey ?? this.circleSortKey,
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutHeatmap extends Layout {
@@ -821,6 +1057,14 @@ class LayoutHeatmap extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutHeatmap copyWith({
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutHeatmap(
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutFillExtrusion extends Layout {
@@ -844,6 +1088,14 @@ class LayoutFillExtrusion extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutFillExtrusion copyWith({
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutFillExtrusion(
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutLine extends Layout {
@@ -902,6 +1154,24 @@ class LayoutLine extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutLine copyWith({
+    DataConstantProperty<LayoutLine$LineCap>? lineCap,
+    DataDrivenProperty<LayoutLine$LineJoin>? lineJoin,
+    DataConstantProperty<num>? lineMiterLimit,
+    DataConstantProperty<num>? lineRoundLimit,
+    DataDrivenProperty<num>? lineSortKey,
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutLine(
+      lineCap: lineCap ?? this.lineCap,
+      lineJoin: lineJoin ?? this.lineJoin,
+      lineMiterLimit: lineMiterLimit ?? this.lineMiterLimit,
+      lineRoundLimit: lineRoundLimit ?? this.lineRoundLimit,
+      lineSortKey: lineSortKey ?? this.lineSortKey,
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutSymbol extends Layout {
@@ -1247,6 +1517,102 @@ class LayoutSymbol extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutSymbol copyWith({
+    DataConstantProperty<LayoutSymbol$SymbolPlacement>? symbolPlacement,
+    DataConstantProperty<num>? symbolSpacing,
+    DataConstantProperty<bool>? symbolAvoidEdges,
+    DataDrivenProperty<num>? symbolSortKey,
+    DataConstantProperty<LayoutSymbol$SymbolZOrder>? symbolZOrder,
+    DataConstantProperty<bool>? iconAllowOverlap,
+    DataConstantProperty<LayoutSymbol$IconOverlap>? iconOverlap,
+    DataConstantProperty<bool>? iconIgnorePlacement,
+    DataConstantProperty<bool>? iconOptional,
+    DataConstantProperty<LayoutSymbol$IconRotationAlignment>? iconRotationAlignment,
+    DataDrivenProperty<num>? iconSize,
+    DataConstantProperty<LayoutSymbol$IconTextFit>? iconTextFit,
+    DataConstantProperty<List<num>>? iconTextFitPadding,
+    DataDrivenProperty<ResolvedImage>? iconImage,
+    DataDrivenProperty<num>? iconRotate,
+    DataDrivenProperty<Padding>? iconPadding,
+    DataConstantProperty<bool>? iconKeepUpright,
+    DataDrivenProperty<List<num>>? iconOffset,
+    DataDrivenProperty<LayoutSymbol$IconAnchor>? iconAnchor,
+    DataConstantProperty<LayoutSymbol$IconPitchAlignment>? iconPitchAlignment,
+    DataConstantProperty<LayoutSymbol$TextPitchAlignment>? textPitchAlignment,
+    DataConstantProperty<LayoutSymbol$TextRotationAlignment>? textRotationAlignment,
+    DataDrivenProperty<Formatted>? textField,
+    DataDrivenProperty<List<String>>? textFont,
+    DataDrivenProperty<num>? textSize,
+    DataDrivenProperty<num>? textMaxWidth,
+    DataConstantProperty<num>? textLineHeight,
+    DataDrivenProperty<num>? textLetterSpacing,
+    DataDrivenProperty<LayoutSymbol$TextJustify>? textJustify,
+    DataDrivenProperty<num>? textRadialOffset,
+    DataConstantProperty<List<LayoutSymbol$TextVariableAnchor>>? textVariableAnchor,
+    DataDrivenProperty<VariableAnchorOffsetCollection>? textVariableAnchorOffset,
+    DataDrivenProperty<LayoutSymbol$TextAnchor>? textAnchor,
+    DataConstantProperty<num>? textMaxAngle,
+    DataConstantProperty<List<LayoutSymbol$TextWritingMode>>? textWritingMode,
+    DataDrivenProperty<num>? textRotate,
+    DataConstantProperty<num>? textPadding,
+    DataConstantProperty<bool>? textKeepUpright,
+    DataDrivenProperty<LayoutSymbol$TextTransform>? textTransform,
+    DataDrivenProperty<List<num>>? textOffset,
+    DataConstantProperty<bool>? textAllowOverlap,
+    DataConstantProperty<LayoutSymbol$TextOverlap>? textOverlap,
+    DataConstantProperty<bool>? textIgnorePlacement,
+    DataConstantProperty<bool>? textOptional,
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutSymbol(
+      symbolPlacement: symbolPlacement ?? this.symbolPlacement,
+      symbolSpacing: symbolSpacing ?? this.symbolSpacing,
+      symbolAvoidEdges: symbolAvoidEdges ?? this.symbolAvoidEdges,
+      symbolSortKey: symbolSortKey ?? this.symbolSortKey,
+      symbolZOrder: symbolZOrder ?? this.symbolZOrder,
+      iconAllowOverlap: iconAllowOverlap ?? this.iconAllowOverlap,
+      iconOverlap: iconOverlap ?? this.iconOverlap,
+      iconIgnorePlacement: iconIgnorePlacement ?? this.iconIgnorePlacement,
+      iconOptional: iconOptional ?? this.iconOptional,
+      iconRotationAlignment: iconRotationAlignment ?? this.iconRotationAlignment,
+      iconSize: iconSize ?? this.iconSize,
+      iconTextFit: iconTextFit ?? this.iconTextFit,
+      iconTextFitPadding: iconTextFitPadding ?? this.iconTextFitPadding,
+      iconImage: iconImage ?? this.iconImage,
+      iconRotate: iconRotate ?? this.iconRotate,
+      iconPadding: iconPadding ?? this.iconPadding,
+      iconKeepUpright: iconKeepUpright ?? this.iconKeepUpright,
+      iconOffset: iconOffset ?? this.iconOffset,
+      iconAnchor: iconAnchor ?? this.iconAnchor,
+      iconPitchAlignment: iconPitchAlignment ?? this.iconPitchAlignment,
+      textPitchAlignment: textPitchAlignment ?? this.textPitchAlignment,
+      textRotationAlignment: textRotationAlignment ?? this.textRotationAlignment,
+      textField: textField ?? this.textField,
+      textFont: textFont ?? this.textFont,
+      textSize: textSize ?? this.textSize,
+      textMaxWidth: textMaxWidth ?? this.textMaxWidth,
+      textLineHeight: textLineHeight ?? this.textLineHeight,
+      textLetterSpacing: textLetterSpacing ?? this.textLetterSpacing,
+      textJustify: textJustify ?? this.textJustify,
+      textRadialOffset: textRadialOffset ?? this.textRadialOffset,
+      textVariableAnchor: textVariableAnchor ?? this.textVariableAnchor,
+      textVariableAnchorOffset: textVariableAnchorOffset ?? this.textVariableAnchorOffset,
+      textAnchor: textAnchor ?? this.textAnchor,
+      textMaxAngle: textMaxAngle ?? this.textMaxAngle,
+      textWritingMode: textWritingMode ?? this.textWritingMode,
+      textRotate: textRotate ?? this.textRotate,
+      textPadding: textPadding ?? this.textPadding,
+      textKeepUpright: textKeepUpright ?? this.textKeepUpright,
+      textTransform: textTransform ?? this.textTransform,
+      textOffset: textOffset ?? this.textOffset,
+      textAllowOverlap: textAllowOverlap ?? this.textAllowOverlap,
+      textOverlap: textOverlap ?? this.textOverlap,
+      textIgnorePlacement: textIgnorePlacement ?? this.textIgnorePlacement,
+      textOptional: textOptional ?? this.textOptional,
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutRaster extends Layout {
@@ -1270,6 +1636,14 @@ class LayoutRaster extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutRaster copyWith({
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutRaster(
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class LayoutHillshade extends Layout {
@@ -1293,6 +1667,14 @@ class LayoutHillshade extends Layout {
 
   /// Whether this layer is displayed.
   final ConstantProperty<Visibility> visibility;
+
+  LayoutHillshade copyWith({
+    ConstantProperty<Visibility>? visibility,
+  }) {
+    return LayoutHillshade(
+      visibility: visibility ?? this.visibility,
+    );
+  }
 }
 
 class Light {
@@ -1337,6 +1719,20 @@ class Light {
 
   /// Intensity of lighting (on a scale from 0 to 1). Higher numbers will present as more extreme contrast.
   final DataConstantProperty<num> intensity;
+
+  Light copyWith({
+    DataConstantProperty<Light$Anchor>? anchor,
+    DataConstantProperty<List<num>>? position,
+    DataConstantProperty<Color>? color,
+    DataConstantProperty<num>? intensity,
+  }) {
+    return Light(
+      anchor: anchor ?? this.anchor,
+      position: position ?? this.position,
+      color: color ?? this.color,
+      intensity: intensity ?? this.intensity,
+    );
+  }
 }
 
 class Sky {
@@ -1402,6 +1798,26 @@ class Sky {
 
   /// How to blend the atmosphere. Where 1 is visible atmosphere and 0 is hidden. It is best to interpolate this expression when using globe projection.
   final DataConstantProperty<num> atmosphereBlend;
+
+  Sky copyWith({
+    DataConstantProperty<Color>? skyColor,
+    DataConstantProperty<Color>? horizonColor,
+    DataConstantProperty<Color>? fogColor,
+    DataConstantProperty<num>? fogGroundBlend,
+    DataConstantProperty<num>? horizonFogBlend,
+    DataConstantProperty<num>? skyHorizonBlend,
+    DataConstantProperty<num>? atmosphereBlend,
+  }) {
+    return Sky(
+      skyColor: skyColor ?? this.skyColor,
+      horizonColor: horizonColor ?? this.horizonColor,
+      fogColor: fogColor ?? this.fogColor,
+      fogGroundBlend: fogGroundBlend ?? this.fogGroundBlend,
+      horizonFogBlend: horizonFogBlend ?? this.horizonFogBlend,
+      skyHorizonBlend: skyHorizonBlend ?? this.skyHorizonBlend,
+      atmosphereBlend: atmosphereBlend ?? this.atmosphereBlend,
+    );
+  }
 }
 
 class Terrain {
@@ -1432,6 +1848,16 @@ class Terrain {
 
   /// The exaggeration of the terrain - how high it will look.
   final num exaggeration;
+
+  Terrain copyWith({
+    String? source,
+    num? exaggeration,
+  }) {
+    return Terrain(
+      source: source ?? this.source,
+      exaggeration: exaggeration ?? this.exaggeration,
+    );
+  }
 }
 
 class Projection {
@@ -1455,6 +1881,14 @@ class Projection {
 
   /// The projection type.
   final Projection$Type type;
+
+  Projection copyWith({
+    Projection$Type? type,
+  }) {
+    return Projection(
+      type: type ?? this.type,
+    );
+  }
 }
 
 class PaintFill extends Paint {
@@ -1520,6 +1954,26 @@ class PaintFill extends Paint {
 
   /// Name of image in sprite to use for drawing image fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels.
   final CrossFadedDataDrivenProperty<ResolvedImage>? fillPattern;
+
+  PaintFill copyWith({
+    DataConstantProperty<bool>? fillAntialias,
+    DataDrivenProperty<num>? fillOpacity,
+    DataDrivenProperty<Color>? fillColor,
+    DataDrivenProperty<Color>? fillOutlineColor,
+    DataConstantProperty<List<num>>? fillTranslate,
+    DataConstantProperty<PaintFill$FillTranslateAnchor>? fillTranslateAnchor,
+    CrossFadedDataDrivenProperty<ResolvedImage>? fillPattern,
+  }) {
+    return PaintFill(
+      fillAntialias: fillAntialias ?? this.fillAntialias,
+      fillOpacity: fillOpacity ?? this.fillOpacity,
+      fillColor: fillColor ?? this.fillColor,
+      fillOutlineColor: fillOutlineColor ?? this.fillOutlineColor,
+      fillTranslate: fillTranslate ?? this.fillTranslate,
+      fillTranslateAnchor: fillTranslateAnchor ?? this.fillTranslateAnchor,
+      fillPattern: fillPattern ?? this.fillPattern,
+    );
+  }
 }
 
 class PaintFillExtrusion extends Paint {
@@ -1592,6 +2046,28 @@ class PaintFillExtrusion extends Paint {
 
   /// Whether to apply a vertical gradient to the sides of a fill-extrusion layer. If true, sides will be shaded slightly darker farther down.
   final DataConstantProperty<bool> fillExtrusionVerticalGradient;
+
+  PaintFillExtrusion copyWith({
+    DataConstantProperty<num>? fillExtrusionOpacity,
+    DataDrivenProperty<Color>? fillExtrusionColor,
+    DataConstantProperty<List<num>>? fillExtrusionTranslate,
+    DataConstantProperty<PaintFillExtrusion$FillExtrusionTranslateAnchor>? fillExtrusionTranslateAnchor,
+    CrossFadedDataDrivenProperty<ResolvedImage>? fillExtrusionPattern,
+    DataDrivenProperty<num>? fillExtrusionHeight,
+    DataDrivenProperty<num>? fillExtrusionBase,
+    DataConstantProperty<bool>? fillExtrusionVerticalGradient,
+  }) {
+    return PaintFillExtrusion(
+      fillExtrusionOpacity: fillExtrusionOpacity ?? this.fillExtrusionOpacity,
+      fillExtrusionColor: fillExtrusionColor ?? this.fillExtrusionColor,
+      fillExtrusionTranslate: fillExtrusionTranslate ?? this.fillExtrusionTranslate,
+      fillExtrusionTranslateAnchor: fillExtrusionTranslateAnchor ?? this.fillExtrusionTranslateAnchor,
+      fillExtrusionPattern: fillExtrusionPattern ?? this.fillExtrusionPattern,
+      fillExtrusionHeight: fillExtrusionHeight ?? this.fillExtrusionHeight,
+      fillExtrusionBase: fillExtrusionBase ?? this.fillExtrusionBase,
+      fillExtrusionVerticalGradient: fillExtrusionVerticalGradient ?? this.fillExtrusionVerticalGradient,
+    );
+  }
 }
 
 class PaintLine extends Paint {
@@ -1685,6 +2161,34 @@ class PaintLine extends Paint {
 
   /// Defines a gradient with which to color a line feature. Can only be used with GeoJSON sources that specify `"lineMetrics": true`.
   final ColorRampProperty? lineGradient;
+
+  PaintLine copyWith({
+    DataDrivenProperty<num>? lineOpacity,
+    DataDrivenProperty<Color>? lineColor,
+    DataConstantProperty<List<num>>? lineTranslate,
+    DataConstantProperty<PaintLine$LineTranslateAnchor>? lineTranslateAnchor,
+    DataDrivenProperty<num>? lineWidth,
+    DataDrivenProperty<num>? lineGapWidth,
+    DataDrivenProperty<num>? lineOffset,
+    DataDrivenProperty<num>? lineBlur,
+    CrossFadedProperty<List<num>>? lineDasharray,
+    CrossFadedDataDrivenProperty<ResolvedImage>? linePattern,
+    ColorRampProperty? lineGradient,
+  }) {
+    return PaintLine(
+      lineOpacity: lineOpacity ?? this.lineOpacity,
+      lineColor: lineColor ?? this.lineColor,
+      lineTranslate: lineTranslate ?? this.lineTranslate,
+      lineTranslateAnchor: lineTranslateAnchor ?? this.lineTranslateAnchor,
+      lineWidth: lineWidth ?? this.lineWidth,
+      lineGapWidth: lineGapWidth ?? this.lineGapWidth,
+      lineOffset: lineOffset ?? this.lineOffset,
+      lineBlur: lineBlur ?? this.lineBlur,
+      lineDasharray: lineDasharray ?? this.lineDasharray,
+      linePattern: linePattern ?? this.linePattern,
+      lineGradient: lineGradient ?? this.lineGradient,
+    );
+  }
 }
 
 class PaintCircle extends Paint {
@@ -1778,6 +2282,34 @@ class PaintCircle extends Paint {
 
   /// The opacity of the circle's stroke.
   final DataDrivenProperty<num> circleStrokeOpacity;
+
+  PaintCircle copyWith({
+    DataDrivenProperty<num>? circleRadius,
+    DataDrivenProperty<Color>? circleColor,
+    DataDrivenProperty<num>? circleBlur,
+    DataDrivenProperty<num>? circleOpacity,
+    DataConstantProperty<List<num>>? circleTranslate,
+    DataConstantProperty<PaintCircle$CircleTranslateAnchor>? circleTranslateAnchor,
+    DataConstantProperty<PaintCircle$CirclePitchScale>? circlePitchScale,
+    DataConstantProperty<PaintCircle$CirclePitchAlignment>? circlePitchAlignment,
+    DataDrivenProperty<num>? circleStrokeWidth,
+    DataDrivenProperty<Color>? circleStrokeColor,
+    DataDrivenProperty<num>? circleStrokeOpacity,
+  }) {
+    return PaintCircle(
+      circleRadius: circleRadius ?? this.circleRadius,
+      circleColor: circleColor ?? this.circleColor,
+      circleBlur: circleBlur ?? this.circleBlur,
+      circleOpacity: circleOpacity ?? this.circleOpacity,
+      circleTranslate: circleTranslate ?? this.circleTranslate,
+      circleTranslateAnchor: circleTranslateAnchor ?? this.circleTranslateAnchor,
+      circlePitchScale: circlePitchScale ?? this.circlePitchScale,
+      circlePitchAlignment: circlePitchAlignment ?? this.circlePitchAlignment,
+      circleStrokeWidth: circleStrokeWidth ?? this.circleStrokeWidth,
+      circleStrokeColor: circleStrokeColor ?? this.circleStrokeColor,
+      circleStrokeOpacity: circleStrokeOpacity ?? this.circleStrokeOpacity,
+    );
+  }
 }
 
 class PaintHeatmap extends Paint {
@@ -1829,6 +2361,22 @@ class PaintHeatmap extends Paint {
 
   /// The global opacity at which the heatmap layer will be drawn.
   final DataConstantProperty<num> heatmapOpacity;
+
+  PaintHeatmap copyWith({
+    DataDrivenProperty<num>? heatmapRadius,
+    DataDrivenProperty<num>? heatmapWeight,
+    DataConstantProperty<num>? heatmapIntensity,
+    ColorRampProperty? heatmapColor,
+    DataConstantProperty<num>? heatmapOpacity,
+  }) {
+    return PaintHeatmap(
+      heatmapRadius: heatmapRadius ?? this.heatmapRadius,
+      heatmapWeight: heatmapWeight ?? this.heatmapWeight,
+      heatmapIntensity: heatmapIntensity ?? this.heatmapIntensity,
+      heatmapColor: heatmapColor ?? this.heatmapColor,
+      heatmapOpacity: heatmapOpacity ?? this.heatmapOpacity,
+    );
+  }
 }
 
 class PaintSymbol extends Paint {
@@ -1945,6 +2493,40 @@ class PaintSymbol extends Paint {
 
   /// Controls the frame of reference for `text-translate`.
   final DataConstantProperty<PaintSymbol$TextTranslateAnchor> textTranslateAnchor;
+
+  PaintSymbol copyWith({
+    DataDrivenProperty<num>? iconOpacity,
+    DataDrivenProperty<Color>? iconColor,
+    DataDrivenProperty<Color>? iconHaloColor,
+    DataDrivenProperty<num>? iconHaloWidth,
+    DataDrivenProperty<num>? iconHaloBlur,
+    DataConstantProperty<List<num>>? iconTranslate,
+    DataConstantProperty<PaintSymbol$IconTranslateAnchor>? iconTranslateAnchor,
+    DataDrivenProperty<num>? textOpacity,
+    DataDrivenProperty<Color>? textColor,
+    DataDrivenProperty<Color>? textHaloColor,
+    DataDrivenProperty<num>? textHaloWidth,
+    DataDrivenProperty<num>? textHaloBlur,
+    DataConstantProperty<List<num>>? textTranslate,
+    DataConstantProperty<PaintSymbol$TextTranslateAnchor>? textTranslateAnchor,
+  }) {
+    return PaintSymbol(
+      iconOpacity: iconOpacity ?? this.iconOpacity,
+      iconColor: iconColor ?? this.iconColor,
+      iconHaloColor: iconHaloColor ?? this.iconHaloColor,
+      iconHaloWidth: iconHaloWidth ?? this.iconHaloWidth,
+      iconHaloBlur: iconHaloBlur ?? this.iconHaloBlur,
+      iconTranslate: iconTranslate ?? this.iconTranslate,
+      iconTranslateAnchor: iconTranslateAnchor ?? this.iconTranslateAnchor,
+      textOpacity: textOpacity ?? this.textOpacity,
+      textColor: textColor ?? this.textColor,
+      textHaloColor: textHaloColor ?? this.textHaloColor,
+      textHaloWidth: textHaloWidth ?? this.textHaloWidth,
+      textHaloBlur: textHaloBlur ?? this.textHaloBlur,
+      textTranslate: textTranslate ?? this.textTranslate,
+      textTranslateAnchor: textTranslateAnchor ?? this.textTranslateAnchor,
+    );
+  }
 }
 
 class PaintRaster extends Paint {
@@ -2017,6 +2599,28 @@ class PaintRaster extends Paint {
 
   /// Fade duration when a new tile is added, or when a video is started or its coordinates are updated.
   final DataConstantProperty<num> rasterFadeDuration;
+
+  PaintRaster copyWith({
+    DataConstantProperty<num>? rasterOpacity,
+    DataConstantProperty<num>? rasterHueRotate,
+    DataConstantProperty<num>? rasterBrightnessMin,
+    DataConstantProperty<num>? rasterBrightnessMax,
+    DataConstantProperty<num>? rasterSaturation,
+    DataConstantProperty<num>? rasterContrast,
+    DataConstantProperty<PaintRaster$RasterResampling>? rasterResampling,
+    DataConstantProperty<num>? rasterFadeDuration,
+  }) {
+    return PaintRaster(
+      rasterOpacity: rasterOpacity ?? this.rasterOpacity,
+      rasterHueRotate: rasterHueRotate ?? this.rasterHueRotate,
+      rasterBrightnessMin: rasterBrightnessMin ?? this.rasterBrightnessMin,
+      rasterBrightnessMax: rasterBrightnessMax ?? this.rasterBrightnessMax,
+      rasterSaturation: rasterSaturation ?? this.rasterSaturation,
+      rasterContrast: rasterContrast ?? this.rasterContrast,
+      rasterResampling: rasterResampling ?? this.rasterResampling,
+      rasterFadeDuration: rasterFadeDuration ?? this.rasterFadeDuration,
+    );
+  }
 }
 
 class PaintHillshade extends Paint {
@@ -2075,6 +2679,24 @@ class PaintHillshade extends Paint {
 
   /// The shading color used to accentuate rugged terrain like sharp cliffs and gorges.
   final DataConstantProperty<Color> hillshadeAccentColor;
+
+  PaintHillshade copyWith({
+    DataConstantProperty<num>? hillshadeIlluminationDirection,
+    DataConstantProperty<PaintHillshade$HillshadeIlluminationAnchor>? hillshadeIlluminationAnchor,
+    DataConstantProperty<num>? hillshadeExaggeration,
+    DataConstantProperty<Color>? hillshadeShadowColor,
+    DataConstantProperty<Color>? hillshadeHighlightColor,
+    DataConstantProperty<Color>? hillshadeAccentColor,
+  }) {
+    return PaintHillshade(
+      hillshadeIlluminationDirection: hillshadeIlluminationDirection ?? this.hillshadeIlluminationDirection,
+      hillshadeIlluminationAnchor: hillshadeIlluminationAnchor ?? this.hillshadeIlluminationAnchor,
+      hillshadeExaggeration: hillshadeExaggeration ?? this.hillshadeExaggeration,
+      hillshadeShadowColor: hillshadeShadowColor ?? this.hillshadeShadowColor,
+      hillshadeHighlightColor: hillshadeHighlightColor ?? this.hillshadeHighlightColor,
+      hillshadeAccentColor: hillshadeAccentColor ?? this.hillshadeAccentColor,
+    );
+  }
 }
 
 class PaintBackground extends Paint {
@@ -2112,6 +2734,18 @@ class PaintBackground extends Paint {
 
   /// The opacity at which the background will be drawn.
   final DataConstantProperty<num> backgroundOpacity;
+
+  PaintBackground copyWith({
+    DataConstantProperty<Color>? backgroundColor,
+    CrossFadedProperty<ResolvedImage>? backgroundPattern,
+    DataConstantProperty<num>? backgroundOpacity,
+  }) {
+    return PaintBackground(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      backgroundPattern: backgroundPattern ?? this.backgroundPattern,
+      backgroundOpacity: backgroundOpacity ?? this.backgroundOpacity,
+    );
+  }
 }
 
 class Transition {
@@ -2142,6 +2776,143 @@ class Transition {
 
   /// Length of time before a transition begins.
   final num delay;
+
+  Transition copyWith({
+    num? duration,
+    num? delay,
+  }) {
+    return Transition(
+      duration: duration ?? this.duration,
+      delay: delay ?? this.delay,
+    );
+  }
+}
+
+/// A helper sealed class to make matching on [Source] types easier
+sealed class Source {
+  const Source();
+
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return switch(json['type'] as String) {
+      'vector' => SourceVector.fromJson(json) as Source,
+      'raster' => SourceRaster.fromJson(json) as Source,
+      'raster-dem' => SourceRasterDem.fromJson(json) as Source,
+      'geojson' => SourceGeoJson.fromJson(json) as Source,
+      'video' => SourceVideo.fromJson(json) as Source,
+      'image' => SourceImage.fromJson(json) as Source,
+      _ => throw Exception('Unknown source type: ${json['type']}'),
+    };
+  }
+}
+
+/// A helper sealed class to make matching on [Layout] types easier
+sealed class Layout {
+  const Layout();
+
+  factory Layout.fromJson(Map<String, dynamic> json, {required Layer$Type type}) {
+    return switch(type) {
+      Layer$Type.background => LayoutBackground.fromJson(json) as Layout,
+      Layer$Type.fill => LayoutFill.fromJson(json) as Layout,
+      Layer$Type.circle => LayoutCircle.fromJson(json) as Layout,
+      Layer$Type.heatmap => LayoutHeatmap.fromJson(json) as Layout,
+      Layer$Type.fillExtrusion => LayoutFillExtrusion.fromJson(json) as Layout,
+      Layer$Type.line => LayoutLine.fromJson(json) as Layout,
+      Layer$Type.symbol => LayoutSymbol.fromJson(json) as Layout,
+      Layer$Type.raster => LayoutRaster.fromJson(json) as Layout,
+      Layer$Type.hillshade => LayoutHillshade.fromJson(json) as Layout,
+    };
+  }
+}
+
+/// A helper sealed class to make matching on [Paint] types easier
+sealed class Paint {
+  const Paint();
+
+  factory Paint.fromJson(Map<String, dynamic> json, {required Layer$Type type}) {
+    return switch(type) {
+      Layer$Type.fill => PaintFill.fromJson(json) as Paint,
+      Layer$Type.fillExtrusion => PaintFillExtrusion.fromJson(json) as Paint,
+      Layer$Type.line => PaintLine.fromJson(json) as Paint,
+      Layer$Type.circle => PaintCircle.fromJson(json) as Paint,
+      Layer$Type.heatmap => PaintHeatmap.fromJson(json) as Paint,
+      Layer$Type.symbol => PaintSymbol.fromJson(json) as Paint,
+      Layer$Type.raster => PaintRaster.fromJson(json) as Paint,
+      Layer$Type.hillshade => PaintHillshade.fromJson(json) as Paint,
+      Layer$Type.background => PaintBackground.fromJson(json) as Paint,
+    };
+  }
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.background]
+extension type LayerBackground._(Layer layer) implements Layer {
+  LayerBackground(this.layer): assert(layer.type == Layer$Type.background);
+
+  LayoutBackground get layout => layer.layout as LayoutBackground;
+  PaintBackground get paint => layer.paint as PaintBackground;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.fill]
+extension type LayerFill._(Layer layer) implements Layer {
+  LayerFill(this.layer): assert(layer.type == Layer$Type.fill);
+
+  LayoutFill get layout => layer.layout as LayoutFill;
+  PaintFill get paint => layer.paint as PaintFill;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.circle]
+extension type LayerCircle._(Layer layer) implements Layer {
+  LayerCircle(this.layer): assert(layer.type == Layer$Type.circle);
+
+  LayoutCircle get layout => layer.layout as LayoutCircle;
+  PaintCircle get paint => layer.paint as PaintCircle;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.heatmap]
+extension type LayerHeatmap._(Layer layer) implements Layer {
+  LayerHeatmap(this.layer): assert(layer.type == Layer$Type.heatmap);
+
+  LayoutHeatmap get layout => layer.layout as LayoutHeatmap;
+  PaintHeatmap get paint => layer.paint as PaintHeatmap;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.fillExtrusion]
+extension type LayerFillExtrusion._(Layer layer) implements Layer {
+  LayerFillExtrusion(this.layer): assert(layer.type == Layer$Type.fillExtrusion);
+
+  LayoutFillExtrusion get layout => layer.layout as LayoutFillExtrusion;
+  PaintFillExtrusion get paint => layer.paint as PaintFillExtrusion;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.line]
+extension type LayerLine._(Layer layer) implements Layer {
+  LayerLine(this.layer): assert(layer.type == Layer$Type.line);
+
+  LayoutLine get layout => layer.layout as LayoutLine;
+  PaintLine get paint => layer.paint as PaintLine;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.symbol]
+extension type LayerSymbol._(Layer layer) implements Layer {
+  LayerSymbol(this.layer): assert(layer.type == Layer$Type.symbol);
+
+  LayoutSymbol get layout => layer.layout as LayoutSymbol;
+  PaintSymbol get paint => layer.paint as PaintSymbol;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.raster]
+extension type LayerRaster._(Layer layer) implements Layer {
+  LayerRaster(this.layer): assert(layer.type == Layer$Type.raster);
+
+  LayoutRaster get layout => layer.layout as LayoutRaster;
+  PaintRaster get paint => layer.paint as PaintRaster;
+}
+
+/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.hillshade]
+extension type LayerHillshade._(Layer layer) implements Layer {
+  LayerHillshade(this.layer): assert(layer.type == Layer$Type.hillshade);
+
+  LayoutHillshade get layout => layer.layout as LayoutHillshade;
+  PaintHillshade get paint => layer.paint as PaintHillshade;
 }
 
 enum SourceVector$Type {

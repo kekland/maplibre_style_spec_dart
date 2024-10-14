@@ -21,6 +21,16 @@ const convertToDartVariableName = (name) => {
   return parts.map((part, index) => index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)).join('');
 }
 
+// Convert AbCdEf to abCdEf
+const convertToDartVariableNameLower = (name) => {
+  return name.charAt(0).toLowerCase() + name.slice(1);
+}
+
+// Convert AbCdEf to ab-cd-ef
+const convertToSnakeCase = (name) => {
+  return name.replace(/([A-Z])/g, '-$1').toLowerCase().substring(1);
+}
+
 const ignoreTopLevelKeys = [
   '$version',
   'function',
@@ -478,6 +488,39 @@ const generateFields = ($class) => {
   return code;
 }
 
+const generateCopyWith = ($class) => {
+  const { name, extends: $extends, fields } = $class;
+  const code = [];
+
+  code.push(`  ${name} copyWith({`);
+
+  for (const field of fields) {
+    const { name, type, isRequired, defaultValue } = field;
+    const hasDefaultValue = defaultValue !== undefined;
+    const _type = getGeneratedFieldType(field);
+
+    code.push(`    ${_type}? ${name},`);
+  }
+
+  code.push(`  }) {`);
+  code.push(`    return ${name}(`);
+
+  for (const field of fields) {
+    const { name, type, isRequired, defaultValue } = field;
+    const hasDefaultValue = defaultValue !== undefined;
+    const _type = getGeneratedFieldType(field);
+
+    let _line = `      ${name}: ${name} ?? this.${name},`;
+
+    code.push(_line);
+  }
+
+  code.push(`    );`);
+  code.push(`  }`);
+
+  return code;
+}
+
 const _safeDartString = (str) => {
   // Prepend \ to $
   str = str.replace(/\$/g, '\\$');
@@ -511,9 +554,83 @@ const generateDartCode = () => {
     code.push(generateFromJsonFactory($class).join('\n'));
     code.push('');
     code.push(generateFields($class).join('\n'));
+    code.push('');
+    code.push(generateCopyWith($class).join('\n'));
 
     code.push('}');
     code.push('');
+  }
+
+  code.push('/// A helper sealed class to make matching on [Source] types easier')
+  code.push('sealed class Source {')
+  code.push('  const Source();')
+  code.push('')
+  code.push('  factory Source.fromJson(Map<String, dynamic> json) {')
+  code.push(`    return switch(json['type'] as String) {`)
+
+  for (const $class of classes) {
+    if ($class.extends === 'Source') {
+      const value = convertToSnakeCase($class.name.replace('Source', ''));
+      code.push(`      '${value}' => ${$class.name}.fromJson(json) as Source,`);
+    }
+  }
+  
+  code.push(`      _ => throw Exception('Unknown source type: \${json['type']}'),`)
+  code.push('    };')
+  code.push('  }')
+  code.push('}')
+  code.push('')
+
+  code.push('/// A helper sealed class to make matching on [Layout] types easier')
+  code.push('sealed class Layout {')
+  code.push('  const Layout();')
+  code.push('')
+  code.push('  factory Layout.fromJson(Map<String, dynamic> json, {required Layer$Type type}) {')
+  code.push('    return switch(type) {')
+
+  for (const $class of classes) {
+    if ($class.extends === 'Layout') {
+      const enumValue = convertToDartVariableNameLower($class.name.replace('Layout', ''));
+      code.push(`      Layer$Type.${enumValue} => ${$class.name}.fromJson(json) as Layout,`);
+    }
+  }
+
+  code.push('    };')
+  code.push('  }')
+  code.push('}')
+  code.push('')
+
+  code.push('/// A helper sealed class to make matching on [Paint] types easier')
+  code.push('sealed class Paint {')
+  code.push('  const Paint();')
+  code.push('')
+  code.push('  factory Paint.fromJson(Map<String, dynamic> json, {required Layer$Type type}) {')
+  code.push('    return switch(type) {')
+
+  for (const $class of classes) {
+    if ($class.extends === 'Paint') {
+      const enumValue = convertToDartVariableNameLower($class.name.replace('Paint', ''));
+      code.push(`      Layer$Type.${enumValue} => ${$class.name}.fromJson(json) as Paint,`);
+    }
+  }
+
+  code.push('    };')
+  code.push('  }')
+  code.push('}')
+  code.push('')
+
+  for (const $class of classes) {
+    if ($class.extends === 'Layout') {
+      const enumValue = $class.name.replace('Layout', '');
+      code.push(`/// A helper extension type to set correct accessors for [Layout] and [Paint] fields for a [Layer] with type [Layer$Type.${convertToDartVariableNameLower(enumValue)}]`)
+      code.push(`extension type Layer${enumValue}._(Layer layer) implements Layer {`)
+      code.push(`  Layer${enumValue}(this.layer): assert(layer.type == Layer$Type.${convertToDartVariableNameLower(enumValue)});`)
+      code.push('')
+      code.push(`  Layout${enumValue} get layout => layer.layout as Layout${enumValue};`)
+      code.push(`  Paint${enumValue} get paint => layer.paint as Paint${enumValue};`)
+      code.push('}')
+      code.push('')
+    }
   }
 
   for (const $enum of enums) {
