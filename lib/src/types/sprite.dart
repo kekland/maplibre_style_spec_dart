@@ -1,4 +1,6 @@
-class SpriteSource {
+import 'package:equatable/equatable.dart';
+
+class SpriteSource with EquatableMixin {
   const SpriteSource({this.id, required this.url});
 
   factory SpriteSource.fromJson(Map<String, dynamic> json) {
@@ -18,9 +20,15 @@ class SpriteSource {
   Uri getImageUri({bool isHighDpi = false}) {
     return Uri.parse('$url${isHighDpi ? '@2x' : ''}.png');
   }
+
+  @override
+  List<Object?> get props => [id, url];
+
+  @override
+  bool get stringify => true;
 }
 
-class Sprite {
+class Sprite with EquatableMixin {
   const Sprite({
     required this.sources,
   });
@@ -31,14 +39,17 @@ class Sprite {
     if (json is String) {
       return Sprite(sources: [SpriteSource(url: json)]);
     } else if (json is List) {
-      return Sprite(
-          sources: json
-              .map((e) => SpriteSource.fromJson(e as Map<String, dynamic>))
-              .toList());
+      return Sprite(sources: json.map((e) => SpriteSource.fromJson(e as Map<String, dynamic>)).toList());
     } else {
       throw Exception('Invalid [Sprite] value: $json');
     }
   }
+
+  @override
+  List<Object?> get props => [sources];
+
+  @override
+  bool get stringify => true;
 }
 
 enum SpriteTextFit {
@@ -54,7 +65,7 @@ enum SpriteTextFit {
   }
 }
 
-class SpriteData {
+class SpriteData with EquatableMixin {
   const SpriteData({
     required this.width,
     required this.height,
@@ -76,15 +87,9 @@ class SpriteData {
       x: json['x'] as int,
       y: json['y'] as int,
       pixelRatio: (json['pixelRatio'] as num).toDouble(),
-      content: json['content'] != null
-          ? (json['content'] as List).cast<int>()
-          : null,
-      stretchX: json['stretchX'] != null
-          ? (json['stretchX'] as List).cast<int>()
-          : null,
-      stretchY: json['stretchY'] != null
-          ? (json['stretchY'] as List).cast<int>()
-          : null,
+      content: json['content'] != null ? (json['content'] as List).cast<int>() : null,
+      stretchX: json['stretchX'] != null ? (json['stretchX'] as List).cast<int>() : null,
+      stretchY: json['stretchY'] != null ? (json['stretchY'] as List).cast<int>() : null,
       sdf: json['sdf'] != null ? json['sdf'] as bool : false,
       textFitWidth: json['textFitWidth'] != null
           ? SpriteTextFit.fromJson(json['textFitWidth'] as String)
@@ -108,19 +113,31 @@ class SpriteData {
 
   final SpriteTextFit textFitWidth;
   final SpriteTextFit textFitHeight;
+
+  @override
+  List<Object?> get props =>
+      [width, height, x, y, pixelRatio, content, stretchX, stretchY, sdf, textFitWidth, textFitHeight];
+
+  @override
+  bool get stringify => true;
 }
 
-class SpriteIndex {
+class SpriteIndex with EquatableMixin {
   const SpriteIndex({
     required this.sprites,
   });
 
   factory SpriteIndex.fromJson(Map<String, dynamic> json) {
     return SpriteIndex(
-      sprites: json.map((key, value) =>
-          MapEntry(key, SpriteData.fromJson(value as Map<String, dynamic>))),
+      sprites: json.map((key, value) => MapEntry(key, SpriteData.fromJson(value as Map<String, dynamic>))),
     );
   }
 
   final Map<String, SpriteData> sprites;
+  
+  @override
+  List<Object?> get props => [sprites];
+
+  @override
+  bool get stringify => true;
 }

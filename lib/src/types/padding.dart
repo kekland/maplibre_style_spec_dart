@@ -1,4 +1,6 @@
-class Padding {
+import 'package:equatable/equatable.dart';
+
+class Padding with EquatableMixin {
   const Padding({
     this.top = 0,
     this.right = 0,
@@ -42,4 +44,10 @@ class Padding {
 
     throw Exception('Invalid padding value: $json');
   }
+
+  @override
+  List<Object?> get props => [top, right, bottom, left];
+
+  @override
+  bool get stringify => true;
 }

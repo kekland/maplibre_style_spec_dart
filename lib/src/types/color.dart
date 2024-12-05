@@ -1,6 +1,7 @@
 import 'package:csslib/parser.dart' as css;
+import 'package:equatable/equatable.dart';
 
-class Color {
+class Color with EquatableMixin {
   const Color({
     required this.r,
     required this.g,
@@ -74,4 +75,10 @@ class Color {
   String toString() {
     return 'Color(r: $r, g: $g, b: $b, a: $a)';
   }
+
+  @override
+  List<Object?> get props => [r, g, b, a];
+
+  @override
+  bool get stringify => true;
 }

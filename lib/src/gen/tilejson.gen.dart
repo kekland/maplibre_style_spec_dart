@@ -3,6 +3,7 @@
 
 // ignore_for_file: camel_case_types, unused_import
 
+import 'package:equatable/equatable.dart';
 import 'package:maplibre_style_spec/src/_src.dart';
 
 sealed class $TileJson {
@@ -31,7 +32,7 @@ sealed class $TileJson {
   }
 }
 
-class $TileJson_1_0_0 extends $TileJson {
+class $TileJson_1_0_0 extends $TileJson with EquatableMixin {
   const $TileJson_1_0_0({
     required this.tilejson,
     this.name,
@@ -113,9 +114,30 @@ class $TileJson_1_0_0 extends $TileJson {
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    name,
+    description,
+    version,
+    attribution,
+    formatter,
+    legend,
+    scheme,
+    tiles,
+    grids,
+    minzoom,
+    maxzoom,
+    bounds,
+    center,
+  ];
+  
+  @override
+  bool get stringify => true;
 }
 
-class $TileJson_2_0_0 extends $TileJson {
+class $TileJson_2_0_0 extends $TileJson with EquatableMixin {
   const $TileJson_2_0_0({
     required this.tilejson,
     this.name,
@@ -197,9 +219,30 @@ class $TileJson_2_0_0 extends $TileJson {
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    name,
+    description,
+    version,
+    attribution,
+    template,
+    legend,
+    scheme,
+    tiles,
+    grids,
+    minzoom,
+    maxzoom,
+    bounds,
+    center,
+  ];
+  
+  @override
+  bool get stringify => true;
 }
 
-class $TileJson_2_0_1 extends $TileJson {
+class $TileJson_2_0_1 extends $TileJson with EquatableMixin {
   const $TileJson_2_0_1({
     required this.tilejson,
     this.name,
@@ -285,9 +328,31 @@ class $TileJson_2_0_1 extends $TileJson {
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    name,
+    description,
+    version,
+    attribution,
+    template,
+    legend,
+    scheme,
+    tiles,
+    grids,
+    resolution,
+    minzoom,
+    maxzoom,
+    bounds,
+    center,
+  ];
+  
+  @override
+  bool get stringify => true;
 }
 
-class $TileJson_2_1_0 extends $TileJson {
+class $TileJson_2_1_0 extends $TileJson with EquatableMixin {
   const $TileJson_2_1_0({
     required this.tilejson,
     this.name,
@@ -373,9 +438,31 @@ class $TileJson_2_1_0 extends $TileJson {
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    name,
+    description,
+    version,
+    attribution,
+    template,
+    legend,
+    scheme,
+    tiles,
+    grids,
+    data,
+    minzoom,
+    maxzoom,
+    bounds,
+    center,
+  ];
+  
+  @override
+  bool get stringify => true;
 }
 
-class $TileJson_2_2_0 extends $TileJson {
+class $TileJson_2_2_0 extends $TileJson with EquatableMixin {
   const $TileJson_2_2_0({
     required this.tilejson,
     this.name,
@@ -461,9 +548,31 @@ class $TileJson_2_2_0 extends $TileJson {
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    name,
+    description,
+    version,
+    attribution,
+    template,
+    legend,
+    scheme,
+    tiles,
+    grids,
+    data,
+    minzoom,
+    maxzoom,
+    bounds,
+    center,
+  ];
+  
+  @override
+  bool get stringify => true;
 }
 
-class $TileJson_3_0_0 extends $TileJson {
+class $TileJson_3_0_0 extends $TileJson with EquatableMixin {
   const $TileJson_3_0_0({
     required this.tilejson,
     required this.tiles,
@@ -561,4 +670,28 @@ class $TileJson_3_0_0 extends $TileJson {
   
   @override
   final String? version;
+
+  @override
+  List<Object?> get props => [
+    tilejson,
+    tiles,
+    vectorLayers,
+    attribution,
+    bounds,
+    center,
+    data,
+    description,
+    fillzoom,
+    grids,
+    legend,
+    maxzoom,
+    minzoom,
+    name,
+    scheme,
+    template,
+    version,
+  ];
+  
+  @override
+  bool get stringify => true;
 }

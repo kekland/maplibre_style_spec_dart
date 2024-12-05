@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:maplibre_style_spec/src/_src.dart';
 
 export 'evaluation.dart';
@@ -9,6 +10,12 @@ class _FormattedStringAdapterExpression extends Expression<Formatted> {
 
   @override
   Formatted evaluate(EvaluationContext context) => Formatted.fromJson(string(context));
+  
+  @override
+  List<Object?> get props => [string];
+
+  @override
+  bool get stringify => true;
 }
 
 bool isListWithElementType<T>(List<dynamic> json) {
@@ -19,7 +26,7 @@ bool isListWithElementType<T>(List<dynamic> json) {
   return true;
 }
 
-abstract class Expression<T> {
+abstract class Expression<T> with EquatableMixin {
   const Expression({Type? type}) : type = type ?? T;
 
   factory Expression.fromJson(dynamic args) {

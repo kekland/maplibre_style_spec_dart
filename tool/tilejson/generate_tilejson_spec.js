@@ -146,6 +146,25 @@ const _generateFields = (spec) => {
   return code;
 }
 
+const _generateEquatable = (className, spec) => {
+  const code = [];
+
+  code.push('@override');
+  code.push('List<Object?> get props => [');
+
+  for (const [key, value] of Object.entries(spec.properties)) {
+    const variableName = convertToDartVariableName(key);
+    code.push(`  ${variableName},`);
+  }
+
+  code.push('];');
+  code.push('');
+  code.push('@override');
+  code.push('bool get stringify => true;');
+
+  return code;
+}
+
 const generateDartCodeForReference = ({ version, spec }) => {
   const code = [];
 
@@ -154,13 +173,15 @@ const generateDartCodeForReference = ({ version, spec }) => {
   const versionUnderscore = versionParts.join('_');
   const className = `$TileJson_${versionUnderscore}`;
 
-  code.push(`class ${className} extends $TileJson {`);
+  code.push(`class ${className} extends $TileJson with EquatableMixin {`);
 
   code.push(_generateConstructor(className, spec).map(line => `  ${line}`).join('\n'));
   code.push('');
   code.push(_generateFromJsonFactory(className, spec).map(line => `  ${line}`).join('\n'));
   code.push('');
   code.push(_generateFields(spec).map(line => `  ${line}`).join('\n'));
+  code.push('')
+  code.push(_generateEquatable(className, spec).map(line => `  ${line}`).join('\n'));
 
   code.push('}');
 
@@ -182,6 +203,7 @@ const generateDartCode = (references) => {
   code.push('');
   code.push('// ignore_for_file: camel_case_types, unused_import');
   code.push('');
+  code.push(`import 'package:equatable/equatable.dart';`);
   code.push(`import 'package:maplibre_style_spec/src/_src.dart';`);
   code.push('');
   code.push('sealed class $TileJson {');

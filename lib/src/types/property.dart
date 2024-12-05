@@ -1,5 +1,6 @@
 // ignore_for_file: null_check_on_nullable_type_parameter
 
+import 'package:equatable/equatable.dart';
 import 'package:maplibre_style_spec/src/_src.dart';
 
 T? _parseJsonForKnownTypes<T>(dynamic json) {
@@ -28,7 +29,7 @@ T? _parseJsonForKnownTypes<T>(dynamic json) {
   }
 }
 
-abstract class Property<T> {
+abstract class Property<T> with EquatableMixin {
   const Property({
     required this.isExpression,
     this.value,
@@ -62,6 +63,12 @@ abstract class Property<T> {
       return value!;
     }
   }
+
+  @override
+  List<Object?> get props => [value, expression, defaultValue];
+
+  @override
+  bool get stringify => true;
 }
 
 class ConstantProperty<T> extends Property<T> {

@@ -21,6 +21,12 @@ class ZoomExpression extends Expression<num> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Retrieves an item from an array.
@@ -66,6 +72,15 @@ class AtExpression extends Expression<dynamic> {
       array,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        index,
+        array,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Determines whether an item exists in an array or a substring exists in a string.
@@ -113,6 +128,15 @@ class InExpression extends Expression<dynamic> {
       haystack,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        needle,
+        haystack,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the first position at which an item can be found in an array or a substring can be found in a string, or `-1` if the input cannot be found. Accepts an optional index from where to begin the search. In a string, a UTF-16 surrogate pair counts as a single position.
@@ -158,6 +182,15 @@ class IndexOfExpression extends Expression<int> {
       haystack,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        needle,
+        haystack,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns an item from an array or a substring from a string from a specified start index, or between a start index and an end index if set. The return value is inclusive of the start index but not of the end index. In a string, a UTF-16 surrogate pair counts as a single position.
@@ -215,6 +248,16 @@ class SliceExpression<T> extends Expression<T> {
       end,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        input,
+        start,
+        end,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Retrieves a property value from the current feature's properties, or from another object if a second argument is provided. Returns null if the requested property is missing.
@@ -268,6 +311,15 @@ class GetExpression<T> extends Expression<T> {
       object,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        key,
+        object,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Tests for the presence of an property value in the current feature's properties, or from another object if a second argument is provided.
@@ -317,6 +369,15 @@ class HasExpression extends Expression<bool> {
       object,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        key,
+        object,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the length of an array or string. In a string, a UTF-16 surrogate pair counts as a single position.
@@ -352,6 +413,14 @@ class LengthExpression extends Expression<int> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Produces discrete, stepped results by evaluating a piecewise-constant function defined by pairs of input and output values ("stops"). The `input` may be any numeric expression (e.g., `["get", "population"]`). Stop inputs must be numeric literals in strictly ascending order. Returns the output value of the stop just less than the input, or the first output if the input is less than the first stop.
@@ -414,6 +483,16 @@ class StepExpression<T> extends Expression<T> {
       stops,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        input,
+        minOutput,
+        stops,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Produces continuous, smooth results by interpolating between pairs of input and output values ("stops"). The `input` may be any numeric expression (e.g., `["get", "population"]`). Stop inputs must be numeric literals in strictly ascending order. The output type must be `number`, `array<number>`, or `color`.
@@ -490,6 +569,16 @@ class InterpolateExpression<T> extends Expression<T> {
       stops,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        options,
+        input,
+        stops,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Produces continuous, smooth results by interpolating between pairs of input and output values ("stops"). Works like `interpolate`, but the output type must be `color`, and the interpolation is performed in the Hue-Chroma-Luminance color space.
@@ -550,6 +639,16 @@ class InterpolateHclExpression extends Expression<Color> {
       stops,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        options,
+        input,
+        stops,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Produces continuous, smooth results by interpolating between pairs of input and output values ("stops"). Works like `interpolate`, but the output type must be `color`, and the interpolation is performed in the CIELAB color space.
@@ -610,6 +709,16 @@ class InterpolateLabExpression extends Expression<Color> {
       stops,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        options,
+        input,
+        stops,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the input string is expected to render legibly. Returns `false` if the input string contains sections that cannot be rendered without potential loss of meaning (e.g. Indic scripts that require complex text shaping, or right-to-left scripts if the the `mapbox-gl-rtl-text` plugin is not in use in MapLibre GL JS).
@@ -645,6 +754,14 @@ class IsSupportedScriptExpression extends Expression<bool> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the input string converted to uppercase. Follows the Unicode Default Case Conversion algorithm and the locale-insensitive case mappings in the Unicode Character Database.
@@ -682,6 +799,14 @@ class UpcaseExpression extends Expression<String> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the input string converted to lowercase. Follows the Unicode Default Case Conversion algorithm and the locale-insensitive case mappings in the Unicode Character Database.
@@ -719,6 +844,14 @@ class DowncaseExpression extends Expression<String> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns a `string` consisting of the concatenation of the inputs. Each input is converted to a string as if by `to-string`.
@@ -764,6 +897,14 @@ class ConcatExpression extends Expression<String> {
       values,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        values,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the IETF language tag of the locale being used by the provided `collator`. This can be used to determine the default system locale, or to determine if a requested locale was successfully loaded.
@@ -799,6 +940,14 @@ class ResolvedLocaleExpression extends Expression<String> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Selects the first output whose corresponding test condition evaluates to true, or the fallback value otherwise.
@@ -853,6 +1002,15 @@ class CaseExpression<T> extends Expression<T> {
       fallback,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        branches,
+        fallback,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Selects the output whose label value matches the input value, or the fallback value if no match is found. The input can be any expression (e.g. `["get", "building_type"]`). Each label must be either:
@@ -919,6 +1077,16 @@ class MatchExpression<T> extends Expression<T> {
       fallback,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        input,
+        branches,
+        fallback,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Evaluates each expression in turn until the first non-null value is obtained, and returns that value.
@@ -958,6 +1126,14 @@ class CoalesceExpression<T> extends Expression<T> {
       expressions,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        expressions,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the input values are equal, `false` otherwise. The comparison is strictly typed: values of different runtime types are always considered unequal. Cases where the types are known to be different at parse time are considered invalid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1023,6 +1199,16 @@ class EqualsExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the input values are not equal, `false` otherwise. The comparison is strictly typed: values of different runtime types are always considered unequal. Cases where the types are known to be different at parse time are considered invalid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1082,6 +1268,16 @@ class NotEqualsExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the first input is strictly greater than the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1139,6 +1335,16 @@ class GreaterThanExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the first input is strictly less than the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1198,6 +1404,16 @@ class LessThanExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the first input is greater than or equal to the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1257,6 +1473,16 @@ class GreaterThanOrEqualsExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if the first input is less than or equal to the second, `false` otherwise. The arguments are required to be either both strings or both numbers; if during evaluation they are not, expression evaluation produces an error. Cases where this constraint is known not to hold at parse time are considered in valid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.
@@ -1314,6 +1540,16 @@ class LessThanOrEqualsExpression extends Expression<bool> {
       collator,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+        collator,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if all the inputs are `true`, `false` otherwise. The inputs are evaluated in order, and evaluation is short-circuiting: once an input expression evaluates to `false`, the result is `false` and no further input expressions are evaluated.
@@ -1353,6 +1589,14 @@ class AllExpression extends Expression<bool> {
       expressions,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        expressions,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns `true` if any of the inputs are `true`, `false` otherwise. The inputs are evaluated in order, and evaluation is short-circuiting: once an input expression evaluates to `true`, the result is `true` and no further input expressions are evaluated.
@@ -1390,6 +1634,14 @@ class AnyExpression extends Expression<bool> {
       expressions,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        expressions,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Logical negation. Returns `true` if the input is `false`, and `false` if the input is `true`.
@@ -1427,6 +1679,14 @@ class NotExpression extends Expression<bool> {
       expression,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        expression,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Binds expressions to named variables, which can then be referenced in the result expression using `["var", "variable_name"]`.
@@ -1479,6 +1739,15 @@ class LetExpression<T> extends Expression<T> {
       child,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        bindings,
+        child,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// References variable bound using `let`.
@@ -1516,6 +1785,14 @@ class VarExpression<T> extends Expression<T> {
       name,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        name,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Provides a literal array or object value.
@@ -1541,6 +1818,14 @@ class LiteralExpression<T> extends Expression<T> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns a `collator` for use in locale-dependent comparison operations. The `case-sensitive` and `diacritic-sensitive` options default to `false`. The `locale` argument specifies the IETF language tag of the locale to use. If none is provided, the default locale is used. If the requested locale is not available, the `collator` will use a system-defined fallback locale. Use `resolved-locale` to test the results of locale fallback behavior.
@@ -1581,6 +1866,14 @@ class CollatorExpressionExpression extends Expression<Collator> {
       object,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        object,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns a `formatted` string for displaying mixed-format text in the `text-field` property. The input may contain a string literal or expression, including an [`'image'`](#image) expression. Strings may be followed by a style override object that supports the following properties:
@@ -1610,6 +1903,12 @@ class FormatExpression extends Expression<Formatted> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns an `image` type for use in `icon-image`, `*-pattern` entries and as a section in the `format` expression. If set, the `image` argument will check that the requested image exists in the style and will return either the resolved image name or `null`, depending on whether or not the image is currently in the style. This validation process is synchronous and requires the image to have been added to the style before requesting it in the `image` argument.
@@ -1647,6 +1946,14 @@ class ImageExpressionExpression extends Expression<ResolvedImage> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Converts the input number into a string representation using the providing formatting rules. If set, the `locale` argument specifies the locale to use, as a BCP 47 language tag. If set, the `currency` argument specifies an ISO 4217 code to use for currency-style formatting. If set, the `min-fraction-digits` and `max-fraction-digits` arguments specify the minimum and maximum number of fractional digits to include.
@@ -1711,6 +2018,15 @@ class NumberFormatExpression extends Expression<String> {
       options,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        number,
+        options,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Asserts that the input is an array (optionally with a specific item type and length). If, when the input expression is evaluated, it is not of the asserted type, then this assertion will cause the whole expression to be aborted.
@@ -1770,6 +2086,16 @@ class ArrayAssertionExpression extends Expression<List<dynamic>> {
       childCount,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+        childType,
+        childCount,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Asserts that the input value is a boolean. If multiple values are provided, each one is evaluated in order until a boolean is obtained. If none of the inputs are booleans, the expression is an error.
@@ -1809,6 +2135,14 @@ class BooleanAssertionExpression extends Expression<bool> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Asserts that the input value is a number. If multiple values are provided, each one is evaluated in order until a number is obtained. If none of the inputs are numbers, the expression is an error.
@@ -1846,6 +2180,14 @@ class NumberAssertionExpression extends Expression<num> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Asserts that the input value is a string. If multiple values are provided, each one is evaluated in order until a string is obtained. If none of the inputs are strings, the expression is an error.
@@ -1883,6 +2225,14 @@ class StringAssertionExpression extends Expression<String> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Asserts that the input value is an object. If multiple values are provided, each one is evaluated in order until an object is obtained. If none of the inputs are objects, the expression is an error.
@@ -1920,6 +2270,14 @@ class ObjectAssertionExpression extends Expression<Map<String, dynamic>> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns a string describing the type of the given value.
@@ -1955,6 +2313,14 @@ class TypeOfExpression extends Expression<String> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Converts the input value to a string. If the input is `null`, the result is `""`. If the input is a boolean, the result is `"true"` or `"false"`. If the input is a number, it is converted to a string as specified by the ["NumberToString" algorithm](https://tc39.github.io/ecma262/#sec-tostring-applied-to-the-number-type) of the ECMAScript Language Specification. If the input is a color, it is converted to a string of the form `"rgba(r,g,b,a)"`, where `r`, `g`, and `b` are numerals ranging from 0 to 255, and `a` ranges from 0 to 1. Otherwise, the input is converted to a string in the format specified by the [`JSON.stringify`](https://tc39.github.io/ecma262/#sec-json.stringify) function of the ECMAScript Language Specification.
@@ -1992,6 +2358,14 @@ class ToStringExpression extends Expression<String> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Converts the input value to a number, if possible. If the input is `null` or `false`, the result is 0. If the input is `true`, the result is 1. If the input is a string, it is converted to a number as specified by the ["ToNumber Applied to the String Type" algorithm](https://tc39.github.io/ecma262/#sec-tonumber-applied-to-the-string-type) of the ECMAScript Language Specification. If multiple values are provided, each one is evaluated in order until the first successful conversion is obtained. If none of the inputs can be converted, the expression is an error.
@@ -2029,6 +2403,14 @@ class ToNumberExpression extends Expression<num> {
       values,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        values,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Converts the input value to a boolean. The result is `false` when then input is an empty string, 0, `false`, `null`, or `NaN`; otherwise it is `true`.
@@ -2064,6 +2446,14 @@ class ToBooleanExpression extends Expression<bool> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Converts the input value to a color. If multiple values are provided, each one is evaluated in order until the first successful conversion is obtained. If none of the inputs can be converted, the expression is an error.
@@ -2103,6 +2493,14 @@ class ToColorExpression extends Expression<Color> {
       values,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        values,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns a four-element array containing the input color's red, green, blue, and alpha components, in that order.
@@ -2138,6 +2536,14 @@ class ToRgbaExpression extends Expression<List<num>> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Creates a color value from red, green, and blue components, which must range between 0 and 255, and an alpha component of 1. If any component is out of range, the expression is an error.
@@ -2193,6 +2599,16 @@ class RgbExpression extends Expression<Color> {
       b,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        r,
+        g,
+        b,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Creates a color value from red, green, blue components, which must range between 0 and 255, and an alpha component which must range between 0 and 1. If any component is out of range, the expression is an error.
@@ -2258,6 +2674,17 @@ class RgbaExpression extends Expression<Color> {
       a,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        r,
+        g,
+        b,
+        a,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the feature properties object.  Note that in some cases, it may be more efficient to use ["get", "property_name"] directly.
@@ -2277,6 +2704,12 @@ class PropertiesExpression extends Expression<Map<String, dynamic>> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Retrieves a property value from the current feature's state. Returns null if the requested property is not present on the feature's state. A feature's state is not part of the GeoJSON or vector tile data, and must be set programmatically on each feature. When `source.promoteId` is not provided, features are identified by their `id` attribute, which must be an integer or a string that can be cast to an integer. When `source.promoteId` is provided, features are identified by their `promoteId` property, which may be a number, string, or any primitive data type. Note that ["feature-state"] can only be used with paint properties that support data-driven styling.
@@ -2314,6 +2747,14 @@ class FeatureStateExpression extends Expression<dynamic> {
       key,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        key,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the feature's geometry type: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`.
@@ -2333,6 +2774,12 @@ class GeometryTypeExpression extends Expression<String> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the feature's id, if it has one.
@@ -2352,6 +2799,12 @@ class IdExpression extends Expression<String?> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the progress along a gradient line. Can only be used in the `line-gradient` property.
@@ -2371,6 +2824,12 @@ class LineProgressExpression extends Expression<double> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Gets the value of a cluster property accumulated so far. Can only be used in the `clusterProperties` option of a clustered GeoJSON source.
@@ -2406,6 +2865,14 @@ class AccumulatedExpression extends Expression<double> {
       key,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        key,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns mathematical constant ln(2).
@@ -2425,6 +2892,12 @@ class Ln2Expression extends Expression<num> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the mathematical constant pi.
@@ -2444,6 +2917,12 @@ class PiExpression extends Expression<num> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the mathematical constant e.
@@ -2463,6 +2942,12 @@ class EExpression extends Expression<num> {
       context,
     );
   }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the sum of the inputs.
@@ -2500,6 +2985,14 @@ class AddExpression extends Expression<num> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the product of the inputs.
@@ -2537,6 +3030,14 @@ class MultiplyExpression extends Expression<num> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// For two inputs, returns the result of subtracting the second input from the first. For a single input, returns the result of subtracting it from 0.
@@ -2584,6 +3085,15 @@ class MinusExpression extends Expression<num> {
       right,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the result of floating point division of the first input by the second.
@@ -2631,6 +3141,15 @@ class DivideExpression extends Expression<num> {
       right,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the remainder after integer division of the first input by the second.
@@ -2676,6 +3195,15 @@ class ModExpression extends Expression<num> {
       right,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        left,
+        right,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the result of raising the first input to the power specified by the second.
@@ -2721,6 +3249,15 @@ class PowExpression extends Expression<num> {
       exponent,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        base,
+        exponent,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the square root of the input.
@@ -2756,6 +3293,14 @@ class SqrtExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the base-ten logarithm of the input.
@@ -2791,6 +3336,14 @@ class Log10Expression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the natural logarithm of the input.
@@ -2826,6 +3379,14 @@ class LnExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the base-two logarithm of the input.
@@ -2861,6 +3422,14 @@ class Log2Expression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the sine of the input.
@@ -2896,6 +3465,14 @@ class SinExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the cosine of the input.
@@ -2931,6 +3508,14 @@ class CosExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the tangent of the input.
@@ -2966,6 +3551,14 @@ class TanExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the arcsine of the input.
@@ -3001,6 +3594,14 @@ class AsinExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the arccosine of the input.
@@ -3036,6 +3637,14 @@ class AcosExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the arctangent of the input.
@@ -3071,6 +3680,14 @@ class AtanExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the minimum value of the inputs.
@@ -3108,6 +3725,14 @@ class MinExpression extends Expression<num> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the maximum value of the inputs.
@@ -3145,6 +3770,14 @@ class MaxExpression extends Expression<num> {
       args,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        args,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the absolute value of the input.
@@ -3180,6 +3813,14 @@ class AbsExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Rounds the input to the nearest integer. Halfway values are rounded away from zero. For example, `["round", -1.5]` evaluates to -2.
@@ -3215,6 +3856,14 @@ class RoundExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the smallest integer that is greater than or equal to the input.
@@ -3250,6 +3899,14 @@ class CeilExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 /// Returns the largest integer that is less than or equal to the input.
@@ -3285,6 +3942,14 @@ class FloorExpression extends Expression<num> {
       value,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 Expression<T> expressionFromJson<T>(List<dynamic> args) {
