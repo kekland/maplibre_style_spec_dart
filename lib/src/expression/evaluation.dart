@@ -12,6 +12,7 @@ class EvaluationContext {
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
     Map<String, dynamic>? featureState,
+    this.opacity,
   })  : _bindings = bindings ?? {},
         _properties = properties ?? {},
         _featureState = featureState ?? {};
@@ -34,6 +35,7 @@ class EvaluationContext {
   final Map<String, Expression> _bindings;
   final Map<String, dynamic> _properties;
   final Map<String, dynamic> _featureState;
+  final double? opacity;
 
   Map<String, dynamic> get properties => _properties;
 
@@ -65,6 +67,7 @@ class EvaluationContext {
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
     Map<String, dynamic>? featureState,
+    double? opacity,
   }) {
     return EvaluationContext(
       id: id ?? this.id,
@@ -76,6 +79,7 @@ class EvaluationContext {
       bindings: bindings ?? _bindings,
       properties: properties ?? _properties,
       featureState: featureState ?? _featureState,
+      opacity: opacity ?? this.opacity,
     );
   }
 
