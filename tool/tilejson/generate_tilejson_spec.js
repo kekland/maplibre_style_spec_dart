@@ -193,6 +193,8 @@ const commonFields = [
   'tiles',
   'attribution',
   'version',
+  'minzoom',
+  'maxzoom',
 ];
 
 const generateDartCode = (references) => {
@@ -216,6 +218,10 @@ const generateDartCode = (references) => {
   code.push('  String? get attribution;')
   code.push('');
   code.push('  String? get version;')
+  code.push('');
+  code.push('  int? get minzoom;')
+  code.push('');
+  code.push('  int? get maxzoom;')
   code.push('');
   code.push('  factory $TileJson.fromJson(Map<String, dynamic> json) {');
   code.push('    final tilejson = json[\'tilejson\'] as String;');

@@ -17,6 +17,10 @@ sealed class $TileJson {
 
   String? get version;
 
+  int? get minzoom;
+
+  int? get maxzoom;
+
   factory $TileJson.fromJson(Map<String, dynamic> json) {
     final tilejson = json['tilejson'] as String;
 
@@ -110,7 +114,11 @@ class $TileJson_1_0_0 extends $TileJson with EquatableMixin {
   @override
   final List<String> tiles;
   final List<String>? grids;
+  
+  @override
   final int? minzoom;
+  
+  @override
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
@@ -215,7 +223,11 @@ class $TileJson_2_0_0 extends $TileJson with EquatableMixin {
   @override
   final List<String> tiles;
   final List<String>? grids;
+  
+  @override
   final int? minzoom;
+  
+  @override
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
@@ -324,7 +336,11 @@ class $TileJson_2_0_1 extends $TileJson with EquatableMixin {
   final List<String> tiles;
   final List<String>? grids;
   final int? resolution;
+  
+  @override
   final int? minzoom;
+  
+  @override
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
@@ -434,7 +450,11 @@ class $TileJson_2_1_0 extends $TileJson with EquatableMixin {
   final List<String> tiles;
   final List<String>? grids;
   final List<String>? data;
+  
+  @override
   final int? minzoom;
+  
+  @override
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
@@ -544,7 +564,11 @@ class $TileJson_2_2_0 extends $TileJson with EquatableMixin {
   final List<String> tiles;
   final List<String>? grids;
   final List<String>? data;
+  
+  @override
   final int? minzoom;
+  
+  @override
   final int? maxzoom;
   final List<num>? bounds;
   final List<num>? center;
@@ -662,7 +686,11 @@ class $TileJson_3_0_0 extends $TileJson with EquatableMixin {
   final int? fillzoom;
   final List<String>? grids;
   final String? legend;
+  
+  @override
   final int? maxzoom;
+  
+  @override
   final int? minzoom;
   final String? name;
   final String? scheme;
