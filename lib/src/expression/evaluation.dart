@@ -6,6 +6,7 @@ class EvaluationContext {
     this.id,
     required this.geometryType,
     required this.zoom,
+    required this.scaledTileSizePixels,
     required this.locale,
     this.lineProgress,
     Map<String, Expression>? bindings,
@@ -21,6 +22,7 @@ class EvaluationContext {
       geometryType: 'Point',
       locale: Locale(languageCode: 'en'),
       zoom: 0,
+      scaledTileSizePixels: 512,
     );
   }
 
@@ -28,6 +30,7 @@ class EvaluationContext {
   final String geometryType;
   final double? lineProgress;
   final double zoom;
+  final double scaledTileSizePixels;
   final Locale locale;
   final Map<String, Expression> _bindings;
   final Map<String, dynamic> _properties;
@@ -47,6 +50,7 @@ class EvaluationContext {
       lineProgress: lineProgress,
       locale: locale,
       zoom: zoom,
+      scaledTileSizePixels: scaledTileSizePixels,
       bindings: {..._bindings, ...?bindings},
       properties: {..._properties, ...?properties},
       featureState: {..._featureState, ...?featureState},
@@ -58,6 +62,7 @@ class EvaluationContext {
     String? geometryType,
     double? lineProgress,
     double? zoom,
+    double? scaledTileSizePixels,
     Locale? locale,
     Map<String, Expression>? bindings,
     Map<String, dynamic>? properties,
@@ -70,6 +75,7 @@ class EvaluationContext {
       lineProgress: lineProgress ?? this.lineProgress,
       locale: locale ?? this.locale,
       zoom: zoom ?? this.zoom,
+      scaledTileSizePixels: scaledTileSizePixels ?? this.scaledTileSizePixels,
       bindings: bindings ?? _bindings,
       properties: properties ?? _properties,
       featureState: featureState ?? _featureState,
