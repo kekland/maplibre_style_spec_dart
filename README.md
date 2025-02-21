@@ -1,3 +1,3 @@
 # maplibre_style_spec
 
-TODO: Description
+Deprecated: the spec is now internal to https://github.com/kekland/maplibre_flutter_gpu
